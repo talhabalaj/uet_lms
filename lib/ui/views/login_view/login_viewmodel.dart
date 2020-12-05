@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:lms_api/lms_api.dart';
-import 'package:lms_app/core/locator.dart';
-import 'package:lms_app/core/services/lms_service.dart';
-import 'package:lms_app/ui/dialog.dart';
+import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/ui/dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -12,8 +13,19 @@ class LoginViewModel extends BaseViewModel {
   final formKey = GlobalKey<FormState>();
   final lmsService = locator<LMSService>();
   final dialogService = locator<DialogService>();
+  final navigationService = locator<NavigationService>();
 
   String regNo = "", password = "";
+  bool keyboardVisible = false;
+
+  LoginViewModel() {
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        keyboardVisible = visible;
+        this.notifyListeners();
+      },
+    );
+  }
 
   Future<void> login() async {
     if (formKey.currentState.validate()) {
@@ -23,6 +35,7 @@ class LoginViewModel extends BaseViewModel {
       try {
         await lmsService.login(
           email: "$regNo@student.uet.edu.pk", password: password);
+        await navigationService.clearStackAndShow("/home");
       } catch (e) {
         String errorMessage, description;
         print(e);

@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:lms_app/core/locator.dart';
-import 'package:lms_app/ui/shared/BasicDialog.dart';
+import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/ui/shared/BasicDialog.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 enum DialogType { basic, form }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:lms_app/ui/ui_constants.dart';
+import 'package:uet_lms/ui/ui_constants.dart';
 
 class CustomTextField extends StatelessWidget {
+
   CustomTextField({
     Key key,
     this.isPassword = false,
@@ -76,7 +77,8 @@ class CustomTextField extends StatelessWidget {
                     fillColor: Colors.white,
                     filled: true,
                     hintText: hintText,
-                    errorStyle: style.copyWith(fontSize: 14, color: Colors.red),
+                    errorMaxLines: 2,
+                    errorStyle: style.copyWith(fontSize: 13, color: Colors.red),
                     hintStyle: style.copyWith(
                       color: Color(0xffAEAEAE),
                     ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:lms_app/ui/ui_constants.dart';
+import 'package:uet_lms/ui/ui_constants.dart';
 
 class SimpleWideButton extends StatefulWidget {
   const SimpleWideButton({

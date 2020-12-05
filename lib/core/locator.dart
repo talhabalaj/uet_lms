@@ -2,8 +2,7 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:lms_api/lms_api.dart';
-import 'package:lms_app/core/locator.config.dart';
+import 'package:uet_lms/core/locator.config.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 @module

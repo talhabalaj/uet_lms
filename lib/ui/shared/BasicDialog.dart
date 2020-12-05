@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lms_app/ui/shared/CustomButton.dart';
-import 'package:lms_app/ui/ui_constants.dart';
+import 'package:uet_lms/ui/shared/CustomButton.dart';
+import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class BasicDialog extends StatefulWidget {
