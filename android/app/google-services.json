@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "150298441689",
+    "project_id": "uet-lms-app",
+    "storage_bucket": "uet-lms-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150298441689:android:84b32d5e648174e827cbc8",
+        "android_client_info": {
+          "package_name": "com.talhabalaj.uet_lms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150298441689-jjhrokifeq2mk4br3f0mpscsdgte983r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWxo-Dh9_KQF9ZDTUny73YT85sR4ml00M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150298441689-jjhrokifeq2mk4br3f0mpscsdgte983r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
