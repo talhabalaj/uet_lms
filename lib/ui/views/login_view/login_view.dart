@@ -6,6 +6,8 @@ import 'package:uet_lms/ui/views/login_view/login_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class LoginView extends StatelessWidget {
+  static final id = "/login";
+  
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(

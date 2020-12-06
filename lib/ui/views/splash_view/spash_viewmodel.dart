@@ -1,4 +1,7 @@
+import 'dart:async';
+import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
@@ -13,6 +16,13 @@ class SplashViewModel extends BaseViewModel {
   get internet => _internet;
 
   Future<void> initialise() async {
+    if (Platform.isAndroid) {
+      final connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        return noInternet();
+      }
+    }
+
     try {
       final didAuth = await lmsService.reAuth();
       if (!didAuth) {
@@ -20,10 +30,19 @@ class SplashViewModel extends BaseViewModel {
       } else {
         await navigationService.clearStackAndShow("/home");
       }
-    } catch(e) {
-      _internet = false;
-      this.notifyListeners();
+    } on SocketException {
+      noInternet();
     }
     this.setInitialised(true);
+  }
+
+  void noInternet() {
+    _internet = false;
+    this.notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

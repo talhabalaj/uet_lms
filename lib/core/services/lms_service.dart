@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +26,7 @@ class LMSService {
     await secureStorage.write(key: "email", value: user.email);
     await secureStorage.write(key: "password", value: user.password);
     await secureStorage.write(key: "cookie", value: user.cookie);
-    FirebaseCrashlytics.instance.setUserIdentifier(user.email);
+    if (Platform.isAndroid) FirebaseCrashlytics.instance.setUserIdentifier(user.email);
   }
 
   Future<bool> reAuth() async {
@@ -47,7 +48,7 @@ class LMSService {
         await storeOnSecureStorage();
       }
 
-      FirebaseCrashlytics.instance.setUserIdentifier(user.email);
+      if (Platform.isAndroid) FirebaseCrashlytics.instance.setUserIdentifier(user.email);
 
       return true;
     } on PlatformException catch(e) {
@@ -64,7 +65,7 @@ class LMSService {
   Future<void> logout() async {
     // TODO: invalidate the cookie
     user = null;
-    FirebaseCrashlytics.instance.setUserIdentifier("loggedOutUser");
+    if (Platform.isAndroid) FirebaseCrashlytics.instance.setUserIdentifier("loggedOutUser");
     final secureStorage = FlutterSecureStorage();
     await secureStorage.delete(key: "email");
     await secureStorage.delete(key: "password");

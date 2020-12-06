@@ -29,7 +29,7 @@ class _BasicDialogState extends State<BasicDialog>
       value: 0,
       duration: Duration(milliseconds: 500),
     );
-    _containerHeight = Tween<double>(begin: 0, end: 280).animate(
+    _containerHeight = Tween<double>(begin: 0, end: 250).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeInOutSine,
@@ -108,7 +108,7 @@ class _BasicDialogState extends State<BasicDialog>
                             ),
                             Expanded(
                               child: SimpleWideButton(
-                                color: Colors.white,
+                                color: Colors.grey[200],
                                 textColor: kPrimaryColor,
                                 text: widget.request.secondaryButtonTitle,
                                 onPressed: () async {

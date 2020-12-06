@@ -8,8 +8,10 @@ void setupDialogUi() {
   final dialogService = locator<DialogService>();
 
   final builders = {
-    DialogType.basic: (context, sheetRequest, completer) 
-    => BasicDialog(request: sheetRequest, completer: completer,),
+    DialogType.basic: (context, sheetRequest, completer) => BasicDialog(
+          request: sheetRequest,
+          completer: completer,
+        ),
   };
 
   dialogService.registerCustomDialogBuilders(builders);

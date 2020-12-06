@@ -5,6 +5,8 @@ import 'package:uet_lms/ui/views/splash_view/spash_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class SplashView extends StatelessWidget {
+  static final id = "/";
+  
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SplashViewModel>.reactive(

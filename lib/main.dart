@@ -29,17 +29,16 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled);
     return MaterialApp(
       title: 'UET LMS',
       navigatorKey: locator<NavigationService>().navigatorKey,
       theme: getTheme(),
       routes: {
-        "/": (context) => SplashView(),
-        "/login": (context) => LoginView(),
-        "/home": (context) => HomeView(),
+        SplashView.id: (context) => SplashView(),
+        LoginView.id: (context) => LoginView(),
+        HomeView.id: (context) => HomeView(),
       },
-      initialRoute: "/",
+      initialRoute: SplashView.id,
     );
   }
 }
