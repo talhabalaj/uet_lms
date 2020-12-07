@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/shared/DefaultShimmer.dart';
@@ -184,7 +183,7 @@ class HomeView extends StatelessWidget {
                         : const EdgeInsets.only(top: 15.0),
                     child: model.busy(model.registerdSubjects)
                         ? Opacity(
-                            opacity: (1 - (idx + 1) / 5),
+                            opacity: (1 - (idx + 1) / 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: _cardShimmers(context),
