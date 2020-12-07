@@ -36,3 +36,5 @@ ThemeData getTheme() {
       ),
       fontFamily: 'Inter');
 }
+
+final kShimmerGradient = LinearGradient(colors: [Colors.grey[200], Colors.grey[400]]);
