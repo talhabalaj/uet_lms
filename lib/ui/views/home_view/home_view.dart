@@ -21,39 +21,43 @@ class HomeView extends StatelessWidget {
         },
         builder: (context, model, _) {
           return MainScaffold(
-            children: [
-              if (model.busy(model.studentProfile))
-                HeadingWithSubtitle()
-              else
-                HeadingWithSubtitle(
-                  heading: "Welcome, ${model.userFirstName}",
-                  subtitle:
-                      "How’s your day goin’? Here’s some stats about your University life",
-                ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(model, context),
+            rightView: _buildCard(height: double.infinity,),
+            leftView: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (model.busy(model.studentProfile))
+                  HeadingWithSubtitle()
+                else
+                  HeadingWithSubtitle(
+                    heading: "Welcome, ${model.userFirstName}",
+                    subtitle:
+                        "How’s your day goin’? Here’s some stats about your University life",
                   ),
-                  SizedBox(
-                    width: 18,
-                  ),
-                  _buildGPACard(model, context),
-                ],
-              ),
-              SizedBox(
-                height: 18,
-              ),
-              Expanded(
-                child: _buildCard(
-                  padding: EdgeInsets.zero,
-                  child: _buildRegisteredSubjectsScrollView(context, model),
+                SizedBox(
+                  height: 30,
                 ),
-              )
-            ],
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildStatCard(model, context),
+                    ),
+                    SizedBox(
+                      width: 18,
+                    ),
+                    _buildGPACard(model, context),
+                  ],
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+                Expanded(
+                  child: _buildCard(
+                    padding: EdgeInsets.zero,
+                    child: _buildRegisteredSubjectsScrollView(context, model),
+                  ),
+                )
+              ],
+            ),
           );
         },
         viewModelBuilder: () => HomeViewModel(),

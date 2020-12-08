@@ -80,7 +80,15 @@ class LMSService {
     return null;
   }
 
-  Future<bool> reAuth() async {
+  Future<void> reAuth() async {
+    if (await _reAuth()) {
+      await navigationService.clearStackAndShow(HomeView.id);
+    } else {
+      await navigationService.clearStackAndShow(LoginView.id);
+    }
+  }
+
+  Future<bool> _reAuth() async {
     if (kIsWeb) {
       return false;
     }
@@ -104,8 +112,6 @@ class LMSService {
       }
 
       setCrashReportsUserId(user.email);
-
-      await navigationService.clearStackAndShow(HomeView.id);
       return true;
     } on PlatformException catch (e) {
       log("[Error Flutter Secure Storage]", error: e);
@@ -114,7 +120,6 @@ class LMSService {
     }
 
     await this._logout();
-    await navigationService.clearStackAndShow(LoginView.id);
 
     return false;
   }

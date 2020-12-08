@@ -57,8 +57,8 @@ class _BasicDialogState extends State<BasicDialog>
         AnimatedBuilder(
           animation: _animationController,
           builder: (context, _) => Container(
+            constraints: BoxConstraints(maxWidth: 500),
             height: _containerHeight.value,
-            width: double.infinity,
             child: Opacity(
               opacity: _opacity.value,
               child: Padding(

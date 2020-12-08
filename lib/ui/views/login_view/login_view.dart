@@ -7,7 +7,7 @@ import 'package:stacked/stacked.dart';
 
 class LoginView extends StatelessWidget {
   static final id = "/login";
-  
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
@@ -33,7 +33,9 @@ class LoginView extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-              vertical: 20, horizontal: kHorizontalSpacing),
+            vertical: 20,
+            horizontal: kHorizontalSpacing,
+          ),
           child: _buildHeader(context),
         ),
         Expanded(
@@ -75,43 +77,43 @@ class LoginView extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "assets/images/Logo.png",
-                  height: 48,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
-                    style: Theme.of(context).textTheme.headline5,
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              ],
+            Image.asset(
+              "assets/images/Logo.png",
+              height: 48,
             ),
             SizedBox(
-              height: 15,
+              width: 10,
             ),
-            Text(
-              "Let's Sign you In",
-              style: Theme.of(context).textTheme.headline1,
-            ),
-            SizedBox(
-              height: 9,
-            ),
-            Text(
-              "You have to sign in use LMS services, This should just take a second",
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
+            Expanded(
+              child: Text(
+                "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
+                style: Theme.of(context).textTheme.headline5,
+                textAlign: TextAlign.center,
+              ),
+            )
           ],
-        );
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Text(
+          "Let's Sign you In",
+          style: Theme.of(context).textTheme.headline1,
+        ),
+        SizedBox(
+          height: 9,
+        ),
+        Text(
+          "You have to sign in use LMS services, This should just take a second",
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+      ],
+    );
   }
 
   Widget _buildForm(BuildContext context, LoginViewModel model) {

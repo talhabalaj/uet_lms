@@ -10,9 +10,10 @@ import 'package:uet_lms/ui/shared/SvgButton.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 
 class MainScaffold extends StatefulWidget {
-  MainScaffold({Key key, this.children}) : super(key: key);
+  MainScaffold({Key key, this.leftView, this.rightView}) : super(key: key);
 
-  final List<Widget> children;
+  final Widget leftView;
+  final Widget rightView;
 
   @override
   _MainScaffoldState createState() => _MainScaffoldState();
@@ -35,8 +36,34 @@ class _MainScaffoldState extends State<MainScaffold> {
         padding:
             EdgeInsets.symmetric(horizontal: kHorizontalSpacing, vertical: 24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_buildTopAppBar(), ...widget.children],
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildTopAppBar(),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 3,
+                    child: Container(
+                      constraints: widget.rightView != null ? null : BoxConstraints(maxWidth: 500),
+                      child: widget.leftView,
+                    ),
+                  ),
+                  if (widget.rightView != null &&
+                      MediaQuery.of(context).size.width > 675) ...[
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Expanded(
+                      flex: 7,
+                      child: widget.rightView,
+                    )
+                  ]
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -74,47 +101,46 @@ class _MainScaffoldState extends State<MainScaffold> {
       width: 300,
       child: Stack(
         children: [
-          Expanded(
-            child: ListView(
-              children: [
-                SizedBox(height: 90),
-                for (final navLink in kNavLinks) ...[
-                  if (navLink["name"] != "")
-                    Padding(
-                      padding:
-                          EdgeInsets.only(left: kHorizontalSpacing, bottom: 5),
-                      child: Text(navLink["name"],
-                          style: Theme.of(context).textTheme.subtitle1),
-                    ),
-                  for (int i = 0; i < navLink["children"].length; i++) ...[
-                    if (i != 0) SizedBox(height: 7),
-                    NavButton(
-                      onTap: () {
-                        print("Test");
-                      },
-                      title: navLink["children"][i]["name"],
-                      isActive: navLink["children"][i]["screen"] != null &&
-                          navLink["children"][i]["screen"] ==
-                              ModalRoute.of(context).settings.name,
-                      subtitle: navLink["children"][i]["description"],
-                    ),
-                  ],
-                  SizedBox(
-                      height:
-                          navLink["children"].last["description"].length >= 45
-                              ? 10
-                              : 20),
+          ListView(
+            children: [
+              SizedBox(height: 90),
+              for (final navLink in kNavLinks) ...[
+                if (navLink["name"] != "")
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: kHorizontalSpacing, bottom: 5),
+                    child: Text(navLink["name"],
+                        style: Theme.of(context).textTheme.subtitle1),
+                  ),
+                for (int i = 0; i < navLink["children"].length; i++) ...[
+                  if (i != 0) SizedBox(height: 7),
+                  NavButton(
+                    onTap: () {
+                      print("Test");
+                    },
+                    title: navLink["children"][i]["name"],
+                    isActive: navLink["children"][i]["screen"] != null &&
+                        navLink["children"][i]["screen"] ==
+                            ModalRoute.of(context).settings.name,
+                    subtitle: navLink["children"][i]["description"],
+                  ),
                 ],
-                SizedBox(height: 100),
+                SizedBox(
+                  height: navLink["children"].last["description"].length >= 45
+                      ? 10
+                      : 20,
+                ),
               ],
-            ),
+              SizedBox(height: 100),
+            ],
           ),
           ClipRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(30),
+                padding: EdgeInsets.symmetric(
+                    vertical: 34, horizontal: kHorizontalSpacing),
                 child: SvgButton(
                   asset: "assets/svg/cross.svg",
                   onTap: () {

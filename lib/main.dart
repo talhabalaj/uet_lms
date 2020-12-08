@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:desktop_window/desktop_window.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +18,8 @@ void main() async {
   configureDependencies();
   setupDialogUi();
   WidgetsFlutterBinding.ensureInitialized();
+
+  // initialise firebase
   await runOnlyOnMobile(() async {
     await Firebase.initializeApp();
     if (!kDebugMode) {
@@ -25,6 +28,12 @@ void main() async {
     }
    }
   );
+
+  // for desktop app set windows size, check web first, reason no implementation of Platform on web
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    await DesktopWindow.setWindowSize(Size(1000,600));
+    await DesktopWindow.setMinWindowSize(Size(400,600));
+  }
   runApp(MyApp());
 }
 
