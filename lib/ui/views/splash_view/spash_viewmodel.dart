@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
@@ -16,7 +17,7 @@ class SplashViewModel extends BaseViewModel {
   get internet => _internet;
 
   Future<void> initialise() async {
-    if (Platform.isAndroid) {
+    if (kIsWeb || !Platform.isLinux) {
       final connectivityResult = await (Connectivity().checkConnectivity());
       if (connectivityResult == ConnectivityResult.none) {
         return noInternet();

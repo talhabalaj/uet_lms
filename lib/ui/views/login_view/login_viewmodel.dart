@@ -51,7 +51,7 @@ class LoginViewModel extends BaseViewModel {
           variant: DialogType.basic,
           mainButtonTitle: "Oh my mistake..",
           title: errorMessage ?? e.runtimeType.toString(),
-          description: description ?? "Try again later, something is very wrong",
+          description: description ?? e.toString(),
         );
       }
       // async code

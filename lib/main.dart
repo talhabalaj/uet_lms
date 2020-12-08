@@ -5,6 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/run_on_mobile.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/views/home_view/home_view.dart';
@@ -16,13 +17,14 @@ void main() async {
   configureDependencies();
   setupDialogUi();
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isAndroid) {
+  await runOnlyOnMobile(() async {
     await Firebase.initializeApp();
     if (!kDebugMode) {
       FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
-  }
+   }
+  );
   runApp(MyApp());
 }
 
