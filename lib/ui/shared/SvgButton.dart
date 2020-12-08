@@ -19,9 +19,10 @@ class SvgButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MouseRegion(
       child: GestureDetector(
-        child: SvgPicture.asset(
+        child: SvgPicture.asset(          
           asset,
           height: height ?? 20,
+          alignment: Alignment.centerLeft,
         ),
         onTap: onTap,
       ),

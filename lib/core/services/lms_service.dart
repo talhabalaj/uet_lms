@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -7,6 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lms_api/lms_api.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/ui/dialog.dart';
+import 'package:uet_lms/ui/views/home_view/home_view.dart';
+import 'package:uet_lms/ui/views/login_view/login_view.dart';
 
 import '../run_on_mobile.dart';
 
@@ -14,6 +18,9 @@ import '../run_on_mobile.dart';
 class LMSService {
   LMS user;
   FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
+  final NavigationService navigationService = locator<NavigationService>();
+  final DialogService dialogService = locator<DialogService>();
 
   get loggedIn => user != null;
 
@@ -29,17 +36,23 @@ class LMSService {
     return LMS(email: email, password: password, target: target);
   }
 
-  Future<LMS> login({String email, String password}) async {
-    user = _createLMSObject(email, password);
+  Future<LMS> _login() async {
     await user.login();
     await storeOnSecureStorage();
     await setCrashReportsUserId(user.email);
     return user;
   }
 
+  Future<void> login({String email, String password}) async {
+    user = _createLMSObject(email, password);
+    await _login();
+    await navigationService.clearStackAndShow("/home");
+  }
+
   Future<void> storeOnSecureStorage() async {
     if (user == null) throw Exception("User is null, can't store.");
     if (kIsWeb) {
+      // TODO: store stuff on web too
     } else {
       await secureStorage.write(key: "email", value: user.email);
       await secureStorage.write(key: "password", value: user.password);
@@ -65,7 +78,7 @@ class LMSService {
       };
     }
     return null;
-  } 
+  }
 
   Future<bool> reAuth() async {
     if (kIsWeb) {
@@ -77,7 +90,7 @@ class LMSService {
       final email = storedData['email'];
       final password = storedData['password'];
       final cookie = storedData['cookie'];
-    
+
       if (email == null || password == null || cookie == null) {
         return false;
       }
@@ -92,6 +105,7 @@ class LMSService {
 
       setCrashReportsUserId(user.email);
 
+      await navigationService.clearStackAndShow(HomeView.id);
       return true;
     } on PlatformException catch (e) {
       log("[Error Flutter Secure Storage]", error: e);
@@ -99,13 +113,28 @@ class LMSService {
       log("[Error LMS]", error: e);
     }
 
-    await this.logout();
+    await this._logout();
+    await navigationService.clearStackAndShow(LoginView.id);
 
     return false;
   }
 
-
   Future<void> logout() async {
+    DialogResponse r = await dialogService.showCustomDialog(
+      variant: DialogType.basic,
+      mainButtonTitle: "I'm sure",
+      secondaryButtonTitle: "Oh mistakenly",
+      title: "Are you sure?",
+      description: "We hate to see you go, Please come back soon. ",
+    );
+
+    if (r.confirmed) {
+      await this._logout();
+      await navigationService.clearStackAndShow(LoginView.id);
+    }
+  }
+
+  Future<void> _logout() async {
     // TODO: invalidate the cookie
     user = null;
     setCrashReportsUserId("loggedOutUser");

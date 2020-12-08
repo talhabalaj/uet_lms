@@ -25,12 +25,7 @@ class SplashViewModel extends BaseViewModel {
     }
 
     try {
-      final didAuth = await lmsService.reAuth();
-      if (!didAuth) {
-        await navigationService.clearStackAndShow("/login");
-      } else {
-        await navigationService.clearStackAndShow("/home");
-      }
+      await lmsService.reAuth();
     } on SocketException {
       noInternet();
     }

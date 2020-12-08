@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uet_lms/ui/views/home_view/home_view.dart';
 
 final kFavBoxShadow = BoxShadow(
   offset: Offset(0, 1),
@@ -36,3 +37,65 @@ ThemeData getTheme() {
       ),
       fontFamily: 'Inter');
 }
+
+ List<Map<String, dynamic>> kNavLinks = [
+      {
+        "name": "",
+        "children": [
+          {
+            "name": "Dashboard",
+            "screen": HomeView.id,
+            "description":
+                "See at a glance what’s up with your University, Current semester, CGPA, etc"
+          },
+        ],
+      },
+      {
+        "name": "ACADEMIC",
+        "children": [
+          {
+            "name": "Register subjects",
+            "description":
+                "Register subjects you want to study in this semester"
+          },
+          {
+            "name": "DMC",
+            "description":
+                "Check your grades and stuff. you can the usual, best of luck tho"
+          },
+        ],
+      },
+      {
+        "name": "DUES",
+        "children": [
+          {
+            "name": "Fee Challans",
+            "description":
+                "Check if your fees is paid or new challan form is available",
+          },
+        ],
+      },
+      {
+        "name": "INFORMATION",
+        "children": [
+          {
+            "name": "Student Profile",
+            "description": "Check the information, University has on you."
+          },
+        ],
+      },
+      {
+        "name": "SETTINGS",
+        "children": [
+          {
+            "name": "App Settings",
+            "description": "The usual thing to have in an app"
+          },
+          {
+            "name": "LMS Settings",
+            "description":
+                "Change you profile picture, password and other stuff"
+          },
+        ],
+      },
+    ];

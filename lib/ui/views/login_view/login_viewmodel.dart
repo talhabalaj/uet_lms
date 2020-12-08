@@ -13,7 +13,6 @@ class LoginViewModel extends BaseViewModel {
   final formKey = GlobalKey<FormState>();
   final lmsService = locator<LMSService>();
   final dialogService = locator<DialogService>();
-  final navigationService = locator<NavigationService>();
 
   String regNo = "", password = "";
   bool keyboardVisible = false;
@@ -35,23 +34,22 @@ class LoginViewModel extends BaseViewModel {
       try {
         await lmsService.login(
           email: "$regNo@student.uet.edu.pk", password: password);
-        await navigationService.clearStackAndShow("/home");
       } catch (e) {
         String errorMessage, description;
-        print(e);
+        
         if (e is LMSException) {
-          errorMessage = e.message ?? "Unknown Error";
-          description = e.description ?? "LMS is drunk";
-        }
-        if (e is SocketException) {
+          errorMessage = e.message;
+          description = e.description ?? "Error related to LMS, This is not the issue with app rather with UET LMS";
+        } else if (e is SocketException) {
           errorMessage = "No Internet connection.";
           description = "Maybe try again with internet";
         }
+
         await dialogService.showCustomDialog(
           variant: DialogType.basic,
           mainButtonTitle: "Oh my mistake..",
-          title: errorMessage ?? e.runtimeType.toString(),
-          description: description ?? e.toString(),
+          title: errorMessage,
+          description: description,
         );
       }
       // async code
