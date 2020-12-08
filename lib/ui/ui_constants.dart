@@ -30,11 +30,9 @@ ThemeData getTheme() {
         bodyText2: kDefaultTextStyle.copyWith(
             fontSize: 12, fontWeight: FontWeight.w400),
         headline5: kDefaultTextStyle.copyWith(
-            fontWeight: FontWeight.w600, fontSize: 13),
+            fontWeight: FontWeight.w600, fontSize: 14),
         subtitle1: kDefaultTextStyle.copyWith(
             fontWeight: FontWeight.w700, fontSize: 12, color: Colors.grey[400]),
       ),
       fontFamily: 'Inter');
 }
-
-final kShimmerGradient = LinearGradient(colors: [Colors.grey[200], Colors.grey[400]]);
