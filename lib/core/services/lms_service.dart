@@ -9,8 +9,8 @@ import 'package:lms_api/lms_api.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/ui/dialog.dart';
-import 'package:uet_lms/ui/views/home_view/home_view.dart';
 import 'package:uet_lms/ui/views/login_view/login_view.dart';
+import 'package:uet_lms/ui/views/main_view/main_view.dart';
 
 import '../run_on_mobile.dart';
 
@@ -46,7 +46,7 @@ class LMSService {
   Future<void> login({String email, String password}) async {
     user = _createLMSObject(email, password);
     await _login();
-    await navigationService.clearStackAndShow("/home");
+    await navigationService.clearStackAndShow(MainView.id);
   }
 
   Future<void> storeOnSecureStorage() async {
@@ -82,7 +82,7 @@ class LMSService {
 
   Future<void> reAuth() async {
     if (await _reAuth()) {
-      await navigationService.clearStackAndShow(HomeView.id);
+      await navigationService.clearStackAndShow(MainView.id);
     } else {
       await navigationService.clearStackAndShow(LoginView.id);
     }

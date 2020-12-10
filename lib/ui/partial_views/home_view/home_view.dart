@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:stacked/stacked.dart';
+import 'package:uet_lms/ui/partial_views/home_view/home_viewmodel.dart';
 import 'package:uet_lms/ui/shared/DefaultShimmer.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
-import 'package:uet_lms/ui/shared/MainScaffold.dart';
+import 'package:uet_lms/ui/shared/SplitScreen.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
-import 'package:uet_lms/ui/views/home_view/home_viewmodel.dart';
 
-class HomeView extends StatelessWidget {
-  static final id = "/home";
+class DashBoardView extends StatelessWidget {
+  final id = "/dashboard";
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,10 @@ class HomeView extends StatelessWidget {
           await model.init();
         },
         builder: (context, model, _) {
-          return MainScaffold(
-            rightView: _buildCard(height: double.infinity,),
+          return SplitScreen(
+            rightView: _buildCard(
+              height: double.infinity,
+            ),
             leftView: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

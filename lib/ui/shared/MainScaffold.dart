@@ -10,10 +10,9 @@ import 'package:uet_lms/ui/shared/SvgButton.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 
 class MainScaffold extends StatefulWidget {
-  MainScaffold({Key key, this.leftView, this.rightView}) : super(key: key);
+  MainScaffold({Key key, this.views}) : super(key: key);
 
-  final Widget leftView;
-  final Widget rightView;
+  final List<Widget> views;
 
   @override
   _MainScaffoldState createState() => _MainScaffoldState();
@@ -22,6 +21,7 @@ class MainScaffold extends StatefulWidget {
 class _MainScaffoldState extends State<MainScaffold> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final LMSService lmsService = locator<LMSService>();
+  int index = 0;
 
   get scaffold => scaffoldKey.currentState;
 
@@ -32,61 +32,50 @@ class _MainScaffoldState extends State<MainScaffold> {
       drawerScrimColor: Colors.black26,
       drawerDragStartBehavior: DragStartBehavior.start,
       drawer: this._buildNav(),
-      body: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: kHorizontalSpacing, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTopAppBar(),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 3,
-                    child: Container(
-                      constraints: widget.rightView != null ? null : BoxConstraints(maxWidth: 500),
-                      child: widget.leftView,
-                    ),
-                  ),
-                  if (widget.rightView != null &&
-                      MediaQuery.of(context).size.width > 675) ...[
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Expanded(
-                      flex: 7,
-                      child: widget.rightView,
-                    )
-                  ]
-                ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildTopAppBar(),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+              child: IndexedStack(
+                index: index,
+                children: widget.views,
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
 
   Widget _buildTopAppBar() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 25),
+    return Container(
+      height: 110,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgButton(
-            asset: "assets/svg/menu.svg",
-            onTap: () {
-              scaffold.openDrawer();
-            },
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: kHorizontalSpacing,
+            ),
+            child: SvgButton(
+              asset: "assets/svg/menu.svg",
+              onTap: () {
+                scaffold.openDrawer();
+              },
+            ),
           ),
-          Image.asset("assets/images/Logo.png"),
-          CircleAvatar(
-            radius: 17,
-            backgroundImage: NetworkImage(
-              lmsService.user.getChangeableProfilePicUrl(),
-              headers: lmsService.user.cookieHeader,
+          Spacer(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage(
+                lmsService.user.getChangeableProfilePicUrl(),
+                headers: lmsService.user.cookieHeader,
+              ),
             ),
           ),
         ],
@@ -116,12 +105,29 @@ class _MainScaffoldState extends State<MainScaffold> {
                   if (i != 0) SizedBox(height: 7),
                   NavButton(
                     onTap: () {
-                      print("Test");
+                      Navigator.of(context).pop();
+                      int idx = widget.views.indexWhere(
+                        (dynamic element) {
+                          return navLink["children"][i]["screen"] != null &&
+                              element.id == navLink["children"][i]["screen"].id;
+                        },
+                      );
+                      print(idx);
+                      if (idx != -1 && idx != index) {
+                        this.setState(() {
+                          index = idx;
+                        });
+                      }
                     },
                     title: navLink["children"][i]["name"],
-                    isActive: navLink["children"][i]["screen"] != null &&
-                        navLink["children"][i]["screen"] ==
-                            ModalRoute.of(context).settings.name,
+                    isActive: widget.views.indexWhere(
+                          (dynamic element) {
+                            return navLink["children"][i]["screen"] != null &&
+                                element.id ==
+                                    navLink["children"][i]["screen"].id;
+                          },
+                        ) ==
+                        index,
                     subtitle: navLink["children"][i]["description"],
                   ),
                 ],
@@ -131,7 +137,7 @@ class _MainScaffoldState extends State<MainScaffold> {
                       : 20,
                 ),
               ],
-              SizedBox(height: 100),
+              SizedBox(height: 120),
             ],
           ),
           ClipRect(
@@ -139,13 +145,16 @@ class _MainScaffoldState extends State<MainScaffold> {
               filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                    vertical: 34, horizontal: kHorizontalSpacing),
-                child: SvgButton(
-                  asset: "assets/svg/cross.svg",
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
+                padding: EdgeInsets.only(top: 34, left: kHorizontalSpacing),
+                child: Row(
+                  children: [
+                    SvgButton(
+                      asset: "assets/svg/cross.svg",
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),

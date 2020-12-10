@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,16 +16,19 @@ class SvgButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      child: GestureDetector(
-        child: SvgPicture.asset(          
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+      
+      color: Colors.grey[200].withAlpha(200), 
+      
+      padding: const EdgeInsets.all(10.0),
+        child: SvgPicture.asset(
           asset,
           height: height ?? 20,
           alignment: Alignment.centerLeft,
         ),
-        onTap: onTap,
       ),
-      cursor: SystemMouseCursors.click,
     );
   }
 }

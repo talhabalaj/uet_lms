@@ -51,94 +51,98 @@ class _BasicDialogState extends State<BasicDialog>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Spacer(),
-        AnimatedBuilder(
-          animation: _animationController,
-          builder: (context, _) => Container(
-            constraints: BoxConstraints(maxWidth: 500),
-            height: _containerHeight.value,
-            child: Opacity(
-              opacity: _opacity.value,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: kHorizontalSpacing, vertical: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (widget.request.title != null)
-                          Text(
-                            widget.request.title,
-                            style: Theme.of(context).textTheme.headline2,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        SizedBox(height: 20,),
-                        if (widget.request.description != null)
-                          Text(
-                            widget.request.description,
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                      ],
-                    ),
-                    Flexible(
-                      child: Row(
+    return WillPopScope(
+      onWillPop: () async {
+        print("called");
+        return false;
+      },
+      child: Column(
+        children: [
+          Spacer(),
+          AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, _) => Container(
+              constraints: BoxConstraints(maxWidth: 500),
+              height: _containerHeight.value,
+              child: Opacity(
+                opacity: _opacity.value,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: kHorizontalSpacing, vertical: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: SimpleWideButton(
-                              text: widget.request.mainButtonTitle ?? "Okay",
-                              onPressed: () async {
-                                await _animationController.reverse();
-                                widget.completer(
-                                  DialogResponse(
-                                    confirmed: true,
-                                  ),
-                                );
-                              },
+                          if (widget.request.title != null)
+                            Text(
+                              widget.request.title,
+                              style: Theme.of(context).textTheme.headline2,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
+                          SizedBox(
+                            height: 20,
                           ),
-                          if (widget.request.secondaryButtonTitle != null) ...[
-                            SizedBox(
-                              width: 10,
+                          if (widget.request.description != null)
+                            Text(
+                              widget.request.description,
+                              style: Theme.of(context).textTheme.bodyText1,
                             ),
-                            Expanded(
-                              child: SimpleWideButton(
-                                color: Colors.grey[200],
-                                textColor: kPrimaryColor,
-                                text: widget.request.secondaryButtonTitle,
-                                onPressed: () async {
-                                  await _animationController.reverse();
-                                  widget.completer(
-                                    DialogResponse(
-                                      confirmed: false,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ]
                         ],
                       ),
-                    ),
-                  ],
+                      Flexible(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: SimpleWideButton(
+                                text: widget.request.mainButtonTitle ?? "Okay",
+                                onPressed: () => _completeDialog(true),
+                              ),
+                            ),
+                            if (widget.request.secondaryButtonTitle !=
+                                null) ...[
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: SimpleWideButton(
+                                  color: Colors.grey[200],
+                                  textColor: kPrimaryColor,
+                                  text: widget.request.secondaryButtonTitle,
+                                  onPressed: () => _completeDialog(false),
+                                ),
+                              ),
+                            ]
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(36),
-                topRight: Radius.circular(36),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(36),
+                  topRight: Radius.circular(36),
+                ),
+                color: Theme.of(context).backgroundColor,
               ),
-              color: Theme.of(context).backgroundColor,
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
+    );
+  }
+
+  _completeDialog(bool confirmed) async {
+    await _animationController.reverse();
+    widget.completer(
+      DialogResponse(
+        confirmed: confirmed,
+      ),
     );
   }
 }

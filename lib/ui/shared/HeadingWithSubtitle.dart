@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:uet_lms/ui/shared/DefaultShimmer.dart';
 
-import '../ui_constants.dart';
 
 class HeadingWithSubtitle extends StatelessWidget {
   HeadingWithSubtitle({Key key, this.heading, this.subtitle}) : super(key: key);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uet_lms/ui/views/home_view/home_view.dart';
+import 'package:uet_lms/ui/partial_views/home_view/home_view.dart';
+import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dart';
 
 final kFavBoxShadow = BoxShadow(
   offset: Offset(0, 1),
@@ -44,7 +45,7 @@ ThemeData getTheme() {
         "children": [
           {
             "name": "Dashboard",
-            "screen": HomeView.id,
+            "screen": DashBoardView(),
             "description":
                 "See at a glance what’s up with your University, Current semester, CGPA, etc"
           },
@@ -94,8 +95,9 @@ ThemeData getTheme() {
           {
             "name": "LMS Settings",
             "description":
-                "Change you profile picture, password and other stuff"
-          },
+                "Change you profile picture, password and other stuff",
+            "screen": LMSSettingsView()
+          },  
         ],
       },
     ];

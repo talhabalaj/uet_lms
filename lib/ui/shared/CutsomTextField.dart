@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 
-class CustomTextField extends StatelessWidget {
-
+class CustomTextField extends StatefulWidget {
   CustomTextField({
     Key key,
     this.isPassword = false,
     this.errorText,
     this.labelText,
     this.suffixText,
+    this.validator,
     this.enabled = true,
     this.hintText,
     this.regex,
     this.onSaved,
     TextStyle style,
     this.onChanged,
-  })  : this.style = style ?? TextStyle(fontSize: 18),
+  })  : this.style = style,
         super(key: key);
 
   final bool isPassword;
@@ -29,19 +29,30 @@ class CustomTextField extends StatelessWidget {
   final Function(String) onChanged;
   final Function(String) onSaved;
   final RegExp regex;
+  final String Function(String) validator;
 
+  @override
+  _CustomTextFieldState createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
   bool passwordShown = false;
 
   @override
   Widget build(BuildContext context) {
-    assert(!(isPassword && suffixText != null),
+    assert(!(widget.isPassword && widget.suffixText != null),
         "Password field can't have suffix");
+
+    assert(!(widget.validator != null && widget.regex != null),
+        "Both regex and validator cannot be supplied");
+
+    TextStyle styleToUse = widget.style ?? Theme.of(context).textTheme.bodyText1;
 
     return StatefulBuilder(
       builder: (context, setState) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(labelText, style: style),
+          Text(widget.labelText, style: styleToUse),
           SizedBox(
             height: 5,
           ),
@@ -52,22 +63,22 @@ class CustomTextField extends StatelessWidget {
             child: Stack(
               children: [
                 TextFormField(
-                  enabled: enabled,
-                  onSaved: onSaved,
+                  enabled: widget.enabled,
+                  onSaved: widget.onSaved,
                   textAlignVertical: TextAlignVertical.center,
                   cursorColor: Colors.grey[600],
-                  onChanged: onChanged,
-                  validator: regex == null
+                  onChanged: widget.onChanged,
+                  validator: widget.validator ?? (widget.regex == null
                       ? null
-                      : (string) => regex.hasMatch(string)
+                      : (string) => widget.regex.hasMatch(string)
                           ? null
-                          : errorText ?? "That's not valid :(",
-                  style: style,
+                          : widget.errorText ?? "That's not valid :("),
+                  style: styleToUse,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  obscureText: isPassword && !passwordShown,
+                  obscureText: widget.isPassword && !passwordShown,
                   decoration: InputDecoration(
-                    suffixText: isPassword ? null : suffixText,
-                    suffixStyle: style.copyWith(color: Colors.grey[600]),
+                    suffixText: widget.isPassword ? null : widget.suffixText,
+                    suffixStyle: styleToUse.copyWith(color: Colors.grey[600]),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(7),
                       borderSide: BorderSide.none,
@@ -76,15 +87,16 @@ class CustomTextField extends StatelessWidget {
                         EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                     fillColor: Colors.white,
                     filled: true,
-                    hintText: hintText,
+                    hintText: widget.hintText,
                     errorMaxLines: 2,
-                    errorStyle: style.copyWith(fontSize: 13, color: Colors.red),
-                    hintStyle: style.copyWith(
+                    errorStyle:
+                        styleToUse.copyWith(fontSize: 13, color: Colors.red),
+                    hintStyle: styleToUse.copyWith(
                       color: Color(0xffAEAEAE),
                     ),
                   ),
                 ),
-                if (isPassword)
+                if (widget.isPassword)
                   Positioned(
                       right: 16,
                       top: 13.5,

@@ -417,6 +417,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
+  keyboard_shortcuts:
+    dependency: "direct main"
+    description:
+      name: keyboard_shortcuts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   keyboard_visibility:
     dependency: "direct main"
     description:
@@ -730,6 +737,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1+2"
+  tuple:
+    dependency: transitive
+    description:
+      name: tuple
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   typed_data:
     dependency: transitive
     description:
@@ -744,6 +758,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.5"
+  visibility_detector:
+    dependency: transitive
+    description:
+      name: visibility_detector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   watcher:
     dependency: transitive
     description:

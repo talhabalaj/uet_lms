@@ -5,13 +5,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/run_on_mobile.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
-import 'package:uet_lms/ui/views/home_view/home_view.dart';
 import 'package:uet_lms/ui/views/login_view/login_view.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:uet_lms/ui/views/main_view/main_view.dart';
 import 'package:uet_lms/ui/views/splash_view/splash_view.dart';
 
 void main() async {
@@ -26,18 +28,27 @@ void main() async {
       FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
-   }
-  );
+  });
 
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-    await DesktopWindow.setWindowSize(Size(1000,600));
-    await DesktopWindow.setMinWindowSize(Size(400,600));
+    await DesktopWindow.setWindowSize(Size(1000, 600));
+    await DesktopWindow.setMinWindowSize(Size(400, 600));
   }
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,7 +58,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashView.id: (context) => SplashView(),
         LoginView.id: (context) => LoginView(),
-        HomeView.id: (context) => HomeView(),
+        MainView.id: (context) => MainView(),
       },
       initialRoute: SplashView.id,
     );
