@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/shared/CutsomTextField.dart';
+import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/views/login_view/login_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -10,14 +11,23 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool large = MediaQuery.of(context).size.width > 1000;
+
     return ViewModelBuilder<LoginViewModel>.reactive(
       builder: (context, model, _) => SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              Image.asset("assets/images/Login_TopImage.png"),
-              _buildBody(context, model)
+              Container(
+                width: double.infinity,
+                child: Image.asset(
+                  "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
+                  fit: BoxFit.cover,
+                  alignment: Alignment.bottomRight,
+                ),
+              ),
+              _buildBody(context, model, large: large),
             ],
           ),
         ),
@@ -26,93 +36,128 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, LoginViewModel model) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 20,
-            horizontal: kHorizontalSpacing,
-          ),
-          child: _buildHeader(context),
-        ),
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(36),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 40, horizontal: kHorizontalSpacing),
+  Widget _buildBody(BuildContext context, LoginViewModel model,
+      {bool large = false}) {
+    return Container(
+      constraints: large ? BoxConstraints(maxWidth: 412) : null,
+      color: large ? Theme.of(context).backgroundColor : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          large ? _buildLargerHeader(context) : _buildSmallHeader(context),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.only(
+                top: large ? 0 : 40,
+                left: kHorizontalSpacing,
+                right: kHorizontalSpacing,
+              ),
+              decoration: large
+                  ? null
+                  : BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      borderRadius: BorderRadius.circular(36),
+                    ),
               child: _buildForm(context, model),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: kHorizontalSpacing, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.shield, color: Colors.green[400]),
+                SizedBox(
+                  width: 5,
+                ),
+                Flexible(
+                  child: Text(
+                    'Your password is securely stored on-device',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLargerHeader(BuildContext context) {
+    return Flexible(
+      child: Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: kHorizontalSpacing, vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset(
+              "assets/images/Logo.png",
+              height: 70,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
+              style: Theme.of(context).textTheme.headline4,
+              textAlign: TextAlign.center,
+            )
+          ],
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: kHorizontalSpacing, vertical: 20),
-          child: Row(
+      ),
+    );
+  }
+
+  Widget _buildSmallHeader(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: kHorizontalSpacing,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.shield, color: Colors.green[400]),
-              SizedBox(
-                width: 5,
+              Image.asset(
+                "assets/images/Logo.png",
+                height: 48,
               ),
-              Flexible(
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
                 child: Text(
-                  'Your password is securely stored on-device',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
+                  style: Theme.of(context).textTheme.headline5,
+                  textAlign: TextAlign.center,
                 ),
               )
             ],
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/Logo.png",
-              height: 48,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Text(
-                "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
-                style: Theme.of(context).textTheme.headline5,
-                textAlign: TextAlign.center,
-              ),
-            )
-          ],
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Text(
-          "Let's Sign you In",
-          style: Theme.of(context).textTheme.headline1,
-        ),
-        SizedBox(
-          height: 9,
-        ),
-        Text(
-          "You have to sign in use LMS services, This should just take a second",
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-      ],
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            "Let's Sign you In",
+            style: Theme.of(context).textTheme.headline1,
+          ),
+          SizedBox(
+            height: 9,
+          ),
+          Text(
+            "You have to sign in use LMS services, This should just take a second",
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ],
+      ),
     );
   }
 

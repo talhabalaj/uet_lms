@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uet_lms/ui/partial_views/challans_view/challans_view.dart';
 import 'package:uet_lms/ui/partial_views/home_view/home_view.dart';
 import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dart';
 
@@ -15,9 +16,9 @@ final kHorizontalSpacing = 25.0;
 
 ThemeData getTheme() {
   return ThemeData(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.grey[100],
       primaryColor: kPrimaryColor,
-      scaffoldBackgroundColor: Colors.grey[50],
+      scaffoldBackgroundColor: Colors.grey[100],
       textTheme: TextTheme(
         headline1: kDefaultTextStyle.copyWith(
             fontWeight: FontWeight.bold, fontSize: 34),
@@ -39,6 +40,7 @@ ThemeData getTheme() {
       fontFamily: 'Inter');
 }
 
+// TODO: mention screen name instead
  List<Map<String, dynamic>> kNavLinks = [
       {
         "name": "",
@@ -73,6 +75,7 @@ ThemeData getTheme() {
             "name": "Fee Challans",
             "description":
                 "Check if your fees is paid or new challan form is available",
+            "screen": ChallansView(),
           },
         ],
       },

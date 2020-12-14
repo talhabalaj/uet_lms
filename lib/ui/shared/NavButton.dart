@@ -24,6 +24,7 @@ class NavButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: subtitle.length <= 45 ? 50 : 60,
+        color: Colors.transparent,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -31,7 +32,7 @@ class NavButton extends StatelessWidget {
               width: 5,
               color: isActive
                   ? kPrimaryColor
-                  : Theme.of(context).scaffoldBackgroundColor,
+                  : Colors.white,
             ),
             SizedBox(
               width: kHorizontalSpacing - 5,

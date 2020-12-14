@@ -38,7 +38,7 @@ class _MainScaffoldState extends State<MainScaffold> {
           _buildTopAppBar(),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+              padding: EdgeInsets.only(left: kHorizontalSpacing, right: kHorizontalSpacing, bottom: 20),
               child: IndexedStack(
                 index: index,
                 children: widget.views,
@@ -86,7 +86,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   Widget _buildNav() {
     return Container(
       height: MediaQuery.of(context).size.height,
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: Colors.white,
       width: 300,
       child: Stack(
         children: [

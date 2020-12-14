@@ -21,8 +21,7 @@ class DashBoardView extends StatelessWidget {
         },
         builder: (context, model, _) {
           return SplitScreen(
-            rightView: _buildCard(
-              height: double.infinity,
+            rightView: Container(
             ),
             leftView: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
