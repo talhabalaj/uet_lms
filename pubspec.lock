@@ -434,9 +434,11 @@ packages:
   lms_api:
     dependency: "direct main"
     description:
-      path: "../lms_api"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "381bdbf2beb03f3d799eee136915fd3b195cde4d"
+      url: "https://github.com/talhabalaj/lms_api_dart"
+    source: git
     version: "0.0.1"
   logging:
     dependency: transitive

@@ -32,7 +32,7 @@ class LMSService {
 
   LMS _createLMSObject(String email, String password) {
     String target = "https://lms.uet.edu.pk";
-    if (kIsWeb) target = "http://localhost:3000";
+    if (kIsWeb) target = "https://lms-uet-edu-pk-webproxy.herokuapp.com/";
     return LMS(email: email, password: password, target: target);
   }
 

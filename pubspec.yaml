@@ -35,7 +35,7 @@ dependencies:
   path_provider: ^1.6.24
   open_file: ^3.0.3
   lms_api:
-    path: ../lms_api
+    git: https://github.com/talhabalaj/lms_api_dart
 
 dev_dependencies:
   flutter_test:
