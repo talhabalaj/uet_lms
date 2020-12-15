@@ -13,7 +13,6 @@ class MainView extends StatelessWidget {
     return ViewModelBuilder<MainViewModel>.reactive(
       builder: (context, model, _) {
         return KeyBoardShortcuts(
-          globalShortcuts: true,
           onKeysPressed: () { if (Navigator.of(context).canPop()) Navigator.of(context).pop(); },
           keysToPress: [LogicalKeyboardKey.escape].toSet(),
           child: MainScaffold(

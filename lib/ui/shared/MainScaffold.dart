@@ -37,12 +37,9 @@ class _MainScaffoldState extends State<MainScaffold> {
         children: [
           _buildTopAppBar(),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: kHorizontalSpacing, right: kHorizontalSpacing, bottom: 20),
-              child: IndexedStack(
-                index: index,
-                children: widget.views,
-              ),
+            child: IndexedStack(
+              index: index,
+              children: widget.views,
             ),
           )
         ],

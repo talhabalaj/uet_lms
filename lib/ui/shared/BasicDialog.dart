@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -51,11 +53,11 @@ class _BasicDialogState extends State<BasicDialog>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        print("called");
-        return false;
+    return KeyBoardShortcuts(
+      onKeysPressed: () {
+        _completeDialog(false);
       },
+      keysToPress: [LogicalKeyboardKey.escape].toSet(),
       child: Column(
         children: [
           Spacer(),

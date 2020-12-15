@@ -20,44 +20,47 @@ class DashBoardView extends StatelessWidget {
           await model.init();
         },
         builder: (context, model, _) {
-          return SplitScreen(
-            rightView: Container(
-            ),
-            leftView: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (model.busy(model.studentProfile))
-                  HeadingWithSubtitle()
-                else
-                  HeadingWithSubtitle(
-                    heading: "Welcome, ${model.userFirstName}",
-                    subtitle:
-                        "How’s your day goin’? Here’s some stats about your University life",
-                  ),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildStatCard(model, context),
+          return Padding(
+            padding: EdgeInsets.only(left: kHorizontalSpacing, right: kHorizontalSpacing, bottom: 20),
+            child: SplitScreen(
+              rightView: Container(
+              ),
+              leftView: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (model.busy(model.studentProfile))
+                    HeadingWithSubtitle()
+                  else
+                    HeadingWithSubtitle(
+                      heading: "Welcome, ${model.userFirstName}",
+                      subtitle:
+                          "How’s your day goin’? Here’s some stats about your University life",
                     ),
-                    SizedBox(
-                      width: 18,
-                    ),
-                    _buildGPACard(model, context),
-                  ],
-                ),
-                SizedBox(
-                  height: 18,
-                ),
-                Expanded(
-                  child: _buildCard(
-                    padding: EdgeInsets.zero,
-                    child: _buildRegisteredSubjectsScrollView(context, model),
+                  SizedBox(
+                    height: 30,
                   ),
-                )
-              ],
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatCard(model, context),
+                      ),
+                      SizedBox(
+                        width: 18,
+                      ),
+                      _buildGPACard(model, context),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  Expanded(
+                    child: _buildCard(
+                      padding: EdgeInsets.zero,
+                      child: _buildRegisteredSubjectsScrollView(context, model),
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },
