@@ -49,7 +49,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   Widget _buildTopAppBar() {
     return Container(
-      height: 110,
+      height: 90,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -32,6 +32,8 @@ dependencies:
   desktop_window: ^0.3.0
   flutter_svg: ^0.20.0-nullsafety.0
   connectivity: ^2.0.2
+  path_provider: ^1.6.24
+  open_file: ^3.0.3
   lms_api:
     path: ../lms_api
 
