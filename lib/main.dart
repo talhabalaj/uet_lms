@@ -5,8 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/run_on_mobile.dart';
 import 'package:uet_lms/ui/dialog.dart';

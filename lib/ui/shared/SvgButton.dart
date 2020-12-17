@@ -19,10 +19,6 @@ class SvgButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-      
-      color: Colors.grey[200].withAlpha(200), 
-      
-      padding: const EdgeInsets.all(10.0),
         child: SvgPicture.asset(
           asset,
           height: height ?? 20,

@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import 'services/indexed_stack_service.dart';
 import 'services/lms_service.dart';
 import 'locator.dart';
 
@@ -24,6 +25,7 @@ GetIt $initGetIt(
   gh.lazySingleton<BottomSheetService>(
       () => thirdPartyServicesModule.bottomSheetService);
   gh.lazySingleton<DialogService>(() => thirdPartyServicesModule.dialogService);
+  gh.lazySingleton<IndexedStackService>(() => IndexedStackService());
   gh.lazySingleton<LMSService>(() => LMSService());
   gh.lazySingleton<NavigationService>(
       () => thirdPartyServicesModule.navigationService);

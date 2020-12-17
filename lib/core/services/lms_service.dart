@@ -13,6 +13,7 @@ import 'package:uet_lms/ui/views/login_view/login_view.dart';
 import 'package:uet_lms/ui/views/main_view/main_view.dart';
 
 import '../run_on_mobile.dart';
+import 'indexed_stack_service.dart';
 
 @lazySingleton
 class LMSService {
@@ -32,7 +33,7 @@ class LMSService {
 
   LMS _createLMSObject(String email, String password) {
     String target = "https://lms.uet.edu.pk";
-    if (kIsWeb) target = "https://lms-uet-edu-pk-webproxy.herokuapp.com/";
+    if (kIsWeb) target = "https://lms-uet-edu-pk-webproxy.herokuapp.com";
     return LMS(email: email, password: password, target: target);
   }
 
@@ -115,8 +116,6 @@ class LMSService {
       return true;
     } on PlatformException catch (e) {
       log("[Error Flutter Secure Storage]", error: e);
-    } on LMSException catch (e) {
-      log("[Error LMS]", error: e);
     }
 
     await this._logout();
@@ -142,6 +141,7 @@ class LMSService {
   Future<void> _logout() async {
     // TODO: invalidate the cookie
     user = null;
+    locator<IndexedStackService>().reset();
     setCrashReportsUserId("loggedOutUser");
     if (kIsWeb) {
       return;

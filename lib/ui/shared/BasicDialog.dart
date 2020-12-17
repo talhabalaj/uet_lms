@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
-import 'package:uet_lms/ui/shared/CustomButton.dart';
+import 'CustomButton.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:stacked_services/stacked_services.dart';
 

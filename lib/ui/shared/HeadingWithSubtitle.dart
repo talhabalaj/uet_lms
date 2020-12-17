@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uet_lms/ui/shared/DefaultShimmer.dart';
+import 'DefaultShimmer.dart';
 
 
 class HeadingWithSubtitle extends StatelessWidget {

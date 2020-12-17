@@ -4,13 +4,17 @@ import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/indexed_stack_service.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
 import "package:uet_lms/core/string_extension.dart";
+import 'package:uet_lms/core/utils.dart';
 
 class HomeViewModel extends BaseViewModel {
   final lmsService = locator<LMSService>();
   final NavigationService navigationService = locator<NavigationService>();
   final DialogService dialogService = locator<DialogService>();
+  final IndexedStackService indexedStackService =
+      locator<IndexedStackService>();
 
   StudentProfile studentProfile;
   Semester lastSemester;
@@ -18,16 +22,20 @@ class HomeViewModel extends BaseViewModel {
   List<Register> registerdSubjects;
 
   LMS get user => lmsService.user;
-  String get userFirstName =>
-      studentProfile.name.split(" ")[0].toLowerCase().capitalize();
 
-  void onError(dynamic err) async {
-    if (err is LMSException)
-      await dialogService.showCustomDialog(
-          title: err.message, description: err.description);
+  String get userFirstName {
+    String name = studentProfile?.name;
+    if (name != null) {
+      return name.split(" ")[0].toLowerCase().capitalize();
+    }
+    return null;
   }
 
-  Future<void> init() async {
+  void onError(dynamic e) {
+    catchLMSorInternetException(e);
+  }
+
+  Future<void> loadData() async {
     this.setBusyForObject(studentProfile, true);
     this.setBusyForObject(lastSemester, true);
     this.setBusyForObject(lastGradeBookDetail, true);

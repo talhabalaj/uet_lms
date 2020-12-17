@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lms_api/models/obe.dues.students.challan.dart';
+import 'package:lottie/lottie.dart';
 import 'package:stacked/stacked.dart';
+import 'package:uet_lms/ui/shared/CustomCard.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
+import 'package:uet_lms/ui/shared/RefreshIndicatorWithoutListView.dart';
 import 'package:uet_lms/ui/shared/SplitScreen.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 
@@ -14,26 +18,35 @@ class ChallansView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChallansViewModel>.reactive(
-      onModelReady: (model) => model.initialize(),
+      onModelReady: (model) => model.loadData(),
       builder: (context, model, _) {
         return SplitScreen(
-          leftView: ListView(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
-                child: HeadingWithSubtitle(
-                  heading: "Fee Challans",
-                  subtitle:
-                      "Check if your fees is paid or new challan form is available",
+          leftView: RefreshIndicatorWithoutListView(
+            height: double.infinity,
+            onRefresh: () => model.loadData(),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: kAppBarHeight,
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              if (!model.isBusy)
-                for (Challan challan in model.challans)
-                  _buildChallan(context, model, challan)
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+                  child: HeadingWithSubtitle(
+                    heading: "Fee Challans",
+                    subtitle:
+                        "Check if your fees is paid or new challan form is available",
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                if (!model.isBusy)
+                  for (Challan challan in model.challans)
+                    _buildChallan(context, model, challan)
+                else
+                  Lottie.asset("assets/lottie/loading.json")
+              ],
+            ),
           ),
         );
       },
@@ -46,14 +59,8 @@ class ChallansView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
           bottom: 20.0, left: kHorizontalSpacing, right: kHorizontalSpacing),
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          boxShadow: [kFavBoxShadow],
-          borderRadius: BorderRadius.circular(7),
-          color: Colors.white,
-        ),
-        child: Column(
+      child: CustomCard(
+        builder: (context) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -79,20 +86,24 @@ class ChallansView extends StatelessWidget {
                   ),
                 ),
                 if (!challan.isPaid)
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      child: Icon(Icons.download_outlined,
-                          color: model.busy(model.download)
-                              ? Colors.grey[300]
-                              : kPrimaryColor),
-                      onTap: model.busy(model.download)
-                          ? null
-                          : () {
-                              model.downloadChallan(challan.id);
-                            },
-                    ),
-                  )
+                  model.busy(challan)
+                      ? SpinKitRing(
+                          color: kPrimaryColor,
+                          size: 20,
+                          lineWidth: 3,
+                        )
+                      : MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: GestureDetector(
+                            child: Icon(Icons.download_outlined,
+                                color: kPrimaryColor),
+                            onTap: model.busy(challan)
+                                ? null
+                                : () {
+                                    model.downloadChallan(challan);
+                                  },
+                          ),
+                        )
               ],
             ),
             SizedBox(
