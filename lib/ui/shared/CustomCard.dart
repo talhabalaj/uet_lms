@@ -28,7 +28,11 @@ class CustomCard extends StatelessWidget {
       width: width ?? double.infinity,
       child: Padding(
         padding: padding ?? EdgeInsets.all(17.0),
-        child: loading ? RepeatedShimmer(repeated: shimmerCount ?? 2,) : builder(context),
+        child: loading
+            ? RepeatedShimmer(
+                repeated: shimmerCount ?? 2,
+              )
+            : builder(context),
       ),
       decoration: BoxDecoration(
         color: Colors.white,

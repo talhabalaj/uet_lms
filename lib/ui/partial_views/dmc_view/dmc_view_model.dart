@@ -15,7 +15,11 @@ class DMCViewModel extends BaseViewModel {
   List<Result> _result;
   List<Register> registeredSubjects;
 
-  get result => _result.where((a) => registeredSubjects.firstWhere((b) => a.subject.name == b.subjectName).semesterName == _selectedSemester);
+  get result => _result.where((a) =>
+      registeredSubjects
+          .firstWhere((b) => a.subject.name == b.subjectName)
+          .semesterName ==
+      _selectedSemester);
 
   get selectedSemester => _selectedSemester;
   set selectedSemester(String value) {
@@ -30,7 +34,8 @@ class DMCViewModel extends BaseViewModel {
           await lmsService.getRegisteredSemesters(refresh: refresh);
       selectedSemester ??= registeredSemesters.first.name;
       _result = await lmsService.getResult(refresh: refresh);
-      registeredSubjects = await lmsService.getRegisteredSubjects(refresh: refresh);
+      registeredSubjects =
+          await lmsService.getRegisteredSubjects(refresh: refresh);
     } on Exception catch (e) {
       catchLMSorInternetException(e);
     }

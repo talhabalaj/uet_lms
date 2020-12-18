@@ -35,21 +35,22 @@ class SplashViewModel extends BaseViewModel {
       } on SocketException {
         noInternet();
       } on Exception catch (e) {
-        String errMessage, description; 
-        
+        String errMessage, description;
+
         if (e is LMSException) {
           errMessage = e.message;
           description = e.description;
         } else {
           errMessage = e.runtimeType.toString();
         }
-        
+
         shouldRetry = (await dialogService.showCustomDialog(
                 variant: DialogType.basic,
                 title: errMessage,
-                description: description ??
-                    "Please report this issue to the developer.",
-                mainButtonTitle: "Retry", secondaryButtonTitle: "Exit"))
+                description:
+                    description ?? "Please report this issue to the developer.",
+                mainButtonTitle: "Retry",
+                secondaryButtonTitle: "Exit"))
             .confirmed;
         if (!shouldRetry) {
           SystemNavigator.pop();

@@ -39,25 +39,30 @@ class CardScrollView extends StatelessWidget {
                   )
                 : _buildListView(),
           ),
-          if (title != null) Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(200),
-              borderRadius: BorderRadius.circular(7),
-            ),
-            width: double.infinity,
-            child: ClipRect(
-              child: Padding(
-                padding: EdgeInsets.only(top: verticalSpacing, bottom: 10, left: horizontalSpacing, right: horizontalSpacing),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                  child: Text(
-                    title,
-                    style: Theme.of(context).textTheme.subtitle1,
+          if (title != null)
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(200),
+                borderRadius: BorderRadius.circular(7),
+              ),
+              width: double.infinity,
+              child: ClipRect(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      top: verticalSpacing,
+                      bottom: 10,
+                      left: horizontalSpacing,
+                      right: horizontalSpacing),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -70,7 +75,8 @@ class CardScrollView extends StatelessWidget {
         padding: idx == 0
             ? EdgeInsets.only(top: title != null ? 42.0 : verticalSpacing)
             : EdgeInsets.only(
-                top: verticalSpacing, bottom: idx + 1 == childCount ? verticalSpacing : 0),
+                top: verticalSpacing,
+                bottom: idx + 1 == childCount ? verticalSpacing : 0),
         child: builder(context, idx),
       ),
       itemCount: childCount,

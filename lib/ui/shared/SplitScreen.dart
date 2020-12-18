@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class SplitScreen extends StatelessWidget {
@@ -19,14 +18,12 @@ class SplitScreen extends StatelessWidget {
         Flexible(
           flex: 5,
           child: Container(
-            constraints: rightView != null
-                ? null
-                : BoxConstraints(maxWidth: 500),
+            constraints:
+                rightView != null ? null : BoxConstraints(maxWidth: 500),
             child: leftView,
           ),
         ),
-        if (rightView != null &&
-            MediaQuery.of(context).size.width > 675) ...[
+        if (rightView != null && MediaQuery.of(context).size.width > 675) ...[
           SizedBox(
             width: 20,
           ),

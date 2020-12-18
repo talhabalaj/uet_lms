@@ -15,7 +15,10 @@ class RepeatedShimmer extends StatelessWidget {
       children: [
         for (int i = 0; i < repeated; i++) ...[
           ..._getShimmerPair(context),
-          if (i != repeated - 1) SizedBox(height: 15,)
+          if (i != repeated - 1)
+            SizedBox(
+              height: 15,
+            )
         ],
       ],
     );

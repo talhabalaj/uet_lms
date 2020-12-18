@@ -20,8 +20,10 @@ class LMSSettingsViewModel extends BaseViewModel {
       await lmsService.user.changePassword(currentPassword, newPassword);
       await lmsService.storeOnSecureStorage();
       formKey.currentState.reset();
-      await dialogService.showCustomDialog(variant: DialogType.basic, title: "Password changed Successfully", description: "We hope you set a good for your account, Be secure.");
-
+      await dialogService.showCustomDialog(
+          variant: DialogType.basic,
+          title: "Password changed Successfully",
+          description: "We hope you set a good for your account, Be secure.");
     }
     this.setBusy(false);
   }

@@ -10,7 +10,12 @@ class IndexedStackService {
   int _index = 0;
   List<Widget> currentViews = [];
   List<Widget> browsed = [];
-  List<Widget> views = [DashBoardView(), LMSSettingsView(), ChallansView(), DMCView()];
+  List<Widget> views = [
+    DashBoardView(),
+    LMSSettingsView(),
+    ChallansView(),
+    DMCView()
+  ];
 
   get index => _index;
   set index(int idx) {
@@ -19,7 +24,7 @@ class IndexedStackService {
     updateViews();
   }
 
-  void _addCurrentToBrowsed() => browsed.add(views[index]); 
+  void _addCurrentToBrowsed() => browsed.add(views[index]);
 
   IndexedStackService() {
     _addCurrentToBrowsed();

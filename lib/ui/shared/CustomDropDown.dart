@@ -5,8 +5,12 @@ import 'CustomCard.dart';
 import 'package:uet_lms/core/string_extension.dart';
 
 class CustomDropdown extends StatefulWidget {
-
-  CustomDropdown({Key key, @required this.values, @required this.currentValue, @required this.selected}) : super(key: key);
+  CustomDropdown(
+      {Key key,
+      @required this.values,
+      @required this.currentValue,
+      @required this.selected})
+      : super(key: key);
 
   final List<String> values;
   final String currentValue;
@@ -28,7 +32,6 @@ class _CustomDropdownState extends State<CustomDropdown>
   AnimationController _animationController;
   Animation<double> _containerHeight;
   Animation<double> _opacity;
-  
 
   findButton() {
     RenderBox renderBox = buttonKey.currentContext.findRenderObject();
@@ -136,7 +139,8 @@ class _CustomDropdownState extends State<CustomDropdown>
 
   @override
   Widget build(BuildContext context) {
-    assert(widget.values.indexOf(widget.currentValue) != -1, "Value should be in the list");
+    assert(widget.values.indexOf(widget.currentValue) != -1,
+        "Value should be in the list");
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,

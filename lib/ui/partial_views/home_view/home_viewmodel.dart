@@ -48,7 +48,11 @@ class HomeViewModel extends BaseViewModel {
       lastSemester = value.first;
       this.setBusyForObject(lastSemester, false);
       registerdSubjects =
-          (await lmsService.getRegisteredSubjects(refresh: refresh)).where((element) => element.semesterName.toLowerCase() == lastSemester.name.toLowerCase()).toList();
+          (await lmsService.getRegisteredSubjects(refresh: refresh))
+              .where((element) =>
+                  element.semesterName.toLowerCase() ==
+                  lastSemester.name.toLowerCase())
+              .toList();
       this.setBusyForObject(registerdSubjects, false);
     }).catchError(onError);
     lmsService.getSemestersSummary(refresh: refresh).then((value) {

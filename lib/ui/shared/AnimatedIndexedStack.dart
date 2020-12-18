@@ -36,7 +36,8 @@ class _AnimatedIndexedStackState extends State<AnimatedIndexedStack>
   @override
   void initState() {
     _controller = AnimationController(vsync: this, duration: widget.duration);
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(curve: Curves.easeInOutSine, parent: _controller));
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(curve: Curves.easeInOutSine, parent: _controller));
     _controller.forward();
     super.initState();
   }

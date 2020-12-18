@@ -27,7 +27,10 @@ class _SimpleWideButtonState extends State<SimpleWideButton> {
   Widget build(BuildContext context) {
     return FlatButton(
       child: widget.loading
-          ? SpinKitThreeBounce(color: Colors.white, size: 20,)
+          ? SpinKitThreeBounce(
+              color: Colors.white,
+              size: 20,
+            )
           : Text(
               widget.text ?? 'Button',
               style: Theme.of(context)

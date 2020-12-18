@@ -59,7 +59,8 @@ class LMSService {
     return _semesters;
   }
 
-   Future<List<GradeBookDetail>> getSemestersSummary({bool refresh = false}) async {
+  Future<List<GradeBookDetail>> getSemestersSummary(
+      {bool refresh = false}) async {
     if (_gradeBookDetails == null || refresh) {
       _gradeBookDetails = await user.getSemestersSummary();
     }
@@ -67,20 +68,19 @@ class LMSService {
     return _gradeBookDetails;
   }
 
-   Future<List<Register>> getRegisteredSubjects({bool refresh = false}) async {
+  Future<List<Register>> getRegisteredSubjects({bool refresh = false}) async {
     if (_registerdSubjects == null || refresh) {
       _registerdSubjects = await user.getRegisteredSubjects();
     }
     return _registerdSubjects;
   }
 
-    Future<List<Challan>> getFeesChallans({bool refresh = false}) async {
+  Future<List<Challan>> getFeesChallans({bool refresh = false}) async {
     if (_challans == null || refresh) {
       _challans = await user.getFeesChallans();
     }
     return _challans;
   }
-
 
   Future<void> setCrashReportsUserId(String userId) {
     return runOnlyOnMobile(() async {

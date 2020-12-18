@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class RefreshIndicatorWithoutListView extends StatelessWidget {
   RefreshIndicatorWithoutListView(
       {Key key, this.onRefresh, this.child, this.height})
@@ -18,8 +17,7 @@ class RefreshIndicatorWithoutListView extends StatelessWidget {
         physics: AlwaysScrollableScrollPhysics(),
         child: ConstrainedBox(
           constraints: BoxConstraints(
-              maxHeight:
-                  height ?? MediaQuery.of(context).size.height),
+              maxHeight: height ?? MediaQuery.of(context).size.height),
           child: child,
         ),
       ),

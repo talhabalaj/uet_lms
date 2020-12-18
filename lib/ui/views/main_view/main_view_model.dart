@@ -15,7 +15,6 @@ class MainViewModel extends BaseViewModel {
   get currentViews => indexedStackService.currentViews;
   get views => indexedStackService.views;
 
-
   void setIndex(int idx) {
     indexedStackService.index = idx;
     this.notifyListeners();
