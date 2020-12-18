@@ -24,19 +24,21 @@ class MainView extends StatelessWidget {
             if (Navigator.of(context).canPop()) Navigator.of(context).pop();
           },
           keysToPress: [LogicalKeyboardKey.escape].toSet(),
-          child: Scaffold(
-            key: model.scaffoldKey,
-            drawerScrimColor: Colors.black26,
-            drawerDragStartBehavior: DragStartBehavior.start,
-            drawer: this._buildNav(context, model),
-            body: Stack(
-              children: [
-                AnimatedIndexedStack(
-                  index: model.index,
-                  children: model.currentViews,
-                ),
-                _buildTopAppBar(model),
-              ],
+          child: SafeArea(
+            child: Scaffold(
+              key: model.scaffoldKey,
+              drawerScrimColor: Colors.black26,
+              drawerDragStartBehavior: DragStartBehavior.start,
+              drawer: this._buildNav(context, model),
+              body: Stack(
+                children: [
+                  AnimatedIndexedStack(
+                    index: model.index,
+                    children: model.currentViews,
+                  ),
+                  _buildTopAppBar(model),
+                ],
+              ),
             ),
           ),
         );
@@ -51,7 +53,7 @@ class MainView extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           height: kAppBarHeight - 10,
-          color: Colors.grey[100].withAlpha(200),
+          color: Colors.grey[100].withAlpha(100),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -93,7 +95,7 @@ class MainView extends StatelessWidget {
         children: [
           ListView(
             children: [
-              SizedBox(height: kAppBarHeight - 20),
+              SizedBox(height: kAppBarHeight - 10),
               for (final navLink in kNavLinks) ...[
                 if (navLink["name"] != "")
                   Padding(
@@ -143,7 +145,8 @@ class MainView extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 25, horizontal: kHorizontalSpacing),
+                padding: EdgeInsets.symmetric(
+                    vertical: 25, horizontal: kHorizontalSpacing),
                 child: Row(
                   children: [
                     SvgButton(

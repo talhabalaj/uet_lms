@@ -10,29 +10,37 @@ class CardScrollView extends StatelessWidget {
       this.loading = false,
       @required this.childCount,
       @required this.builder,
-      @required this.title})
+      this.verticalSpacing = 15,
+      this.horizontalSpacing = 17,
+      this.height,
+      this.title})
       : super(key: key);
 
   final bool loading;
   final int childCount;
+  final double height;
   final String title;
+  final double verticalSpacing;
+  final double horizontalSpacing;
   final Widget Function(BuildContext, int) builder;
 
   @override
   Widget build(BuildContext context) {
+    print(height);
     return CustomCard(
+      height: height,
       padding: EdgeInsets.zero,
       builder: (context) => Stack(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(horizontal: horizontalSpacing),
             child: loading
                 ? RepeatedShimmer(
                     repeated: 5,
                   )
                 : _buildListView(),
           ),
-          Container(
+          if (title != null) Container(
             decoration: BoxDecoration(
               color: Colors.white.withAlpha(200),
               borderRadius: BorderRadius.circular(7),
@@ -40,7 +48,7 @@ class CardScrollView extends StatelessWidget {
             width: double.infinity,
             child: ClipRect(
               child: Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 10, left: 15),
+                padding: EdgeInsets.only(top: verticalSpacing, bottom: 10, left: horizontalSpacing, right: horizontalSpacing),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
                   child: Text(
@@ -61,9 +69,9 @@ class CardScrollView extends StatelessWidget {
       physics: BouncingScrollPhysics(),
       itemBuilder: (context, idx) => Padding(
         padding: idx == 0
-            ? const EdgeInsets.only(top: 42.0)
+            ? EdgeInsets.only(top: title != null ? 42.0 : verticalSpacing)
             : EdgeInsets.only(
-                top: 15.0, bottom: idx + 1 == childCount ? 25 : 0),
+                top: verticalSpacing, bottom: idx + 1 == childCount ? verticalSpacing : 0),
         child: builder(context, idx),
       ),
       itemCount: childCount,

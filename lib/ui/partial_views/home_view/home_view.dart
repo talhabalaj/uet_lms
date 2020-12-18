@@ -78,7 +78,7 @@ class DashBoardView extends StatelessWidget {
 
   Widget _buildStatCard(HomeViewModel model, BuildContext context) {
     return CustomCard(
-      height: 125,
+      height: 130,
       loading: model.busy(model.lastSemester),
       builder: (context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,16 +91,21 @@ class DashBoardView extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(model.lastSemester.registeredCreditHours.toInt().toString(),
-              style: Theme.of(context).textTheme.headline3),
-          Text("CREDIT HRS", style: Theme.of(context).textTheme.subtitle1),
+          Text(
+            model.lastSemester.registeredCreditHours.toInt().toString(),
+            style: Theme.of(context).textTheme.headline3,
+          ),
+          Text(
+            "CREDIT HRS",
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
         ],
       ),
     );
   }
 
   Widget _buildGPACard(HomeViewModel model, BuildContext context) {
-    final cardSize = 125.0;
+    final cardSize = 130.0;
 
     return CustomCard(
       height: cardSize,
@@ -129,6 +134,7 @@ class DashBoardView extends StatelessWidget {
       childCount: model.registerdSubjects?.length,
       loading: model.busy(model.registerdSubjects),
       builder: (context, idx) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Column(

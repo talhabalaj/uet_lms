@@ -27,7 +27,7 @@ class LMSService {
 
   Future<void> setCrashReportsUserId(String userId) {
     return runOnlyOnMobile(() async {
-      await FirebaseCrashlytics.instance.setUserIdentifier(user.email);
+      await FirebaseCrashlytics.instance.setUserIdentifier(userId);
     });
   }
 
@@ -116,6 +116,11 @@ class LMSService {
       return true;
     } on PlatformException catch (e) {
       log("[Error Flutter Secure Storage]", error: e);
+    } on LMSException catch (e) {
+      if (!e.message.startsWith("Auth")) {
+        throw e;
+      }
+      log("[Error LMS]", error: e);
     }
 
     await this._logout();

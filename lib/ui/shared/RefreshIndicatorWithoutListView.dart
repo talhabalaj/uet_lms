@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../ui_constants.dart';
 
 class RefreshIndicatorWithoutListView extends StatelessWidget {
   RefreshIndicatorWithoutListView(

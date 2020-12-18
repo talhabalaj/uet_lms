@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uet_lms/ui/partial_views/challans_view/challans_view.dart';
+import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view.dart';
 import 'package:uet_lms/ui/partial_views/home_view/home_view.dart';
 import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dart';
 
@@ -13,7 +14,7 @@ final kFavBoxShadow = BoxShadow(
 final kPrimaryColor = Color(0xff484848);
 final kDefaultTextStyle = TextStyle(color: kPrimaryColor);
 final kHorizontalSpacing = 25.0;
-final kAppBarHeight = 90.0;
+final kAppBarHeight = 80.0;
 
 ThemeData getTheme() {
   return ThemeData(
@@ -63,6 +64,7 @@ List<Map<String, dynamic>> kNavLinks = [
       },
       {
         "name": "DMC",
+        "screen": DMCView(),
         "description":
             "Check your grades and stuff. you can the usual, best of luck tho"
       },

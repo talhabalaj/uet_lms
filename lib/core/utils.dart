@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -8,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:lms_api/lms_api.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share/share.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/ui/dialog.dart';
@@ -24,10 +22,10 @@ Future<void> saveFile(Uint8List bytes, String fileName,
     if (Platform.isAndroid || Platform.isIOS) {
       Directory tempDir = await getTemporaryDirectory();
       String tempPath = tempDir.path;
-      File tempFile = File("$tempPath/fileName");
+      File tempFile = File("$tempPath/$fileName");
 
       await tempFile.writeAsBytes(bytes);
-      await Share.shareFiles([tempFile.path]);
+      await OpenFile.open(tempFile.path);
     } else {
       final result = await showSavePanel(
         allowedFileTypes: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uet_lms/ui/partial_views/challans_view/challans_view.dart';
+import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view.dart';
 import 'package:uet_lms/ui/partial_views/home_view/home_view.dart';
 import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dart';
 
@@ -9,7 +10,7 @@ class IndexedStackService {
   int _index = 0;
   List<Widget> currentViews = [];
   List<Widget> browsed = [];
-  List<Widget> views = [DashBoardView(), LMSSettingsView(), ChallansView()];
+  List<Widget> views = [DashBoardView(), LMSSettingsView(), ChallansView(), DMCView()];
 
   get index => _index;
   set index(int idx) {
