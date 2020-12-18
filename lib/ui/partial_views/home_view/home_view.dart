@@ -23,7 +23,7 @@ class DashBoardView extends StatelessWidget {
           return SplitScreen(
             //rightView: Container(),
             leftView: RefreshIndicatorWithoutListView(
-              onRefresh: () => model.loadData(),
+              onRefresh: () => model.loadData(refresh: true),
               child: Padding(
                 padding: EdgeInsets.only(
                   left: kHorizontalSpacing,

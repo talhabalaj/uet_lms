@@ -26,7 +26,6 @@ class CardScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(height);
     return CustomCard(
       height: height,
       padding: EdgeInsets.zero,

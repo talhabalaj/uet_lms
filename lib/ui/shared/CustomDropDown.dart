@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uet_lms/ui/shared/CardScrollView.dart';
 import 'CustomCard.dart';
+import 'package:uet_lms/core/string_extension.dart';
 
 class CustomDropdown extends StatefulWidget {
 
-  CustomDropdown({Key key, this.values, this.currentValue, this.selected}) : super(key: key);
+  CustomDropdown({Key key, @required this.values, @required this.currentValue, @required this.selected}) : super(key: key);
 
   final List<String> values;
   final String currentValue;
@@ -17,7 +18,7 @@ class CustomDropdown extends StatefulWidget {
 
 class _CustomDropdownState extends State<CustomDropdown>
     with TickerProviderStateMixin {
-  final TextStyle style = TextStyle(fontSize: 17, fontWeight: FontWeight.w600);
+  final TextStyle style = TextStyle(fontSize: 16, fontWeight: FontWeight.w600);
 
   GlobalKey buttonKey = LabeledGlobalKey("dropdownBox");
   Size buttonSize;
@@ -42,7 +43,7 @@ class _CustomDropdownState extends State<CustomDropdown>
       lowerBound: 0,
       upperBound: 1,
       value: 0,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 400),
     );
     _containerHeight = Tween<double>(begin: 0, end: 150).animate(
       CurvedAnimation(
@@ -59,6 +60,9 @@ class _CustomDropdownState extends State<CustomDropdown>
             curve: Curves.easeInOutSine,
           )),
     );
+    WidgetsBinding.instance.addPersistentFrameCallback((timeStamp) {
+      findButton();
+    });
     super.initState();
   }
 
@@ -94,7 +98,7 @@ class _CustomDropdownState extends State<CustomDropdown>
                             opacity: _opacity.value,
                             child: MaterialButton(
                               child: Text(
-                                widget.values[idx],
+                                widget.values[idx].toLowerCase().capitalize(),
                                 style: TextStyle(fontSize: 15),
                               ),
                               padding: EdgeInsets.symmetric(vertical: 20),
@@ -139,12 +143,12 @@ class _CustomDropdownState extends State<CustomDropdown>
       child: GestureDetector(
         child: CustomCard(
           key: buttonKey,
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           builder: (context) => Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.currentValue,
+                widget.currentValue.toLowerCase().capitalize(),
                 style: style,
               ),
               Icon(Icons.keyboard_arrow_down),

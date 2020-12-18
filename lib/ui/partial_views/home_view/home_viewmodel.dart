@@ -35,23 +35,23 @@ class HomeViewModel extends BaseViewModel {
     catchLMSorInternetException(e);
   }
 
-  Future<void> loadData() async {
+  Future<void> loadData({bool refresh = false}) async {
     this.setBusyForObject(studentProfile, true);
     this.setBusyForObject(lastSemester, true);
     this.setBusyForObject(lastGradeBookDetail, true);
     this.setBusyForObject(registerdSubjects, true);
-    user.getStudentProfile().then((value) {
+    lmsService.getStudentProfile(refresh: refresh).then((value) {
       studentProfile = value;
       this.setBusyForObject(studentProfile, false);
     }).catchError(onError);
-    user.getRegisteredSemesters().then((value) async {
+    lmsService.getRegisteredSemesters(refresh: refresh).then((value) async {
       lastSemester = value.first;
       this.setBusyForObject(lastSemester, false);
       registerdSubjects =
-          await user.getRegisteredSubjects(semester: lastSemester);
+          (await lmsService.getRegisteredSubjects(refresh: refresh)).where((element) => element.semesterName.toLowerCase() == lastSemester.name.toLowerCase()).toList();
       this.setBusyForObject(registerdSubjects, false);
     }).catchError(onError);
-    user.getSemestersSummary().then((value) {
+    lmsService.getSemestersSummary(refresh: refresh).then((value) {
       lastGradeBookDetail = value.last;
       this.setBusyForObject(lastGradeBookDetail, false);
     }).catchError(onError);

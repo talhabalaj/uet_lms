@@ -23,7 +23,7 @@ class ChallansView extends StatelessWidget {
         return SplitScreen(
           leftView: RefreshIndicatorWithoutListView(
             height: double.infinity,
-            onRefresh: () => model.loadData(),
+            onRefresh: () => model.loadData(refresh: true),
             child: Column(
               children: [
                 SizedBox(

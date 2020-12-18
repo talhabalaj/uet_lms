@@ -11,9 +11,9 @@ class ChallansViewModel extends BaseViewModel {
 
   List<Challan> challans;
 
-  Future<void> loadData() async {
+  Future<void> loadData({bool refresh = false}) async {
     this.setBusy(true);
-    lmsService.user.getFeesChallans().then((value) {
+    lmsService.getFeesChallans(refresh: refresh).then((value) {
       challans = value.reversed.toList();
       this.setBusy(false);
     }).catchError((e) => catchLMSorInternetException(e));
