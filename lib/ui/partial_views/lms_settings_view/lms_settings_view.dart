@@ -24,6 +24,9 @@ class LMSSettingsView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: kAppBarHeight,
+                ),
                 HeadingWithSubtitle(
                   heading: "LMS Settings",
                   subtitle: "Let’s change that bad password, first.",

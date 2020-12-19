@@ -19,8 +19,7 @@ class SplashView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(),
-
-                SizedBox(height: 30),
+              SizedBox(height: 30),
               if (!model.internet) ...[
                 Text(
                   "sad, i can't connect to internet",

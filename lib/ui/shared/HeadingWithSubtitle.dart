@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uet_lms/ui/shared/DefaultShimmer.dart';
-
+import 'DefaultShimmer.dart';
 
 class HeadingWithSubtitle extends StatelessWidget {
   HeadingWithSubtitle({Key key, this.heading, this.subtitle}) : super(key: key);
@@ -31,20 +30,20 @@ class HeadingWithSubtitle extends StatelessWidget {
         ),
         subtitle == null
             ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DefaultShimmer(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DefaultShimmer(
                     margin: null,
                     height: Theme.of(context).textTheme.bodyText1.fontSize,
                     width: double.infinity,
                   ),
-                DefaultShimmer(
+                  DefaultShimmer(
                     margin: null,
                     height: Theme.of(context).textTheme.bodyText1.fontSize,
                     width: 280,
                   ),
-              ],
-            )
+                ],
+              )
             : Text(
                 subtitle,
                 style: Theme.of(context)

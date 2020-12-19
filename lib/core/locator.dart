@@ -1,5 +1,3 @@
-
-
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uet_lms/core/locator.config.dart';
@@ -25,6 +23,3 @@ final locator = GetIt.instance;
   asExtension: false, // default
 )
 void configureDependencies() => $initGetIt(locator);
-
-
-

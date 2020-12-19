@@ -46,7 +46,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
     assert(!(widget.validator != null && widget.regex != null),
         "Both regex and validator cannot be supplied");
 
-    TextStyle styleToUse = widget.style ?? Theme.of(context).textTheme.bodyText1;
+    TextStyle styleToUse =
+        widget.style ?? Theme.of(context).textTheme.bodyText1;
 
     return StatefulBuilder(
       builder: (context, setState) => Column(
@@ -68,11 +69,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   textAlignVertical: TextAlignVertical.center,
                   cursorColor: Colors.grey[600],
                   onChanged: widget.onChanged,
-                  validator: widget.validator ?? (widget.regex == null
-                      ? null
-                      : (string) => widget.regex.hasMatch(string)
+                  validator: widget.validator ??
+                      (widget.regex == null
                           ? null
-                          : widget.errorText ?? "That's not valid :("),
+                          : (string) => widget.regex.hasMatch(string)
+                              ? null
+                              : widget.errorText ?? "That's not valid :("),
                   style: styleToUse,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   obscureText: widget.isPassword && !passwordShown,

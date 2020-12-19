@@ -4,7 +4,9 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_window
+  file_chooser
   flutter_secure_storage
+  url_launcher_linux
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

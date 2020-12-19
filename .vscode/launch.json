@@ -7,7 +7,7 @@
     {
       "name": "uet_lms",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
     }
   ]
 }

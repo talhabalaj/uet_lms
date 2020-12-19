@@ -6,7 +6,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/run_on_mobile.dart';
 import 'package:uet_lms/ui/dialog.dart';
@@ -32,7 +31,7 @@ void main() async {
 
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-    await DesktopWindow.setWindowSize(Size(1000, 600));
+    await DesktopWindow.setWindowSize(Size(1001, 600));
     await DesktopWindow.setMinWindowSize(Size(400, 600));
   }
   runApp(MyApp());
@@ -51,8 +50,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.grey[100],
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark,
+      ),
+    );
+
     return MaterialApp(
       title: 'UET LMS',
+      debugShowCheckedModeBanner: false,
       navigatorKey: locator<NavigationService>().navigatorKey,
       theme: getTheme(),
       routes: {

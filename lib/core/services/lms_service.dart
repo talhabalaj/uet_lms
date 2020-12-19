@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lms_api/lms_api.dart';
+import 'package:lms_api/models/obe.core.result.dart';
+import 'package:lms_api/models/obe.dues.students.challan.dart';
+import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/ui/dialog.dart';
@@ -13,6 +16,7 @@ import 'package:uet_lms/ui/views/login_view/login_view.dart';
 import 'package:uet_lms/ui/views/main_view/main_view.dart';
 
 import '../run_on_mobile.dart';
+import 'indexed_stack_service.dart';
 
 @lazySingleton
 class LMSService {
@@ -24,9 +28,63 @@ class LMSService {
 
   get loggedIn => user != null;
 
+  // data instants;
+  StudentProfile _studentProfile;
+  List<Semester> _semesters;
+  List<GradeBookDetail> _gradeBookDetails;
+  List<Register> _registerdSubjects;
+  List<Challan> _challans;
+  List<Result> _result;
+
+  Future<List<Result>> getResult({bool refresh = false}) async {
+    if (_result == null || refresh) {
+      _result = await user.getResult();
+    }
+    return _result;
+  }
+
+  Future<StudentProfile> getStudentProfile({bool refresh = false}) async {
+    if (_studentProfile == null || refresh) {
+      _studentProfile = await user.getStudentProfile();
+    }
+
+    return _studentProfile;
+  }
+
+  Future<List<Semester>> getRegisteredSemesters({bool refresh = false}) async {
+    if (_semesters == null || refresh) {
+      _semesters = await user.getRegisteredSemesters();
+    }
+
+    return _semesters;
+  }
+
+  Future<List<GradeBookDetail>> getSemestersSummary(
+      {bool refresh = false}) async {
+    if (_gradeBookDetails == null || refresh) {
+      _gradeBookDetails = await user.getSemestersSummary();
+    }
+
+    return _gradeBookDetails;
+  }
+
+  Future<List<Register>> getRegisteredSubjects({bool refresh = false}) async {
+    if (_registerdSubjects == null || refresh) {
+      _registerdSubjects = await user.getRegisteredSubjects();
+    }
+    return _registerdSubjects;
+  }
+
+  Future<List<Challan>> getFeesChallans({bool refresh = false}) async {
+    if (_challans == null || refresh) {
+      _challans = await user.getFeesChallans();
+    }
+    return _challans;
+  }
+
   Future<void> setCrashReportsUserId(String userId) {
     return runOnlyOnMobile(() async {
-      await FirebaseCrashlytics.instance.setUserIdentifier(user.email);
+      await FirebaseCrashlytics.instance.setUserIdentifier(userId);
     });
   }
 
@@ -116,6 +174,9 @@ class LMSService {
     } on PlatformException catch (e) {
       log("[Error Flutter Secure Storage]", error: e);
     } on LMSException catch (e) {
+      if (!e.message.startsWith("Auth")) {
+        throw e;
+      }
       log("[Error LMS]", error: e);
     }
 
@@ -141,7 +202,14 @@ class LMSService {
 
   Future<void> _logout() async {
     // TODO: invalidate the cookie
+    _studentProfile = null;
+    _semesters = null;
+    _gradeBookDetails = null;
+    _registerdSubjects = null;
+    _challans = null;
+    _result = null;
     user = null;
+    locator<IndexedStackService>().reset();
     setCrashReportsUserId("loggedOutUser");
     if (kIsWeb) {
       return;

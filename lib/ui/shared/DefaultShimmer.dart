@@ -17,7 +17,7 @@ class DefaultShimmer extends StatelessWidget {
       baseColor: Colors.grey[200],
       highlightColor: Colors.grey[100],
       child: Container(
-        height: height,
+        height: height ?? 16,
         margin: margin == null ? EdgeInsets.only(bottom: 5) : margin,
         decoration: BoxDecoration(
           borderRadius: borderRadius,

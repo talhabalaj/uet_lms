@@ -1,10 +1,8 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:lms_api/models/obe.dues.students.challan.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
 
@@ -12,29 +10,23 @@ class ChallansViewModel extends BaseViewModel {
   final lmsService = locator<LMSService>();
 
   List<Challan> challans;
-  String download;
 
-  Future<void> initialize() async {
+  Future<void> loadData({bool refresh = false}) async {
     this.setBusy(true);
-    lmsService.user.getFeesChallans().then((value) {
+    lmsService.getFeesChallans(refresh: refresh).then((value) {
       challans = value.reversed.toList();
       this.setBusy(false);
-    });
+    }).catchError((e) => catchLMSorInternetException(e));
     this.setInitialised(true);
   }
 
-  Future<void> downloadChallan(int challanId) async {
-    this.setBusyForObject(download, true);
+  Future<void> downloadChallan(Challan challan) async {
+    this.setBusyForObject(challan, true);
 
-    Uint8List challanBytes = await lmsService.user.downloadChallan(challanId);
-    Directory tempDir = await getTemporaryDirectory();
+    Uint8List challanBytes = await lmsService.user.downloadChallan(challan.id);
 
-    String tempPath = tempDir.path;
-    File tempFile = File("$tempPath/challan_form.pdf");
+    await saveFile(challanBytes, "Challan_Form_${challan.id}.pdf");
 
-    tempFile.writeAsBytes(challanBytes);
-    
-    OpenFile.open(tempFile.path);
-    this.setBusyForObject(download, false);
+    this.setBusyForObject(challan, false);
   }
 }
