@@ -42,7 +42,7 @@ dependencies:
   share: ^0.6.5+4
   lms_api:
     git:
-      https://github.com/talhabalaj/lms_api_dart
+      url: https://github.com/talhabalaj/lms_api_dart
       branch: master
 
 dev_dependencies:
