@@ -6,7 +6,6 @@ import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view_model.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
 import 'package:uet_lms/ui/shared/CustomDropDown.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
-import 'package:uet_lms/ui/shared/RefreshIndicatorWithoutListView.dart';
 import 'package:uet_lms/ui/shared/SplitScreen.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 
@@ -42,18 +41,69 @@ class DMCView extends StatelessWidget {
                     currentValue: model.selectedSemester,
                     selected: (value) => model.selectedSemester = value,
                   ),
-                  for (Result result in results)
+                  for (Result result in results) ...[
+                    SizedBox(height: 15),
                     CustomCard(
                       builder: (context) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  result.subject.name
+                                      .split(' ')
+                                      .sublist(1)
+                                      .join(" "),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  result.subject.name.split(' ')[0],
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "${result.weightage.toInt()} / 100",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                    color: Colors.grey[500],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                           Text(
-                              "${result.grade} ${result.subject.name} ${result.weightage}")
+                            result.grade,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
+                              color: model.getGradeColor(result),
+                            ),
+                          )
                         ],
                       ),
                     )
+                  ]
                 ] else
-                  Lottie.asset("assets/lottie/loading.json")
-              ],
+                  Lottie.asset("assets/lottie/loading.json"),
+                SizedBox(height: 15),
+              ]
+                  .map((e) => Padding(
+                        child: e,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: kHorizontalSpacing),
+                      ))
+                  .toList(),
             ),
           ),
         );

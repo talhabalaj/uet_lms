@@ -63,9 +63,6 @@ class _CustomDropdownState extends State<CustomDropdown>
             curve: Curves.easeInOutSine,
           )),
     );
-    WidgetsBinding.instance.addPersistentFrameCallback((timeStamp) {
-      findButton();
-    });
     super.initState();
   }
 

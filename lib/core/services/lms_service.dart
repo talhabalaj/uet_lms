@@ -202,6 +202,12 @@ class LMSService {
 
   Future<void> _logout() async {
     // TODO: invalidate the cookie
+    _studentProfile = null;
+    _semesters = null;
+    _gradeBookDetails = null;
+    _registerdSubjects = null;
+    _challans = null;
+    _result = null;
     user = null;
     locator<IndexedStackService>().reset();
     setCrashReportsUserId("loggedOutUser");

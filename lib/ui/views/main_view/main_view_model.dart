@@ -9,6 +9,13 @@ class MainViewModel extends BaseViewModel {
   final LMSService lmsService = locator<LMSService>();
   final IndexedStackService indexedStackService =
       locator<IndexedStackService>();
+  
+  bool _isTopBarTransparent = false;
+  get isTopBarTransparent => _isTopBarTransparent;
+  set isTopBarTransparent(bool value) {
+    _isTopBarTransparent = value;
+    this.notifyListeners();
+  }
 
   get index => indexedStackService.index;
   get scaffold => scaffoldKey.currentState;
@@ -17,6 +24,7 @@ class MainViewModel extends BaseViewModel {
 
   void setIndex(int idx) {
     indexedStackService.index = idx;
+    _isTopBarTransparent = true;
     this.notifyListeners();
   }
 }

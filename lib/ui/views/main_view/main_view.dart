@@ -32,9 +32,21 @@ class MainView extends StatelessWidget {
               drawer: this._buildNav(context, model),
               body: Stack(
                 children: [
-                  AnimatedIndexedStack(
-                    index: model.index,
-                    children: model.currentViews,
+                  NotificationListener<ScrollNotification>(
+                    onNotification: (notification) {
+                      if (notification.metrics.pixels == 0 &&
+                          !model.isTopBarTransparent) {
+                        model.isTopBarTransparent = true;
+                      } else if (notification.metrics.pixels > 0 &&
+                          model.isTopBarTransparent) {
+                        model.isTopBarTransparent = false;
+                      }
+                      return true;
+                    },
+                    child: AnimatedIndexedStack(
+                      index: model.index,
+                      children: model.currentViews,
+                    ),
                   ),
                   _buildTopAppBar(model),
                 ],
@@ -50,10 +62,17 @@ class MainView extends StatelessWidget {
   Widget _buildTopAppBar(MainViewModel model) {
     return ClipRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: model.isTopBarTransparent
+            ? ImageFilter.blur()
+            : ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           height: kAppBarHeight - 10,
-          color: Colors.grey[100].withAlpha(100),
+          decoration: BoxDecoration(
+            color: model.isTopBarTransparent
+                ? Colors.transparent
+                : Colors.grey[100].withAlpha(100),
+            boxShadow: model.isTopBarTransparent ? [] : [kFavBoxShadow],
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

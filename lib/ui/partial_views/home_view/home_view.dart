@@ -134,45 +134,35 @@ class DashBoardView extends StatelessWidget {
       childCount: model.registerdSubjects?.length,
       loading: model.busy(model.registerdSubjects),
       builder: (context, idx) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+      Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  model.registerdSubjects[idx].subjectName,
-                  style: Theme.of(context).textTheme.headline4,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "BEGIN TAUGHT BY ",
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                      TextSpan(
-                        text: model.registerdSubjects[idx].teacherName
-                            .toUpperCase(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            .copyWith(color: kPrimaryColor),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          Text(
+            model.registerdSubjects[idx].subjectName
+                .split(' ')
+                .sublist(1)
+                .join(' '),
+            style: Theme.of(context).textTheme.headline4,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
-          IconButton(icon: Icon(Icons.chevron_right), onPressed: () {})
+          SizedBox(
+            height: 3,
+          ),
+          Text(
+            model.registerdSubjects[idx].subjectName
+                .split(' ')[0],
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
         ],
       ),
+      ),
+      IconButton(icon: Icon(Icons.chevron_right), onPressed: () {})
+          ],
+        ),
     );
   }
 }

@@ -16,13 +16,16 @@ class SvgButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        child: SvgPicture.asset(
-          asset,
-          height: height ?? 20,
-          alignment: Alignment.centerLeft,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          child: SvgPicture.asset(
+            asset,
+            height: height ?? 20,
+            alignment: Alignment.centerLeft,
+          ),
         ),
       ),
     );

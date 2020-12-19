@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uet_lms/ui/ui_constants.dart';
 
 class RefreshIndicatorWithoutListView extends StatelessWidget {
   RefreshIndicatorWithoutListView(
@@ -12,6 +13,7 @@ class RefreshIndicatorWithoutListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: kPrimaryColor,
       onRefresh: onRefresh,
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),

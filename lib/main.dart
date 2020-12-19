@@ -31,7 +31,7 @@ void main() async {
 
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-    await DesktopWindow.setWindowSize(Size(1000, 600));
+    await DesktopWindow.setWindowSize(Size(1001, 600));
     await DesktopWindow.setMinWindowSize(Size(400, 600));
   }
   runApp(MyApp());
