@@ -23,7 +23,7 @@ dependencies:
       url: https://github.com/talhabalaj/flutter_secure_storage
       branch: develop
   stacked_services: ^0.6.0+1
-  shimmer: ^1.1.2
+  shimmer_animation: ^1.0.0
   flutter_spinkit: ^4.1.2+1
   lottie: ^0.7.0+1
   keyboard_shortcuts: ^0.1.4

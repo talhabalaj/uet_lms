@@ -34,14 +34,18 @@ class MainView extends StatelessWidget {
                 children: [
                   NotificationListener<ScrollNotification>(
                     onNotification: (notification) {
-                      if (notification.metrics.pixels == 0 &&
-                          !model.isTopBarTransparent) {
-                        model.isTopBarTransparent = true;
-                      } else if (notification.metrics.pixels > 0 &&
-                          model.isTopBarTransparent) {
-                        model.isTopBarTransparent = false;
+                      if (notification.depth == 0) {
+                        if (notification.metrics.pixels == 0 &&
+                            !model.isTopBarTransparent) {
+                          model.isTopBarTransparent = true;
+                        } else if (notification.metrics.pixels > 0 &&
+                            model.isTopBarTransparent) {
+                          model.isTopBarTransparent = false;
+                        }
+                        return true;
                       }
-                      return true;
+
+                      return false;
                     },
                     child: AnimatedIndexedStack(
                       index: model.index,

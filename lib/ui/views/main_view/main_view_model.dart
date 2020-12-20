@@ -10,7 +10,7 @@ class MainViewModel extends BaseViewModel {
   final IndexedStackService indexedStackService =
       locator<IndexedStackService>();
   
-  bool _isTopBarTransparent = false;
+  bool _isTopBarTransparent = true;
   get isTopBarTransparent => _isTopBarTransparent;
   set isTopBarTransparent(bool value) {
     _isTopBarTransparent = value;

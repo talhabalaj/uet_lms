@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class DefaultShimmer extends StatelessWidget {
   DefaultShimmer(
@@ -13,15 +13,14 @@ class DefaultShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[200],
-      highlightColor: Colors.grey[100],
+    return Shimmer(
+      color: Colors.grey[200],
       child: Container(
         height: height ?? 16,
         margin: margin == null ? EdgeInsets.only(bottom: 5) : margin,
         decoration: BoxDecoration(
           borderRadius: borderRadius,
-          color: Colors.white,
+          color: Colors.grey[200],
         ),
         width: width,
       ),
