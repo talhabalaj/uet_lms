@@ -34,11 +34,13 @@ class _CustomDropdownState extends State<CustomDropdown>
   Animation<double> _opacity;
 
   findButton() {
+    if (buttonKey.currentContext == null) return;
     RenderBox renderBox = buttonKey.currentContext.findRenderObject();
     buttonSize = renderBox.size;
     buttonPosition = renderBox.localToGlobal(Offset.zero);
   }
 
+  
   @override
   void initState() {
     _animationController = AnimationController(
@@ -63,6 +65,13 @@ class _CustomDropdownState extends State<CustomDropdown>
             curve: Curves.easeInOutSine,
           )),
     );
+    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPersistentFrameCallback((timeStamp) {
+        findButton();
+      });
+    });
+
     super.initState();
   }
 
@@ -85,34 +94,32 @@ class _CustomDropdownState extends State<CustomDropdown>
               top: buttonPosition.dy + buttonSize.height + 5,
               left: buttonPosition.dx,
               width: buttonSize.width,
-              child: Material(
-                color: Colors.transparent,
-                child: AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, _) => CardScrollView(
-                          height: _containerHeight.value,
-                          childCount: widget.values.length,
-                          verticalSpacing: 10,
-                          horizontalSpacing: 10,
-                          builder: (context, idx) => Opacity(
-                            opacity: _opacity.value,
-                            child: MaterialButton(
-                              child: Text(
-                                widget.values[idx].toLowerCase().capitalize(),
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              elevation: 0,
-                              hoverElevation: 0,
-                              onPressed: () {
-                                widget.selected(widget.values[idx]);
-                                closeMenu();
-                              },
+              child: AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (context, _) => CardScrollView(
+                        height: _containerHeight.value,
+                        childCount: widget.values.length,
+                        verticalSpacing: 10,
+                        horizontalSpacing: 10,
+                        builder: (context, idx) => Opacity(
+                          opacity: _opacity.value,
+                          child: MaterialButton(
+                            child: Text(
+                              widget.values[idx].toLowerCase().capitalize(),
+                              style: TextStyle(fontSize: 15),
                             ),
+                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            elevation: 0,
+                            hoverElevation: 0,
+                            onPressed: () {
+                              widget.selected(widget.values[idx]);
+                              closeMenu();
+                            },
                           ),
-                        ) //code for the drop-down menu...,
-                    ),
-              ),
+                        ),
+                      ) //code for the drop-down menu...,
+                  ),
             ),
           ],
         );

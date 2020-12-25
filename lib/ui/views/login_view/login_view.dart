@@ -13,22 +13,20 @@ class LoginView extends StatelessWidget {
     bool large = MediaQuery.of(context).size.width > 1000;
 
     return ViewModelBuilder<LoginViewModel>.reactive(
-      builder: (context, model, _) => SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                child: Image.asset(
-                  "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
-                  fit: BoxFit.cover,
-                  alignment: Alignment.bottomRight,
-                ),
+      builder: (context, model, _) => Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              child: Image.asset(
+                "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
+                fit: BoxFit.cover,
+                alignment: Alignment.bottomRight,
               ),
-              _buildBody(context, model, large: large),
-            ],
-          ),
+            ),
+            _buildBody(context, model, large: large),
+          ],
         ),
       ),
       viewModelBuilder: () => LoginViewModel(),
@@ -39,6 +37,7 @@ class LoginView extends StatelessWidget {
       {bool large = false}) {
     return Container(
       constraints: large ? BoxConstraints(maxWidth: 412) : null,
+      padding: MediaQuery.of(context).padding,
       color: large ? Theme.of(context).backgroundColor : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

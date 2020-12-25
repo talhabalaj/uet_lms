@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:desktop_window/desktop_window.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/run_on_mobile.dart';
+import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/views/login_view/login_view.dart';
@@ -21,19 +20,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // initialise firebase
-  await runOnlyOnMobile(() async {
+  if (isMobile()) {
     await Firebase.initializeApp();
     if (!kDebugMode) {
-      FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
-  });
-
-  // for desktop app set windows size, check web first, reason no implementation of Platform on web
-  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+  }
+    // for desktop app set windows size, check web first, reason no implementation of Platform on web
+  if (isDesktop()) {
     await DesktopWindow.setWindowSize(Size(1001, 600));
     await DesktopWindow.setMinWindowSize(Size(400, 600));
   }
+
   runApp(MyApp());
 }
 
@@ -52,7 +51,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.grey[100],
+        statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark,
       ),

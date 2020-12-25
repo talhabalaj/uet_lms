@@ -14,7 +14,6 @@ class HeadingWithSubtitle extends StatelessWidget {
       children: [
         heading == null
             ? DefaultShimmer(
-                margin: null,
                 height: Theme.of(context).textTheme.headline1.fontSize,
                 width: MediaQuery.of(context).size.width * .75,
               )
@@ -33,12 +32,10 @@ class HeadingWithSubtitle extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DefaultShimmer(
-                    margin: null,
                     height: Theme.of(context).textTheme.bodyText1.fontSize,
                     width: double.infinity,
                   ),
                   DefaultShimmer(
-                    margin: null,
                     height: Theme.of(context).textTheme.bodyText1.fontSize,
                     width: 280,
                   ),

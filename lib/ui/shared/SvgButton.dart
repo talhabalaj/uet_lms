@@ -8,19 +8,22 @@ class SvgButton extends StatelessWidget {
     this.onTap,
     Key key,
     this.height,
+    this.color,
   }) : super(key: key);
 
   final String asset;
   final void Function() onTap;
   final double height;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
+    return Material(
+      color: color,
+      child: InkWell(
         onTap: onTap,
         child: Container(
+          padding: EdgeInsets.all(12),
           child: SvgPicture.asset(
             asset,
             height: height ?? 20,

@@ -8,6 +8,7 @@ import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
 import 'package:uet_lms/core/utils.dart';
+import 'package:uet_lms/ui/ui_utils.dart';
 
 class DMCViewModel extends BaseViewModel {
   final LMSService lmsService = locator<LMSService>();
@@ -16,19 +17,19 @@ class DMCViewModel extends BaseViewModel {
 
   String _selectedSemester;
   List<Result> _result;
+  List<Result> _filteredResult;
   List<Register> registeredSubjects;
 
-  get result => isBusy
-      ? null
-      : _result.where((a) =>
-          registeredSubjects
-              .firstWhere((b) => a.subject.name == b.subjectName)
-              .semesterName ==
-          _selectedSemester);
+  get result => _filteredResult;
 
   get selectedSemester => _selectedSemester;
   set selectedSemester(String value) {
     _selectedSemester = value;
+    _filteredResult = _result.where((a) =>
+          registeredSubjects
+              .firstWhere((b) => a.subject.name == b.subjectName)
+              .semesterName ==
+          _selectedSemester).toList();
     this.notifyListeners();
   }
 
@@ -61,13 +62,6 @@ class DMCViewModel extends BaseViewModel {
         double.tryParse(registeredSubjects
             .firstWhere((element) => element.subjectName == result.subject.name)
             .subjectCreditHour);
-    if (amount >= 3.5) {
-      return Colors.green;
-    } else if (amount >= 2.7) {
-      return Colors.orange;
-    } else if (amount <= 2.7) {
-      return Colors.red;
-    }
-    return Colors.yellow;
+    return getPerColor(amount / 4 * 100);
   }
 }

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lms_api/models/obe.dues.students.challan.dart';
-import 'package:lottie/lottie.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
-import 'package:uet_lms/ui/shared/RefreshIndicatorWithoutListView.dart';
 import 'package:uet_lms/ui/shared/SplitScreen.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
+import 'package:uet_lms/ui/ui_utils.dart';
 
 import 'challans_viewmodel.dart';
 
@@ -21,21 +20,19 @@ class ChallansView extends StatelessWidget {
       onModelReady: (model) => model.loadData(),
       builder: (context, model, _) {
         return SplitScreen(
-          leftView: RefreshIndicatorWithoutListView(
-            height: double.infinity,
-            onRefresh: () => model.loadData(refresh: true),
-            child: Column(
+          leftView: RefreshIndicator(
+            onRefresh: () {
+              return model.loadData(refresh: true);
+            },
+            child: ListView(
               children: [
                 SizedBox(
                   height: kAppBarHeight,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
-                  child: HeadingWithSubtitle(
-                    heading: "Fee Challans",
-                    subtitle:
-                        "Check if your fees is paid or new challan form is available",
-                  ),
+                HeadingWithSubtitle(
+                  heading: "Fee Challans",
+                  subtitle:
+                      "Check if your fees is paid or new challan form is available",
                 ),
                 SizedBox(
                   height: 30,
@@ -44,8 +41,14 @@ class ChallansView extends StatelessWidget {
                   for (Challan challan in model.challans)
                     _buildChallan(context, model, challan)
                 else
-                  Lottie.asset("assets/lottie/loading.json")
-              ],
+                  loading(),
+              ]
+                  .map((e) => Padding(
+                        child: e,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: kHorizontalSpacing),
+                      ))
+                  .toList(),
             ),
           ),
         );
@@ -58,7 +61,8 @@ class ChallansView extends StatelessWidget {
       BuildContext context, ChallansViewModel model, Challan challan) {
     return Padding(
       padding: EdgeInsets.only(
-          bottom: 20.0, left: kHorizontalSpacing, right: kHorizontalSpacing),
+        bottom: 20.0,
+      ),
       child: CustomCard(
         builder: (context) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,

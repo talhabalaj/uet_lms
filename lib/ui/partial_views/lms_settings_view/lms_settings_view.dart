@@ -21,8 +21,7 @@ class LMSSettingsView extends StatelessWidget {
                 left: kHorizontalSpacing,
                 right: kHorizontalSpacing,
                 bottom: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
               children: [
                 SizedBox(
                   height: kAppBarHeight,

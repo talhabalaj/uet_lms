@@ -13,18 +13,20 @@ class LoginViewModel extends BaseViewModel {
   String regNo = "", password = "";
 
   Future<void> login() async {
-    bool retry = false;
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       this.setBusy(true);
-      do {
-        try {
-          await lmsService.login(
-              email: "$regNo@student.uet.edu.pk", password: password);
-        } catch (e) {
-          retry = await catchLMSorInternetException(e);
-        }
-      } while (retry);
+
+      try {
+        await lmsService.login(
+            email: "$regNo@student.uet.edu.pk", password: password);
+      } catch (e) {
+        catchLMSorInternetException(
+          e,
+          mainTitleButton: "Try again",
+          secondaryButtonTitle: null,
+        );
+      }
       // async code
       this.setBusy(false);
     }

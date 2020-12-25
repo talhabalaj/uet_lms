@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lms_api/models/obe.core.result.dart';
-import 'package:lottie/lottie.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view_model.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
@@ -8,6 +7,7 @@ import 'package:uet_lms/ui/shared/CustomDropDown.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
 import 'package:uet_lms/ui/shared/SplitScreen.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
+import 'package:uet_lms/ui/ui_utils.dart';
 
 class DMCView extends StatelessWidget {
   final String id = "/dmc";
@@ -17,7 +17,6 @@ class DMCView extends StatelessWidget {
     return ViewModelBuilder<DMCViewModel>.reactive(
       onModelReady: (model) => model.loadData(),
       builder: (context, model, _) {
-        final results = model.result;
         return SplitScreen(
           leftView: RefreshIndicator(
             onRefresh: () {
@@ -41,7 +40,7 @@ class DMCView extends StatelessWidget {
                     currentValue: model.selectedSemester,
                     selected: (value) => model.selectedSemester = value,
                   ),
-                  for (Result result in results) ...[
+                  for (Result result in model.result) ...[
                     SizedBox(height: 15),
                     CustomCard(
                       builder: (context) => Row(
@@ -95,7 +94,7 @@ class DMCView extends StatelessWidget {
                     )
                   ]
                 ] else
-                  Lottie.asset("assets/lottie/loading.json"),
+                  loading(),
                 SizedBox(height: 15),
               ]
                   .map((e) => Padding(

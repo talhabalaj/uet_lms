@@ -49,7 +49,7 @@ Future<void> saveFile(Uint8List bytes, String fileName,
   }
 }
 
-Future<bool> catchLMSorInternetException(Exception e) async {
+Future<bool> catchLMSorInternetException(Exception e, {String mainTitleButton, String secondaryButtonTitle = "Cancel"}) async {
   String errorMessage, description;
 
   if (e is LMSException) {
@@ -64,11 +64,16 @@ Future<bool> catchLMSorInternetException(Exception e) async {
 
   final result = await locator<DialogService>().showCustomDialog(
     variant: DialogType.basic,
-    mainButtonTitle: "Retry",
-    secondaryButtonTitle: "Cancel",
+    mainButtonTitle: mainTitleButton ?? "Retry",
+    secondaryButtonTitle: secondaryButtonTitle,
     title: errorMessage,
+    barrierDismissible: secondaryButtonTitle != null,
     description: description,
   );
 
   return result.confirmed;
 }
+
+
+bool isMobile() => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+bool isDesktop() => !kIsWeb && ((Platform.isLinux || Platform.isWindows || Platform.isMacOS));

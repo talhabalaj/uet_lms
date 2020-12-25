@@ -6,20 +6,21 @@ import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dar
 
 final kFavBoxShadow = BoxShadow(
   offset: Offset(0, 1),
-  blurRadius: 19,
-  color: Colors.black.withOpacity(0.06),
+  blurRadius: 10,
+  color: Colors.black.withAlpha(10),
   spreadRadius: 0,
 );
 
 final kPrimaryColor = Color(0xff484848);
 final kDefaultTextStyle = TextStyle(color: kPrimaryColor);
 final kHorizontalSpacing = 25.0;
-final kAppBarHeight = 80.0;
+final kAppBarHeight = 90.0;
 
 ThemeData getTheme() {
   return ThemeData(
       backgroundColor: Colors.grey[100],
       primaryColor: kPrimaryColor,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       scaffoldBackgroundColor: Colors.grey[100],
       textTheme: TextTheme(
         headline1: kDefaultTextStyle.copyWith(

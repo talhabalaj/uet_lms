@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lms_api/lms_api.dart';
 import 'package:stacked/stacked.dart';
@@ -47,6 +48,8 @@ class SplashViewModel extends BaseViewModel {
         shouldRetry = (await dialogService.showCustomDialog(
                 variant: DialogType.basic,
                 title: errMessage,
+                barrierColor: Colors.black38,
+                barrierDismissible: true,
                 description:
                     description ?? "Please report this issue to the developer.",
                 mainButtonTitle: "Retry",

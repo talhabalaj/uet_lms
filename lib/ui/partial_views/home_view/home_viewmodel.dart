@@ -17,9 +17,10 @@ class HomeViewModel extends BaseViewModel {
       locator<IndexedStackService>();
 
   StudentProfile studentProfile;
-  Semester lastSemester;
-  GradeBookDetail lastGradeBookDetail;
+  List<Semester> semesters;
+  List<GradeBookDetail> gradeBookDetails;
   List<Register> registerdSubjects;
+  Map<Register, double> attendance = Map();
 
   LMS get user => lmsService.user;
 
@@ -31,22 +32,27 @@ class HomeViewModel extends BaseViewModel {
     return null;
   }
 
-  void onError(dynamic e) {
+  void onError(dynamic e, dynamic s) {
     catchLMSorInternetException(e);
   }
 
   Future<void> loadData({bool refresh = false}) async {
     this.setBusyForObject(studentProfile, true);
-    this.setBusyForObject(lastSemester, true);
-    this.setBusyForObject(lastGradeBookDetail, true);
+    this.setBusyForObject(semesters, true);
+    this.setBusyForObject(gradeBookDetails, true);
     this.setBusyForObject(registerdSubjects, true);
+    this.setBusyForObject(attendance, true);
+
     lmsService.getStudentProfile(refresh: refresh).then((value) {
       studentProfile = value;
       this.setBusyForObject(studentProfile, false);
     }).catchError(onError);
+
     lmsService.getRegisteredSemesters(refresh: refresh).then((value) async {
-      lastSemester = value.first;
-      this.setBusyForObject(lastSemester, false);
+      semesters = value.reversed.toList();
+      final lastSemester = semesters.last;
+      this.setBusyForObject(semesters, false);
+
       registerdSubjects =
           (await lmsService.getRegisteredSubjects(refresh: refresh))
               .where((element) =>
@@ -54,10 +60,19 @@ class HomeViewModel extends BaseViewModel {
                   lastSemester.name.toLowerCase())
               .toList();
       this.setBusyForObject(registerdSubjects, false);
+      for (Register subject in registerdSubjects)
+        this.attendance[subject] =
+            await lmsService.user.getAttendanceForRegisteredCourse(subject);
+
+      this.setBusyForObject(attendance, false);
     }).catchError(onError);
+
+    // load last GPA
     lmsService.getSemestersSummary(refresh: refresh).then((value) {
-      lastGradeBookDetail = value.last;
-      this.setBusyForObject(lastGradeBookDetail, false);
+      gradeBookDetails = value;
+      this.setBusyForObject(gradeBookDetails, false);
     }).catchError(onError);
   }
+
+    
 }

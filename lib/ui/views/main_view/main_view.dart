@@ -24,37 +24,35 @@ class MainView extends StatelessWidget {
             if (Navigator.of(context).canPop()) Navigator.of(context).pop();
           },
           keysToPress: [LogicalKeyboardKey.escape].toSet(),
-          child: SafeArea(
-            child: Scaffold(
-              key: model.scaffoldKey,
-              drawerScrimColor: Colors.black26,
-              drawerDragStartBehavior: DragStartBehavior.start,
-              drawer: this._buildNav(context, model),
-              body: Stack(
-                children: [
-                  NotificationListener<ScrollNotification>(
-                    onNotification: (notification) {
-                      if (notification.depth == 0) {
-                        if (notification.metrics.pixels == 0 &&
-                            !model.isTopBarTransparent) {
-                          model.isTopBarTransparent = true;
-                        } else if (notification.metrics.pixels > 0 &&
-                            model.isTopBarTransparent) {
-                          model.isTopBarTransparent = false;
-                        }
-                        return true;
+          child: Scaffold(
+            key: model.scaffoldKey,
+            drawerScrimColor: Colors.black12,
+            drawerDragStartBehavior: DragStartBehavior.start,
+            drawer: this._buildNav(context, model),
+            body: Stack(
+              children: [
+                NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification notification) {
+                    if (notification.depth == 0) {
+                      if (notification.metrics.pixels == 0 &&
+                          !model.isTopBarTransparent) {
+                        model.isTopBarTransparent = true;
+                      } else if (notification.metrics.pixels > 0 &&
+                          model.isTopBarTransparent) {
+                        model.isTopBarTransparent = false;
                       }
+                      return true;
+                    }
 
-                      return false;
-                    },
-                    child: AnimatedIndexedStack(
-                      index: model.index,
-                      children: model.currentViews,
-                    ),
+                    return false;
+                  },
+                  child: AnimatedIndexedStack(
+                    index: model.index,
+                    children: model.currentViews,
                   ),
-                  _buildTopAppBar(model),
-                ],
-              ),
+                ),
+                _buildTopAppBar(context, model),
+              ],
             ),
           ),
         );
@@ -63,46 +61,50 @@ class MainView extends StatelessWidget {
     );
   }
 
-  Widget _buildTopAppBar(MainViewModel model) {
+  Widget _buildTopAppBar(BuildContext context, MainViewModel model) {
     return ClipRect(
       child: BackdropFilter(
         filter: model.isTopBarTransparent
             ? ImageFilter.blur()
             : ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          height: kAppBarHeight - 10,
+          height: kAppBarHeight,
           decoration: BoxDecoration(
             color: model.isTopBarTransparent
                 ? Colors.transparent
                 : Colors.grey[100].withAlpha(100),
             boxShadow: model.isTopBarTransparent ? [] : [kFavBoxShadow],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: kHorizontalSpacing,
-                ),
-                child: SvgButton(
-                  asset: "assets/svg/menu.svg",
-                  onTap: () {
-                    model.scaffold.openDrawer();
-                  },
-                ),
-              ),
-              Spacer(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(
-                    model.lmsService.user.getChangeableProfilePicUrl(),
-                    headers: model.lmsService.user.cookieHeader,
+          child: Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: kHorizontalSpacing,
+                  ),
+                  child: SvgButton(
+                    color: model.isTopBarTransparent ? Colors.grey[200] : Colors.transparent,
+                    asset: "assets/svg/menu.svg",
+                    onTap: () {
+                      model.scaffold.openDrawer();
+                    },
                   ),
                 ),
-              ),
-            ],
+                Spacer(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(
+                      model.lmsService.user.getChangeableProfilePicUrl(),
+                      headers: model.lmsService.user.cookieHeader,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -117,8 +119,9 @@ class MainView extends StatelessWidget {
       child: Stack(
         children: [
           ListView(
+            padding: EdgeInsets.zero,
             children: [
-              SizedBox(height: kAppBarHeight - 10),
+              SizedBox(height: kAppBarHeight),
               for (final navLink in kNavLinks) ...[
                 if (navLink["name"] != "")
                   Padding(
@@ -168,8 +171,11 @@ class MainView extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                    vertical: 25, horizontal: kHorizontalSpacing),
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(
+                    left: kHorizontalSpacing,
+                    top: MediaQuery.of(context).padding.top),
+                height: kAppBarHeight,
                 child: Row(
                   children: [
                     SvgButton(
@@ -188,7 +194,7 @@ class MainView extends StatelessWidget {
             child: ClipRect(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: kHorizontalSpacing, vertical: 34),
+                    horizontal: kHorizontalSpacing, vertical: 20),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
                   child: SimpleWideButton(

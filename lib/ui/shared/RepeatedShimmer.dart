@@ -5,22 +5,27 @@ class RepeatedShimmer extends StatelessWidget {
   const RepeatedShimmer({
     Key key,
     this.repeated = 2,
+    this.color,
   }) : super(key: key);
 
   final int repeated;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (int i = 0; i < repeated; i++) ...[
-          ..._getShimmerPair(context),
-          if (i != repeated - 1)
-            SizedBox(
-              height: 15,
-            )
+    return Container(
+      width: double.infinity,
+      child: Column(
+        children: [
+          for (int i = 0; i < repeated; i++) ...[
+            ..._getShimmerPair(context),
+            if (i != repeated - 1)
+              SizedBox(
+                height: 15,
+              )
+          ],
         ],
-      ],
+      ),
     );
   }
 
@@ -51,6 +56,7 @@ class RepeatedShimmer extends StatelessWidget {
         Flexible(
           child: DefaultShimmer(
             height: height,
+            color: color,
           ),
           flex: shimmerFlex,
         ),

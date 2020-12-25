@@ -54,7 +54,7 @@ class CardScrollView extends StatelessWidget {
                       left: horizontalSpacing,
                       right: horizontalSpacing),
                   child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                    filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                     child: Text(
                       title,
                       style: Theme.of(context).textTheme.subtitle1,
@@ -70,13 +70,14 @@ class CardScrollView extends StatelessWidget {
 
   ListView _buildListView() {
     return ListView.builder(
+      padding: EdgeInsets.symmetric(vertical: 10),
       physics: BouncingScrollPhysics(),
       itemBuilder: (context, idx) => Padding(
         padding: idx == 0
-            ? EdgeInsets.only(top: title != null ? 42.0 : verticalSpacing)
+            ? EdgeInsets.only(top: title != null ? 35.0 : 0)
             : EdgeInsets.only(
                 top: verticalSpacing,
-                bottom: idx + 1 == childCount ? verticalSpacing : 0),
+              ),
         child: builder(context, idx),
       ),
       itemCount: childCount,

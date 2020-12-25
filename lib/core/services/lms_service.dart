@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
@@ -11,11 +12,11 @@ import 'package:lms_api/models/obe.dues.students.challan.dart';
 import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:uet_lms/ui/views/login_view/login_view.dart';
 import 'package:uet_lms/ui/views/main_view/main_view.dart';
 
-import '../run_on_mobile.dart';
 import 'indexed_stack_service.dart';
 
 @lazySingleton
@@ -82,10 +83,9 @@ class LMSService {
     return _challans;
   }
 
-  Future<void> setCrashReportsUserId(String userId) {
-    return runOnlyOnMobile(() async {
+  Future<void> setCrashReportsUserId(String userId) async {
+    if (isMobile())
       await FirebaseCrashlytics.instance.setUserIdentifier(userId);
-    });
   }
 
   LMS _createLMSObject(String email, String password) {
@@ -190,6 +190,8 @@ class LMSService {
       variant: DialogType.basic,
       mainButtonTitle: "I'm sure",
       secondaryButtonTitle: "Oh mistakenly",
+      barrierColor: Colors.black38,
+      barrierDismissible: true,
       title: "Are you sure?",
       description: "We hate to see you go, Please come back soon. ",
     );
@@ -202,6 +204,8 @@ class LMSService {
 
   Future<void> _logout() async {
     // TODO: invalidate the cookie
+
+    // nullify the cache
     _studentProfile = null;
     _semesters = null;
     _gradeBookDetails = null;
@@ -209,11 +213,14 @@ class LMSService {
     _challans = null;
     _result = null;
     user = null;
+
+    // Reset the Navigation Route
     locator<IndexedStackService>().reset();
+
+    // Set UserId to loggedOutUser
     setCrashReportsUserId("loggedOutUser");
-    if (kIsWeb) {
-      return;
+    if (!kIsWeb) {
+      await this.deleteAuthInfoFromSecureStorage();
     }
-    await this.deleteAuthInfoFromSecureStorage();
   }
 }

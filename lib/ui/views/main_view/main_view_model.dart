@@ -27,4 +27,6 @@ class MainViewModel extends BaseViewModel {
     _isTopBarTransparent = true;
     this.notifyListeners();
   }
+
+
 }
