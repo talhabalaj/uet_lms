@@ -11,6 +11,8 @@ class MainViewModel extends BaseViewModel {
       locator<IndexedStackService>();
   
   bool _isTopBarTransparent = true;
+  get dpChangeTimes => indexedStackService.dpChangeTimes;
+  
   get isTopBarTransparent => _isTopBarTransparent;
   set isTopBarTransparent(bool value) {
     _isTopBarTransparent = value;

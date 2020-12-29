@@ -62,6 +62,7 @@ class MainView extends StatelessWidget {
   }
 
   Widget _buildTopAppBar(BuildContext context, MainViewModel model) {
+    print('app bar built');
     return ClipRect(
       child: BackdropFilter(
         filter: model.isTopBarTransparent
@@ -98,7 +99,7 @@ class MainView extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                      model.lmsService.user.getChangeableProfilePicUrl(),
+                      model.lmsService.user.getChangeableProfilePicUrl()+'&v='+model.dpChangeTimes.toString(),
                       headers: model.lmsService.user.cookieHeader,
                     ),
                   ),

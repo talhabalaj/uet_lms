@@ -18,9 +18,9 @@ class LMSSettingsView extends StatelessWidget {
           key: model.formKey,
           child: Padding(
             padding: EdgeInsets.only(
-                left: kHorizontalSpacing,
-                right: kHorizontalSpacing,
-                bottom: 20),
+              left: kHorizontalSpacing,
+              right: kHorizontalSpacing,
+            ),
             child: ListView(
               children: [
                 SizedBox(
@@ -29,6 +29,58 @@ class LMSSettingsView extends StatelessWidget {
                 HeadingWithSubtitle(
                   heading: "LMS Settings",
                   subtitle: "Let’s change that bad password, first.",
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                CircleAvatar(
+                  radius: 60,
+                  backgroundColor: Colors.grey[100],
+                  child: ClipOval(
+                    child: Image.network(
+                      model.lmsService.user
+                          .getChangeableProfilePicUrl(small: false)+"&v="+model.dpChangeTimes.toString(),
+                      headers: model.lmsService.user.cookieHeader,
+                      height: 120,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(),
+                    Flexible(
+                      flex: 3,
+                      child: SimpleWideButton(
+                        text: "Upload New",
+                        height: 50,
+                        loading: model.busy(model.updatingProfilePic),
+                        onPressed: () {
+                          model.updateProfilePicture();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Flexible(
+                      flex: 3,
+                      child: SimpleWideButton(
+                        textColor: kPrimaryColor,
+                        text: "Remove",
+                        height: 50,
+                        loading: model.busy(model.removingProfilePic),
+                        onPressed: () {
+                          model.removeProfilePic();
+                        },
+                        color: Colors.grey[200],
+                      ),
+                    ),
+                    Spacer(),
+                  ],
                 ),
                 SizedBox(
                   height: 30,
@@ -75,6 +127,9 @@ class LMSSettingsView extends StatelessWidget {
                     onPressed: () {
                       model.changePassword();
                     }),
+                SizedBox(
+                  height: 15,
+                ),
               ],
             ),
           ),

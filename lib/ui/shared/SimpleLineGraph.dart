@@ -27,7 +27,7 @@ class SimpleLineGraph extends StatefulWidget {
       List.generate(
           MAX_Y.toInt(), (index) => FlSpot(index.toDouble() , sin(index)+1)),
       List.generate(
-          MAX_Y.toInt(), (index) => FlSpot(index.toDouble() , sin(index)+3)),
+          MAX_Y.toInt(), (index) => FlSpot(index.toDouble() , sin(index)+2)),
     ];
   }
 

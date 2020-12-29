@@ -9,6 +9,7 @@ class SimpleWideButton extends StatefulWidget {
     this.color,
     this.text,
     this.textColor,
+    this.height,
     this.loading = false,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class SimpleWideButton extends StatefulWidget {
   final String text;
   final Color textColor;
   final bool loading;
+  final double height;
 
   @override
   _SimpleWideButtonState createState() => _SimpleWideButtonState();
@@ -28,7 +30,7 @@ class _SimpleWideButtonState extends State<SimpleWideButton> {
     return FlatButton(
       child: widget.loading
           ? SpinKitThreeBounce(
-              color: Colors.white,
+              color: widget.textColor ?? Colors.white,
               size: 20,
             )
           : Text(
@@ -38,7 +40,7 @@ class _SimpleWideButtonState extends State<SimpleWideButton> {
                   .bodyText1
                   .copyWith(color: widget.textColor ?? Colors.white),
             ),
-      height: 57,
+      height: widget.height ?? 57,
       minWidth: double.infinity,
       disabledColor: (widget.color ?? kPrimaryColor),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),

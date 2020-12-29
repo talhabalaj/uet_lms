@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:file_chooser/file_chooser.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lms_api/lms_api.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -49,7 +50,8 @@ Future<void> saveFile(Uint8List bytes, String fileName,
   }
 }
 
-Future<bool> catchLMSorInternetException(Exception e, {String mainTitleButton, String secondaryButtonTitle = "Cancel"}) async {
+Future<bool> catchLMSorInternetException(Exception e,
+    {String mainTitleButton, String secondaryButtonTitle = "Cancel"}) async {
   String errorMessage, description;
 
   if (e is LMSException) {
@@ -74,6 +76,24 @@ Future<bool> catchLMSorInternetException(Exception e, {String mainTitleButton, S
   return result.confirmed;
 }
 
-
 bool isMobile() => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
-bool isDesktop() => !kIsWeb && ((Platform.isLinux || Platform.isWindows || Platform.isMacOS));
+bool isDesktop() =>
+    !kIsWeb && ((Platform.isLinux || Platform.isWindows || Platform.isMacOS));
+
+Future<Uint8List> openImage() async {
+  if (isMobile()) {
+    return (await ImagePicker().getImage(source: ImageSource.gallery))
+        .readAsBytes();
+  } else {
+    final openResult = await showOpenPanel(
+      allowedFileTypes: [
+        FileTypeFilterGroup(
+          fileExtensions: ['jpg', 'jpeg', 'png'],
+        )
+      ],
+      allowsMultipleSelection: false,
+    );
+    if (openResult.canceled) return null;
+    return File(openResult.paths[0]).readAsBytes();
+  }
+}

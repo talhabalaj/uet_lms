@@ -8,6 +8,7 @@ import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dar
 @lazySingleton
 class IndexedStackService {
   int _index = 0;
+  int dpChangeTimes = 0;
   List<Widget> currentViews = [];
   List<Widget> browsed = [];
   List<Widget> views = [

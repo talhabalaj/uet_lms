@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/indexed_stack_service.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 
 class LMSSettingsViewModel extends BaseViewModel {
@@ -14,6 +16,13 @@ class LMSSettingsViewModel extends BaseViewModel {
 
   final lmsService = locator<LMSService>();
   final dialogService = locator<DialogService>();
+
+  final updatingProfilePic = 'UPDATING';
+  final removingProfilePic = 'REMOVING';
+
+  get dpChangeTimes => locator<IndexedStackService>().dpChangeTimes;
+  void incrementDpChangeTimes() =>
+      locator<IndexedStackService>().dpChangeTimes++;
 
   Future<void> changePassword() async {
     this.setBusy(true);
@@ -29,5 +38,22 @@ class LMSSettingsViewModel extends BaseViewModel {
           description: "We hope you set a good for your account, Be secure.");
     }
     this.setBusy(false);
+  }
+
+  Future<void> updateProfilePicture() async {
+    this.setBusyForObject(updatingProfilePic, true);
+    final image = await openImage();
+    if (image != null) {
+      await lmsService.user.updateProfilePicture(image);
+      incrementDpChangeTimes();
+    }
+    this.setBusyForObject(updatingProfilePic, false);
+  }
+
+  Future<void> removeProfilePic() async {
+    this.setBusyForObject(removingProfilePic, true);
+    await lmsService.user.updateProfilePicture();
+    incrementDpChangeTimes();
+    this.setBusyForObject(removingProfilePic, false);
   }
 }
