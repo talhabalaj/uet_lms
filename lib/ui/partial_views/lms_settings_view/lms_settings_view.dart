@@ -53,7 +53,7 @@ class LMSSettingsView extends StatelessWidget {
                   children: [
                     Spacer(),
                     Flexible(
-                      flex: 3,
+                      flex: 4,
                       child: SimpleWideButton(
                         text: "Upload New",
                         height: 50,
@@ -67,7 +67,7 @@ class LMSSettingsView extends StatelessWidget {
                       width: 10,
                     ),
                     Flexible(
-                      flex: 3,
+                      flex: 4,
                       child: SimpleWideButton(
                         textColor: kPrimaryColor,
                         text: "Remove",

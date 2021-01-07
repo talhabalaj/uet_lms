@@ -12,6 +12,7 @@ class CustomCard extends StatelessWidget {
     this.width,
     this.shimmerCount,
     this.loading = false,
+    this.boxShadow,
   }) : super(key: key);
 
   final double height;
@@ -20,9 +21,12 @@ class CustomCard extends StatelessWidget {
   final EdgeInsets padding;
   final bool loading;
   final int shimmerCount;
+  final List<BoxShadow> boxShadow;
 
   @override
   Widget build(BuildContext context) {
+    final boxShadow = this.boxShadow ?? [kFavBoxShadow];
+
     return Container(
       height: height,
       width: width ?? double.infinity,
@@ -36,7 +40,7 @@ class CustomCard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [kFavBoxShadow],
+        boxShadow: boxShadow,
         borderRadius: BorderRadius.circular(7),
       ),
     );

@@ -62,7 +62,6 @@ class MainView extends StatelessWidget {
   }
 
   Widget _buildTopAppBar(BuildContext context, MainViewModel model) {
-    print('app bar built');
     return ClipRect(
       child: BackdropFilter(
         filter: model.isTopBarTransparent
@@ -86,7 +85,9 @@ class MainView extends StatelessWidget {
                     horizontal: kHorizontalSpacing,
                   ),
                   child: SvgButton(
-                    color: model.isTopBarTransparent ? Colors.grey[200] : Colors.transparent,
+                    color: model.isTopBarTransparent
+                        ? Colors.grey[200]
+                        : Colors.transparent,
                     asset: "assets/svg/menu.svg",
                     onTap: () {
                       model.scaffold.openDrawer();
@@ -99,7 +100,9 @@ class MainView extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                      model.lmsService.user.getChangeableProfilePicUrl()+'&v='+model.dpChangeTimes.toString(),
+                      model.lmsService.user.getChangeableProfilePicUrl() +
+                          '&v=' +
+                          model.dpChangeTimes.toString(),
                       headers: model.lmsService.user.cookieHeader,
                     ),
                   ),
@@ -128,8 +131,10 @@ class MainView extends StatelessWidget {
                   Padding(
                     padding:
                         EdgeInsets.only(left: kHorizontalSpacing, bottom: 5),
-                    child: Text(navLink["name"],
-                        style: Theme.of(context).textTheme.subtitle1),
+                    child: Text(
+                      navLink["name"],
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
                   ),
                 for (int i = 0; i < navLink["children"].length; i++) ...[
                   if (i != 0) SizedBox(height: 7),
@@ -180,6 +185,7 @@ class MainView extends StatelessWidget {
                 child: Row(
                   children: [
                     SvgButton(
+                      color: Colors.grey.shade100.withAlpha(400),
                       asset: "assets/svg/cross.svg",
                       onTap: () {
                         Navigator.of(context).pop();

@@ -19,7 +19,7 @@ class DefaultShimmer extends StatelessWidget {
         child: Container(
           height: height ?? 16,
           decoration: BoxDecoration(
-            borderRadius: borderRadius,
+            borderRadius: borderRadius ?? BorderRadius.circular(7),
             color: color ?? Colors.grey[200],
           ),
           width: width,

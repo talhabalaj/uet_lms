@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uet_lms/ui/shared/CardScrollView.dart';
+import 'package:uet_lms/ui/ui_constants.dart';
 import 'CustomCard.dart';
 import 'package:uet_lms/core/string_extension.dart';
 
@@ -40,7 +41,6 @@ class _CustomDropdownState extends State<CustomDropdown>
     buttonPosition = renderBox.localToGlobal(Offset.zero);
   }
 
-  
   @override
   void initState() {
     _animationController = AnimationController(
@@ -65,7 +65,7 @@ class _CustomDropdownState extends State<CustomDropdown>
             curve: Curves.easeInOutSine,
           )),
     );
-    
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       WidgetsBinding.instance.addPersistentFrameCallback((timeStamp) {
         findButton();
@@ -78,16 +78,28 @@ class _CustomDropdownState extends State<CustomDropdown>
   OverlayEntry _overlayEntryBuilder() {
     return OverlayEntry(
       builder: (context) {
+        final boxShadow = [
+          BoxShadow(
+            offset: Offset(0, 1),
+            blurRadius: 19,
+            color: Colors.black.withAlpha(20),
+            spreadRadius: 0,
+          ),
+        ];
+
         return Stack(
           children: [
-            GestureDetector(
-              onTap: () {
-                closeMenu();
-              },
-              child: Container(
-                color: Colors.transparent,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {
+                  closeMenu();
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                ),
               ),
             ),
             Positioned(
@@ -99,6 +111,7 @@ class _CustomDropdownState extends State<CustomDropdown>
                   builder: (context, _) => CardScrollView(
                         height: _containerHeight.value,
                         childCount: widget.values.length,
+                        boxShadow: boxShadow,
                         verticalSpacing: 10,
                         horizontalSpacing: 10,
                         builder: (context, idx) => Opacity(
@@ -108,7 +121,8 @@ class _CustomDropdownState extends State<CustomDropdown>
                               widget.values[idx].toLowerCase().capitalize(),
                               style: TextStyle(fontSize: 15),
                             ),
-                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
                             padding: EdgeInsets.symmetric(vertical: 20),
                             elevation: 0,
                             hoverElevation: 0,

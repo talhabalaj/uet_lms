@@ -13,6 +13,7 @@ class CardScrollView extends StatelessWidget {
       this.verticalSpacing = 15,
       this.horizontalSpacing = 17,
       this.height,
+      this.boxShadow,
       this.title})
       : super(key: key);
 
@@ -23,11 +24,13 @@ class CardScrollView extends StatelessWidget {
   final double verticalSpacing;
   final double horizontalSpacing;
   final Widget Function(BuildContext, int) builder;
+  final List<BoxShadow> boxShadow;
 
   @override
   Widget build(BuildContext context) {
     return CustomCard(
       height: height,
+      boxShadow: boxShadow,
       padding: EdgeInsets.zero,
       builder: (context) => Stack(
         children: [

@@ -20,16 +20,15 @@ class SimpleLineGraph extends StatefulWidget {
               fontFamily: "Inter",
               color: Colors.grey[400],
             ),
-        super(key: key) {
-    loadingSpots = [
-      List.generate(
-          MAX_Y.toInt(), (index) => FlSpot(index.toDouble() , sin(index))),
-      List.generate(
-          MAX_Y.toInt(), (index) => FlSpot(index.toDouble() , sin(index)+1)),
-      List.generate(
-          MAX_Y.toInt(), (index) => FlSpot(index.toDouble() , sin(index)+2)),
-    ];
-  }
+        loadingSpots = [
+          List.generate(
+              MAX_Y.toInt(), (index) => FlSpot(index.toDouble(), sin(index))),
+          List.generate(MAX_Y.toInt(),
+              (index) => FlSpot(index.toDouble(), sin(index) + 1)),
+          List.generate(MAX_Y.toInt(),
+              (index) => FlSpot(index.toDouble(), sin(index) + 2)),
+        ],
+        super(key: key);
 
   final bool loading;
   final TextStyle baseTextStyle;
@@ -39,7 +38,7 @@ class SimpleLineGraph extends StatefulWidget {
   final List<Color> colors;
   final Color loadingColor;
 
-  List<List<FlSpot>> loadingSpots;
+  final List<List<FlSpot>> loadingSpots;
 
   static const double MAX_Y = 4;
 
