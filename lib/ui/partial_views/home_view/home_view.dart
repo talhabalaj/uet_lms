@@ -1,11 +1,7 @@
-import 'dart:async';
-import 'dart:ui';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:stacked/stacked.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:uet_lms/ui/partial_views/home_view/home_viewmodel.dart';
 import 'package:uet_lms/ui/shared/CardScrollView.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';

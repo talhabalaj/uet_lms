@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uet_lms/ui/shared/CardScrollView.dart';
-import 'package:uet_lms/ui/ui_constants.dart';
 import 'CustomCard.dart';
 import 'package:uet_lms/core/string_extension.dart';
 
