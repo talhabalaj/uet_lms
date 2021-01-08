@@ -15,7 +15,7 @@ jobs:
         uses: samuelmeuli/action-snapcraft@v1
 
       - name: install multipass
-        run: snap install multipass
+        run: sudo snap install multipass
       # You can now run Snapcraft shell commands
       - name: Use Snapcraft
         run: snapcraft
