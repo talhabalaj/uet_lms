@@ -126,47 +126,37 @@ class MainView extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: [
               SizedBox(height: kAppBarHeight),
-              for (final navLink in kNavLinks) ...[
-                if (navLink["name"] != "")
+              for (final each in kMainViewNestedNavLinks.asMap().entries) ...[
+                if (each.value.category != ""  && kMainViewNestedNavLinks[each.key - 1].category != each.value.category)
                   Padding(
                     padding:
                         EdgeInsets.only(left: kHorizontalSpacing, bottom: 5),
                     child: Text(
-                      navLink["name"],
+                      each.value.category,
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ),
-                for (int i = 0; i < navLink["children"].length; i++) ...[
-                  if (i != 0) SizedBox(height: 7),
-                  NavButton(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      int idx = model.views.indexWhere(
-                        (dynamic element) {
-                          return navLink["children"][i]["screen"] != null &&
-                              element.id == navLink["children"][i]["screen"].id;
-                        },
-                      );
-                      if (idx != -1 && idx != model.index) {
-                        model.setIndex(idx);
-                      }
-                    },
-                    title: navLink["children"][i]["name"],
-                    isActive: model.views.indexWhere(
-                          (dynamic element) {
-                            return navLink["children"][i]["screen"] != null &&
-                                element.id ==
-                                    navLink["children"][i]["screen"].id;
-                          },
-                        ) ==
-                        model.index,
-                    subtitle: navLink["children"][i]["description"],
-                  ),
-                ],
+                NavButton(
+                  disabled: each.value.screenName == null,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    int idx = model.views.indexWhere(
+                      (dynamic element) => element.id == each.value.screenName,
+                    );
+                    if (idx != -1 && idx != model.index) {
+                      model.setIndex(idx);
+                    }
+                  },
+                  title: each.value.title,
+                  isActive: model.views.indexWhere(
+                        (dynamic element) => element.id == each.value.screenName,
+                      ) ==
+                      model.index,
+                  subtitle: each.value.description +
+                      (each.value.screenName == null ? " [COMING SOON]" : ""),
+                ),
                 SizedBox(
-                  height: navLink["children"].last["description"].length >= 45
-                      ? 10
-                      : 20,
+                  height: each.value.description.length >= 45 ? 10 : 20,
                 ),
               ],
               SizedBox(height: 120),

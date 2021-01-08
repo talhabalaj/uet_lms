@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class DefaultShimmer extends StatelessWidget {
-  DefaultShimmer({Key key, this.height, this.width, this.borderRadius, this.color})
+  DefaultShimmer(
+      {Key key, this.height, this.width, this.borderRadius, this.color})
       : super(key: key);
 
   final double height;

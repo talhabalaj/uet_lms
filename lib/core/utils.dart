@@ -18,7 +18,7 @@ Future<void> saveFile(Uint8List bytes, String fileName,
   if (kIsWeb) {
     final content = base64Encode(bytes);
     await launch(
-        "data:application/octet-stream;charset=utf-16le;base64,$content");
+        "data:application/pdf;charset=utf-16le;base64,$content");
   } else {
     if (Platform.isAndroid || Platform.isIOS) {
       Directory tempDir = await getTemporaryDirectory();

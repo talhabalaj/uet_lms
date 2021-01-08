@@ -36,11 +36,7 @@ class CardScrollView extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: horizontalSpacing),
-            child: loading
-                ? RepeatedShimmer(
-                    repeated: 5,
-                  )
-                : _buildListView(),
+            child: _buildListView(),
           ),
           if (title != null)
             Container(
@@ -81,9 +77,13 @@ class CardScrollView extends StatelessWidget {
             : EdgeInsets.only(
                 top: verticalSpacing,
               ),
-        child: builder(context, idx),
+        child: loading
+            ? RepeatedShimmer(
+                repeated: 1,
+              )
+            : builder(context, idx),
       ),
-      itemCount: childCount,
+      itemCount: loading ? 10 : childCount,
     );
   }
 }

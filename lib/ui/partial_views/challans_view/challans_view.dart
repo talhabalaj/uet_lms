@@ -5,7 +5,7 @@ import 'package:lms_api/models/obe.dues.students.challan.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
-import 'package:uet_lms/ui/shared/SplitScreen.dart';
+import 'package:uet_lms/ui/shared/NestedNavigation.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/ui_utils.dart';
 
@@ -19,38 +19,31 @@ class ChallansView extends StatelessWidget {
     return ViewModelBuilder<ChallansViewModel>.reactive(
       onModelReady: (model) => model.loadData(),
       builder: (context, model, _) {
-        return SplitScreen(
-          leftView: RefreshIndicator(
-            onRefresh: () {
-              return model.loadData(refresh: true);
-            },
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: kAppBarHeight,
-                ),
-                HeadingWithSubtitle(
-                  heading: "Fee Challans",
-                  subtitle:
-                      "Check if your fees is paid or new challan form is available",
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                if (!model.isBusy)
-                  for (Challan challan in model.challans)
-                    _buildChallan(context, model, challan)
-                else
-                  loading(),
-              ]
-                  .map((e) => Padding(
-                        child: e,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: kHorizontalSpacing),
-                      ))
-                  .toList(),
+        return NestedNavigation(
+          onRefresh: () {
+            return model.loadData(refresh: true);
+          },
+          children: [
+            HeadingWithSubtitle(
+              heading: "Fee Challans",
+              subtitle:
+                  "Check if your fees is paid or new challan form is available",
             ),
-          ),
+            SizedBox(
+              height: 30,
+            ),
+            if (!model.isBusy)
+              for (Challan challan in model.challans)
+                _buildChallan(context, model, challan)
+            else
+              loading(),
+          ]
+              .map((e) => Padding(
+                    child: e,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+                  ))
+              .toList(),
         );
       },
       viewModelBuilder: () => ChallansViewModel(),

@@ -8,6 +8,7 @@ class NavButton extends StatelessWidget {
     this.onTap,
     this.title,
     this.subtitle,
+    this.disabled = false,
     this.isActive = false,
   }) : super(key: key);
 
@@ -15,12 +16,13 @@ class NavButton extends StatelessWidget {
   final String title;
   final String subtitle;
   final bool isActive;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       enableFeedback: true,
-      onPressed: onTap,
+      onPressed: disabled ? null : onTap,
       padding: EdgeInsets.zero,
       child: Container(
         height: subtitle.length <= 45 ? 55 : 65,
@@ -41,11 +43,13 @@ class NavButton extends StatelessWidget {
                     right: kHorizontalSpacing, top: 5, bottom: 5),
                 child: DefaultTextStyle.merge(
                   style: TextStyle(
-                    color: isActive
-                        ? kPrimaryColor
-                        : Color(
-                            0xff6b6b6b,
-                          ),
+                    color: disabled
+                        ? Colors.grey[500]
+                        : (isActive
+                            ? kPrimaryColor
+                            : Color(
+                                0xff6b6b6b,
+                              )),
                   ),
                   child: Builder(
                       builder: (context) => Column(

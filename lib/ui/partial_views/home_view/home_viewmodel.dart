@@ -4,7 +4,7 @@ import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/indexed_stack_service.dart';
+import 'package:uet_lms/core/services/nested_navigation_service.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
 import "package:uet_lms/core/string_extension.dart";
 import 'package:uet_lms/core/utils.dart';
@@ -13,8 +13,8 @@ class HomeViewModel extends BaseViewModel {
   final lmsService = locator<LMSService>();
   final NavigationService navigationService = locator<NavigationService>();
   final DialogService dialogService = locator<DialogService>();
-  final IndexedStackService indexedStackService =
-      locator<IndexedStackService>();
+  final NestedNavigationService indexedStackService =
+      locator<NestedNavigationService>();
 
   StudentProfile studentProfile;
   List<Semester> semesters;
@@ -73,6 +73,4 @@ class HomeViewModel extends BaseViewModel {
       this.setBusyForObject(gradeBookDetails, false);
     }).catchError(onError);
   }
-
-    
 }

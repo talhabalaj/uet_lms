@@ -6,7 +6,7 @@ import 'package:uet_lms/ui/partial_views/home_view/home_view.dart';
 import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dart';
 
 @lazySingleton
-class IndexedStackService {
+class NestedNavigationService {
   int _index = 0;
   int dpChangeTimes = 0;
   List<Widget> currentViews = [];
@@ -27,7 +27,7 @@ class IndexedStackService {
 
   void _addCurrentToBrowsed() => browsed.add(views[index]);
 
-  IndexedStackService() {
+  NestedNavigationService() {
     _addCurrentToBrowsed();
     updateViews();
   }

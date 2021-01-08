@@ -17,7 +17,7 @@ import 'package:uet_lms/ui/dialog.dart';
 import 'package:uet_lms/ui/views/login_view/login_view.dart';
 import 'package:uet_lms/ui/views/main_view/main_view.dart';
 
-import 'indexed_stack_service.dart';
+import 'nested_navigation_service.dart';
 
 @lazySingleton
 class LMSService {
@@ -215,7 +215,7 @@ class LMSService {
     user = null;
 
     // Reset the Navigation Route
-    locator<IndexedStackService>().reset();
+    locator<NestedNavigationService>().reset();
 
     // Set UserId to loggedOutUser
     setCrashReportsUserId("loggedOutUser");

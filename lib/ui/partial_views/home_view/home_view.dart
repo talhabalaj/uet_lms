@@ -9,10 +9,10 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:uet_lms/ui/partial_views/home_view/home_viewmodel.dart';
 import 'package:uet_lms/ui/shared/CardScrollView.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
+import 'package:uet_lms/ui/shared/CustomCircularProgressBar.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
 import 'package:uet_lms/ui/shared/RefreshIndicatorWithoutListView.dart';
 import 'package:uet_lms/ui/shared/SimpleLineGraph.dart';
-import 'package:uet_lms/ui/shared/SplitScreen.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/ui_utils.dart';
 
@@ -27,53 +27,50 @@ class DashBoardView extends StatelessWidget {
           await model.loadData();
         },
         builder: (context, model, _) {
-          return SplitScreen(
-            //rightView: Container(),
-            leftView: RefreshIndicatorWithoutListView(
-              onRefresh: () => model.loadData(refresh: true),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: kHorizontalSpacing,
-                  right: kHorizontalSpacing,
-                  bottom: 20,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: kAppBarHeight,
+          return RefreshIndicatorWithoutListView(
+            onRefresh: () => model.loadData(refresh: true),
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: kHorizontalSpacing,
+                right: kHorizontalSpacing,
+                bottom: 20,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: kAppBarHeight,
+                  ),
+                  if (model.busy(model.studentProfile))
+                    HeadingWithSubtitle()
+                  else
+                    HeadingWithSubtitle(
+                      heading: "Welcome, ${model.userFirstName}",
+                      subtitle:
+                          "How’s your day goin’? Here’s some stats about your University life",
                     ),
-                    if (model.busy(model.studentProfile))
-                      HeadingWithSubtitle()
-                    else
-                      HeadingWithSubtitle(
-                        heading: "Welcome, ${model.userFirstName}",
-                        subtitle:
-                            "How’s your day goin’? Here’s some stats about your University life",
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatCard(model, context),
                       ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildStatCard(model, context),
-                        ),
-                        SizedBox(
-                          width: 18,
-                        ),
-                        _buildGPACard(model, context),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    Expanded(
-                      child: _buildRegisteredSubjectsScrollView(context, model),
-                    ),
-                  ],
-                ),
+                      SizedBox(
+                        width: 18,
+                      ),
+                      _buildGPACard(model, context),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  Expanded(
+                    child: _buildRegisteredSubjectsScrollView(context, model),
+                  ),
+                ],
               ),
             ),
           );
@@ -179,119 +176,3 @@ class DashBoardView extends StatelessWidget {
     );
   }
 }
-
-class CustomCircularProgressBar extends StatefulWidget {
-  const CustomCircularProgressBar({
-    Key key,
-    @required this.value,
-    this.loading = false,
-  }) : super(key: key);
-
-  final double value;
-  final bool loading;
-  final double angle = 90;
-
-  @override
-  _CustomCircularProgressBarState createState() =>
-      _CustomCircularProgressBarState();
-}
-
-class _CustomCircularProgressBarState extends State<CustomCircularProgressBar>
-    with TickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _angle;
-
-  @override
-  void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 750),
-    );
-    _angle = Tween<double>(
-      begin: 90,
-      end: 360,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOutSine),
-    );
-    if (widget.loading) {
-      _controller.repeat(reverse: true);
-    }
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(d) {
-    if (widget.loading) {
-      _controller.repeat(reverse: true);
-    } else {
-      _controller.stop();
-    }
-    super.didUpdateWidget(d);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      width: 40,
-      child: AnimatedBuilder(
-          animation: _angle,
-          builder: (context, _) {
-            return SfRadialGauge(
-              axes: <RadialAxis>[
-                RadialAxis(
-                  minimum: 0,
-                  startAngle: widget.loading ? _angle.value : widget.angle,
-                  endAngle:widget.loading ? _angle.value : widget.angle,
-                  maximum: 100,
-                  showLabels: false,
-                  showTicks: false,
-                  axisLineStyle: AxisLineStyle(
-                    thickness: .3,
-                    color: Colors.grey.shade200,
-                    thicknessUnit: GaugeSizeUnit.factor,
-                  ),
-                  pointers: <GaugePointer>[
-                    if (widget.loading)
-                      RangePointer(
-                        value: 30,
-                        width: .3,
-                        cornerStyle: CornerStyle.bothCurve,
-                        sizeUnit: GaugeSizeUnit.factor,
-                        enableAnimation: true,
-                        color: Colors.yellow,
-                      )
-                    else
-                      RangePointer(
-                        value: widget.value,
-                        width: .3,
-                        cornerStyle: CornerStyle.bothCurve,
-                        sizeUnit: GaugeSizeUnit.factor,
-                        enableAnimation: true,
-                        color: getPerColor(widget.value),
-                      ),
-                  ],
-                  annotations: <GaugeAnnotation>[
-                    GaugeAnnotation(
-                      positionFactor: 0.14,
-                      widget: Text(
-                        widget.loading ? "" : widget.value.toStringAsFixed(0),
-                        style: TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            );
-          }),
-    );
-  }
-}
-//

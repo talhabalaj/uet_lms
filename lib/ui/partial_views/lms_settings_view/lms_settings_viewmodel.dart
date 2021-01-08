@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/indexed_stack_service.dart';
+import 'package:uet_lms/core/services/nested_navigation_service.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
@@ -20,9 +20,9 @@ class LMSSettingsViewModel extends BaseViewModel {
   final updatingProfilePic = 'UPDATING';
   final removingProfilePic = 'REMOVING';
 
-  get dpChangeTimes => locator<IndexedStackService>().dpChangeTimes;
+  get dpChangeTimes => locator<NestedNavigationService>().dpChangeTimes;
   void incrementDpChangeTimes() =>
-      locator<IndexedStackService>().dpChangeTimes++;
+      locator<NestedNavigationService>().dpChangeTimes++;
 
   Future<void> changePassword() async {
     this.setBusy(true);

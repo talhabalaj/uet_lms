@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lms_api/models/obe.core.register.dart';
 import 'package:lms_api/models/obe.core.result.dart';
 import 'package:lms_api/models/obe.core.semester.dart';
+import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
@@ -17,6 +18,7 @@ class DMCViewModel extends BaseViewModel {
 
   String _selectedSemester;
   List<Result> _result;
+  List<GradeBookDetail> gradeBookDetails;
   List<Result> _filteredResult;
   List<Register> registeredSubjects;
 
@@ -25,17 +27,23 @@ class DMCViewModel extends BaseViewModel {
   get selectedSemester => _selectedSemester;
   set selectedSemester(String value) {
     _selectedSemester = value;
-    _filteredResult = _result.where((a) =>
-          registeredSubjects
-              .firstWhere((b) => a.subject.name == b.subjectName)
-              .semesterName ==
-          _selectedSemester).toList();
+    _filteredResult = _result
+        .where((a) =>
+            registeredSubjects
+                .firstWhere((b) => a.subject.name == b.subjectName)
+                .semesterName ==
+            _selectedSemester)
+        .toList();
     this.notifyListeners();
   }
 
   Future<void> loadData({bool refresh = false}) async {
     this.setBusy(true);
     try {
+      gradeBookDetails =
+          (await lmsService.getSemestersSummary(refresh: refresh))
+              .reversed
+              .toList();
       registeredSemesters =
           await lmsService.getRegisteredSemesters(refresh: refresh);
       _result = await lmsService.getResult(refresh: refresh);
@@ -46,7 +54,8 @@ class DMCViewModel extends BaseViewModel {
             .where((b) => a.name == b.semesterName)
             .map((e) => e.subjectName)
             .toList();
-        final resultOfSubjects = _result.where((element) => semesterSubjects.indexOf(element.subject.name) != -1);
+        final resultOfSubjects = _result.where(
+            (element) => semesterSubjects.indexOf(element.subject.name) != -1);
 
         return resultOfSubjects.length > 0;
       }).toList();
