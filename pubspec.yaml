@@ -2,7 +2,7 @@ name: uet_lms
 description: This is UET LMS!
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 0.1.0
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -45,10 +45,9 @@ dependencies:
       ref: 040f36c82b63e8764ec2fd97066767503a667b6d
   share: ^0.6.5+4
   lms_api:
-    path: ../lms_api
-    # git:
-    #   url: https://github.com/talhabalaj/lms_api_dart
-    #   branch: master
+    git:
+      url: https://github.com/talhabalaj/lms_api_dart
+      branch: master
 
 dev_dependencies:
   flutter_test:
