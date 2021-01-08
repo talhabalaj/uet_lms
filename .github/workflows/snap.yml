@@ -4,25 +4,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  my-job:
-    runs-on: ubuntu-18.04
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
-
-      - name: Install Snapcraft
-        uses: samuelmeuli/action-snapcraft@v1
-
-      - name: install multipass
-        run: sudo snap install multipass
-      # You can now run Snapcraft shell commands
-      - name: Use Snapcraft
-        run: snapcraft
-
-
-      - name: upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: test.snap
-          path: ./*.snap
+    - uses: actions/checkout@v2
+    - uses: snapcore/action-build@v1
+    - uses: snapcore/action-build@v1
+      id: snapcraft
+    - uses: actions/upload-artifact@v2
+      with:
+        name: snap
+        path: ${{ steps.snapcraft.outputs.snap }}
