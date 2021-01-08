@@ -18,6 +18,9 @@ jobs:
       - name: Use Snapcraft
         run: snapcraft
 
+      - name: install multipass
+        run: snap install multipass
+
       - name: upload artifact
         uses: actions/upload-artifact@v2
         with:
