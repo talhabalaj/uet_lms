@@ -21,5 +21,6 @@ parts:
     flutter-target: lib/main.dart 
     build-packages:
      - libsecret-1-0
+     - libsecret-1-dev
      - libjsoncpp-dev
 
