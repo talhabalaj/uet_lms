@@ -21,7 +21,7 @@ dependencies:
   flutter_secure_storage:
     git:
       url: https://github.com/talhabalaj/flutter_secure_storage
-      branch: develop
+      branch: linux
   stacked_services: ^0.6.0+1
   shimmer_animation: ^1.0.0
   syncfusion_flutter_gauges: ^18.4.31
