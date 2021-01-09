@@ -42,11 +42,15 @@ class DMCView extends StatelessWidget {
                   minY: 0,
                   maxY: 4,
                   getBottomTitles: (idx) {
-                    final semesterNameParts = model.registeredSemesters.reversed
-                        .toList()[idx.toInt()]
-                        .name
-                        .split(' ');
-                    return '${semesterNameParts[0][0]}${semesterNameParts[1].substring(2)}';
+                    if (idx.toInt() < model.registeredSemesters.length) {
+                      final semesterNameParts = model
+                          .registeredSemesters.reversed
+                          .toList()[idx.toInt()]
+                          .name
+                          .split(' ');
+                      return '${semesterNameParts[0][0]}${semesterNameParts[1].substring(2)}';
+                    }
+                    return "";
                   },
                   spots: model.gradeBookDetails
                       ?.map(

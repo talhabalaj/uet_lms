@@ -44,9 +44,12 @@ class DMCViewModel extends BaseViewModel {
           (await lmsService.getSemestersSummary(refresh: refresh))
               .reversed
               .toList();
+
       registeredSemesters =
           await lmsService.getRegisteredSemesters(refresh: refresh);
+
       _result = await lmsService.getResult(refresh: refresh);
+      
       registeredSubjects =
           await lmsService.getRegisteredSubjects(refresh: refresh);
       registeredSemesters = registeredSemesters.where((a) {
