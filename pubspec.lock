@@ -328,7 +328,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "3b44bc0c62a78bdf486d566e51fb929fffba767a"
+      resolved-ref: "2d11571166a9706ba953a309c8d2a2ecf6b1cff7"
       url: "https://github.com/talhabalaj/flutter_secure_storage"
     source: git
     version: "3.3.5"

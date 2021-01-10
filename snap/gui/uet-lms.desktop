@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=UET LMS
+Comment=UET's LMS Student Portal
+Exec=uet-lms
+Icon=${SNAP}/meta/gui/uet-lms.png
+Terminal=false

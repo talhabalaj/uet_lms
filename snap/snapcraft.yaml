@@ -13,14 +13,17 @@ apps:
     extensions: [flutter-dev]
     plugs:
       - network
+      - mount-observe
+      - x11
+      - home
 
 parts:
   uet-lms:
     source: .
     plugin: flutter
     flutter-target: lib/main.dart 
-    build-packages:
-     - libsecret-1-0
+    stage-packages:
      - libsecret-1-dev
      - libjsoncpp-dev
+
 
