@@ -16,6 +16,7 @@ apps:
       - mount-observe
       - x11
       - home
+      - removable-media
 
 parts:
   uet-lms:
