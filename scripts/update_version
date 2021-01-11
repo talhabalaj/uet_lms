@@ -1,0 +1,25 @@
+#!/bin/bash
+
+help() {
+	echo "Usage: $0 version [project_dir]";
+	exit -1
+}
+
+project_dir='./'
+
+if [ -z $1 ]; then
+	help
+fi
+
+if [ ! -z $2 ]; then
+	project_dir=$2
+fi
+
+
+
+list=(pubspec.yaml snap/snapcraft.yaml);
+
+for each in ${list[@]}; do
+	echo "[!] Updating $each"
+	sed -i "s/^version: \([0-9\.\+\-]*\)$/version: $1/" "$project_dir$each"
+done;
