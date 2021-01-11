@@ -24,7 +24,7 @@ jobs:
           channel: dev
       - run: flutter config --enable-web
       - run: flutter pub get
-      - run: flutter build web --dart-define=FLUTTER_WEB_USE_SKIA=true
+      - run: flutter build web --web-renderer canvaskit --pwa-strategy none 
       - name: Deploy to Firebase
         uses: lowply/deploy-firebase@v0.0.3
         env:
