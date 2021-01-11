@@ -1,0 +1,33 @@
+#!/bin/bash
+
+cd $(dirname "$0")
+cd ..
+
+APPDIR="UET_LMS.AppDir"
+
+clean() {
+  rm -r $APPDIR/usr/* 2> /dev/null
+  rm -r $APPDIR/usr  2> /dev/null
+  rm $APPDIR/.DirIcon 2> /dev/null
+}
+
+clean
+
+flutter build linux
+mkdir -p $APPDIR/usr/bin $APPDIR/usr/bin/lib
+cp build/linux/release/bundle/uet_lms "$APPDIR/usr/bin/uet-lms"
+chmod +x "$APPDIR/usr/bin/uet-lms"
+cp build/linux/release/bundle/lib/* $APPDIR/usr/bin/lib
+cp -r build/linux/release/bundle/data $APPDIR/usr/bin/
+strip $APPDIR/usr/lib/*.so
+
+if [ ! -f "$APPDIR/AppRun" ]; then
+  cd $APPDIR
+  wget https://raw.githubusercontent.com/AppImage/AppImageKit/master/resources/AppRun
+  chmod +x AppRun
+  cd ..
+fi
+
+appimagetool $APPDIR
+
+clean

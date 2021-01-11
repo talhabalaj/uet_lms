@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=UET LMS
+Comment=UET's LMS Student Portal
+Exec=uet-lms
+Icon=uet-lms
+Terminal=false
+Categories=Education;
