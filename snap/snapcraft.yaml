@@ -17,7 +17,7 @@ apps:
       - x11
       - home
       - removable-media
-
+      - browser-support
 parts:
   uet-lms:
     source: .
