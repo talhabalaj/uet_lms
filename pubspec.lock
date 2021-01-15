@@ -328,7 +328,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2d11571166a9706ba953a309c8d2a2ecf6b1cff7"
+      resolved-ref: "1f97f8caa787e6c6712374061ec496f84213841b"
       url: "https://github.com/talhabalaj/flutter_secure_storage"
     source: git
     version: "3.3.5"
@@ -369,7 +369,7 @@ packages:
       name: get_it
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.3"
+    version: "5.0.4"
   glob:
     dependency: transitive
     description:
@@ -473,7 +473,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e9238dbde477355b63bd818e29524a8cd258bac7
+      resolved-ref: a6a9e311875fc104bb2aeeeab5240df28248262d
       url: "https://github.com/talhabalaj/lms_api_dart"
     source: git
     version: "0.0.1"
@@ -817,14 +817,14 @@ packages:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "18.4.33"
+    version: "18.4.34"
   syncfusion_flutter_gauges:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_gauges
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "18.4.33"
+    version: "18.4.34"
   term_glyph:
     dependency: transitive
     description:

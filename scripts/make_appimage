@@ -19,7 +19,7 @@ cp build/linux/release/bundle/uet_lms "$APPDIR/usr/bin/uet-lms"
 chmod +x "$APPDIR/usr/bin/uet-lms"
 cp build/linux/release/bundle/lib/* $APPDIR/usr/bin/lib
 cp -r build/linux/release/bundle/data $APPDIR/usr/bin/
-strip $APPDIR/usr/lib/*.so
+strip $APPDIR/usr/bin/lib/*.so
 
 if [ ! -f "$APPDIR/AppRun" ]; then
   cd $APPDIR

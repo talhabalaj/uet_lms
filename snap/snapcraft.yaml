@@ -3,14 +3,21 @@ version: 0.1.0
 summary: UET's LMS
 description: UET's LMS Student Portal
 
-confinement: strict
+confinement: devmode
 base: core18
 grade: devel
+
+slots:
+  dbus-svc: # name that is used with 'snap connect' on slots side
+    interface: dbus
+    bus: session
+    name: org.freedesktop.DBus
 
 apps:
   uet-lms:
     command: uet_lms
     extensions: [flutter-dev]
+    slots: [dbus-svc]
     plugs:
       - network
       - mount-observe
@@ -18,6 +25,8 @@ apps:
       - home
       - removable-media
       - browser-support
+      - password-manager-service
+    
 parts:
   uet-lms:
     source: .
@@ -28,6 +37,6 @@ parts:
      - libjsoncpp-dev
     stage-packages:
      - libsecret-1-dev
-     - libjsoncpp-dev
+     - libjsoncpp1-dev
 
 
