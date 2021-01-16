@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uet_lms/core/utils.dart';
@@ -50,7 +52,8 @@ class _CustomDropdownState extends State<CustomDropdown>
       value: 0,
       duration: Duration(milliseconds: 400),
     );
-    _containerHeight = Tween<double>(begin: 0, end: 150).animate(
+    double height = 50.0 * (min(3, widget.values?.length ?? 1));
+    _containerHeight = Tween<double>(begin: 0.0, end: height).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeInOutSine,
@@ -126,7 +129,8 @@ class _CustomDropdownState extends State<CustomDropdown>
                             ),
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
-                            padding: EdgeInsets.symmetric(vertical: isMobile() ? 10 : 20),
+                            padding: EdgeInsets.symmetric(
+                                vertical: isMobile() ? 10 : 20),
                             elevation: 0,
                             hoverElevation: 0,
                             onPressed: () {

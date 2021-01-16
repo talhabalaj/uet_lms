@@ -28,6 +28,5 @@ if [ ! -f "$APPDIR/AppRun" ]; then
   cd ..
 fi
 
-appimagetool $APPDIR
-
+appimagetool $APPDIR -u "gh-releases-zsync|talhabalaj|uet-lms-release|latest|UET_LMS-*x86_64.AppImage.zsync" $APPDIR/*.desktop
 clean

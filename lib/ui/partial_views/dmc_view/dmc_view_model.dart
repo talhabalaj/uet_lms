@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:lms_api/lms_api.dart';
 import 'package:lms_api/models/obe.core.register.dart';
 import 'package:lms_api/models/obe.core.result.dart';
 import 'package:lms_api/models/obe.core.semester.dart';
@@ -38,6 +39,7 @@ class DMCViewModel extends BaseViewModel {
   }
 
   Future<void> loadData({bool refresh = false}) async {
+    this.clearErrors();
     this.setBusy(true);
     try {
       gradeBookDetails =
@@ -49,7 +51,15 @@ class DMCViewModel extends BaseViewModel {
           await lmsService.getRegisteredSemesters(refresh: refresh);
 
       _result = await lmsService.getResult(refresh: refresh);
-      
+
+      if (_result.length == 0) {
+        this.setError(LMSException("Nawa Aya Aein Soneya?",
+            description: "No result has been declared for you. Intezar karo!"));
+
+        this.setBusy(false);
+        return;
+      }
+
       registeredSubjects =
           await lmsService.getRegisteredSubjects(refresh: refresh);
       registeredSemesters = registeredSemesters.where((a) {

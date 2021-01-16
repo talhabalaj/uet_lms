@@ -7,7 +7,6 @@ import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/views/login_view/login_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../ui_utils.dart';
 
 class LoginView extends StatelessWidget {
   static final id = "/login";

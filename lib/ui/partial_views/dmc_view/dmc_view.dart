@@ -27,12 +27,33 @@ class DMCView extends StatelessWidget {
             HeadingWithSubtitle(
               heading: "DMC",
               subtitle:
-                  "Check your grades and stuff. you can the usual, best of luck tho",
+                  "Check your grades and stuff. you known the usual, best of luck tho",
             ),
             SizedBox(
               height: 20,
             ),
-            if (!model.isBusy) ...[
+            if (model.hasError)
+              Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height - kAppBarHeight - 120,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      model.modelError.message,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      model.modelError.description,
+                      style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                    )
+                  ],
+                ),
+              )
+            else if (!model.isBusy) ...[
               CustomCard(
                 height: 200,
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),

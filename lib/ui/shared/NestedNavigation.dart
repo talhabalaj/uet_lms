@@ -15,6 +15,7 @@ class NestedNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       color: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).cardColor,
       onRefresh: onRefresh ?? () async {},
       child: ListView(children: [
         SizedBox(
