@@ -87,7 +87,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     ),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                    fillColor: Colors.white,
+                    fillColor: Theme.of(context).cardColor,
                     filled: true,
                     hintText: widget.hintText,
                     errorMaxLines: 2,

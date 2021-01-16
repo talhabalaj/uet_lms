@@ -30,7 +30,7 @@ class _SimpleWideButtonState extends State<SimpleWideButton> {
     return FlatButton(
       child: widget.loading
           ? SpinKitThreeBounce(
-              color: widget.textColor ?? Colors.white,
+              color: widget.textColor ?? Theme.of(context).backgroundColor,
               size: 20,
             )
           : Text(
@@ -38,13 +38,13 @@ class _SimpleWideButtonState extends State<SimpleWideButton> {
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
-                  .copyWith(color: widget.textColor ?? Colors.white),
+                  .copyWith(color: widget.textColor ?? Theme.of(context).backgroundColor),
             ),
       height: widget.height ?? 57,
       minWidth: double.infinity,
-      disabledColor: (widget.color ?? kPrimaryColor),
+      disabledColor: (widget.color ?? Theme.of(context).primaryColor),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-      color: widget.color ?? kPrimaryColor,
+      color: widget.color ?? Theme.of(context).primaryColor,
       onPressed: widget.onPressed,
     );
   }

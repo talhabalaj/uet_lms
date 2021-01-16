@@ -111,8 +111,8 @@ class _BasicDialogState extends State<BasicDialog>
                               ),
                               Expanded(
                                 child: SimpleWideButton(
-                                  color: Colors.grey[200],
-                                  textColor: kPrimaryColor,
+                                  color: Theme.of(context).primaryColor.withAlpha(5),
+                                  textColor: Theme.of(context).primaryColor,
                                   text: widget.request.secondaryButtonTitle,
                                   onPressed: () => _completeDialog(false),
                                 ),
@@ -130,7 +130,7 @@ class _BasicDialogState extends State<BasicDialog>
                   topLeft: Radius.circular(36),
                   topRight: Radius.circular(36),
                 ),
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).cardColor,
               ),
             ),
           )

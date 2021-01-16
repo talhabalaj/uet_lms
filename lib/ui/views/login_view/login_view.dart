@@ -1,9 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/shared/CutsomTextField.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/views/login_view/login_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+
+import '../../ui_utils.dart';
 
 class LoginView extends StatelessWidget {
   static final id = "/login";
@@ -19,10 +23,13 @@ class LoginView extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
-              child: Image.asset(
-                "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
-                fit: BoxFit.cover,
-                alignment: Alignment.bottomRight,
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(Theme.of(context).backgroundColor.withAlpha(100), BlendMode.overlay, ),
+                child: Image.asset(
+                  "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
+                  fit: BoxFit.cover,
+                  alignment: Alignment.bottomRight,
+                ),
               ),
             ),
             _buildBody(context, model, large: large),

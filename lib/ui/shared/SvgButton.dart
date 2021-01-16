@@ -19,7 +19,7 @@ class SvgButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: color,
+      color: color ?? Theme.of(context).primaryColor.withAlpha(20),
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -28,6 +28,7 @@ class SvgButton extends StatelessWidget {
             asset,
             height: height ?? 20,
             alignment: Alignment.centerLeft,
+            color: Theme.of(context).primaryColor,
           ),
         ),
       ),

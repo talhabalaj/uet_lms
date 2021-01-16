@@ -39,7 +39,7 @@ class CustomCard extends StatelessWidget {
             : builder(context),
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         boxShadow: boxShadow,
         borderRadius: BorderRadius.circular(7),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/shared/CardScrollView.dart';
 import 'CustomCard.dart';
 import 'package:uet_lms/core/string_extension.dart';
@@ -118,11 +119,14 @@ class _CustomDropdownState extends State<CustomDropdown>
                           child: MaterialButton(
                             child: Text(
                               widget.values[idx].toLowerCase().capitalize(),
-                              style: TextStyle(fontSize: 15),
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Theme.of(context).primaryColor,
+                              ),
                             ),
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
-                            padding: EdgeInsets.symmetric(vertical: 20),
+                            padding: EdgeInsets.symmetric(vertical: isMobile() ? 10 : 20),
                             elevation: 0,
                             hoverElevation: 0,
                             onPressed: () {
@@ -172,7 +176,10 @@ class _CustomDropdownState extends State<CustomDropdown>
                 widget.currentValue.toLowerCase().capitalize(),
                 style: style,
               ),
-              Icon(Icons.keyboard_arrow_down),
+              Icon(
+                Icons.keyboard_arrow_down,
+                color: Theme.of(context).primaryColor,
+              ),
             ],
           ),
         ),

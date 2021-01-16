@@ -85,7 +85,7 @@ class ChallansView extends StatelessWidget {
                 if (!challan.isPaid)
                   model.busy(challan)
                       ? SpinKitRing(
-                          color: kPrimaryColor,
+                          color: Theme.of(context).primaryColor,
                           size: 20,
                           lineWidth: 3,
                         )
@@ -93,7 +93,7 @@ class ChallansView extends StatelessWidget {
                           cursor: SystemMouseCursors.click,
                           child: GestureDetector(
                             child: Icon(Icons.download_outlined,
-                                color: kPrimaryColor),
+                                color: Theme.of(context).primaryColor),
                             onTap: model.busy(challan)
                                 ? null
                                 : () {

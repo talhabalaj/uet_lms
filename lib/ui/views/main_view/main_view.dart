@@ -72,7 +72,7 @@ class MainView extends StatelessWidget {
           decoration: BoxDecoration(
             color: model.isTopBarTransparent
                 ? Colors.transparent
-                : Colors.grey[100].withAlpha(100),
+                : Theme.of(context).backgroundColor.withAlpha(100),
             boxShadow: model.isTopBarTransparent ? [] : [kFavBoxShadow],
           ),
           child: Padding(
@@ -86,7 +86,7 @@ class MainView extends StatelessWidget {
                   ),
                   child: SvgButton(
                     color: model.isTopBarTransparent
-                        ? Colors.grey[200]
+                        ? null
                         : Colors.transparent,
                     asset: "assets/svg/menu.svg",
                     onTap: () {
@@ -118,7 +118,7 @@ class MainView extends StatelessWidget {
   Widget _buildNav(BuildContext context, MainViewModel model) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      color: Colors.white,
+      color: Theme.of(context).cardColor,
       width: 300,
       child: Stack(
         children: [
@@ -127,7 +127,9 @@ class MainView extends StatelessWidget {
             children: [
               SizedBox(height: kAppBarHeight),
               for (final each in kMainViewNestedNavLinks.asMap().entries) ...[
-                if (each.value.category != ""  && kMainViewNestedNavLinks[each.key - 1].category != each.value.category)
+                if (each.value.category != "" &&
+                    kMainViewNestedNavLinks[each.key - 1].category !=
+                        each.value.category)
                   Padding(
                     padding:
                         EdgeInsets.only(left: kHorizontalSpacing, bottom: 5),
@@ -149,7 +151,8 @@ class MainView extends StatelessWidget {
                   },
                   title: each.value.title,
                   isActive: model.views.indexWhere(
-                        (dynamic element) => element.id == each.value.screenName,
+                        (dynamic element) =>
+                            element.id == each.value.screenName,
                       ) ==
                       model.index,
                   subtitle: each.value.description +
@@ -175,7 +178,6 @@ class MainView extends StatelessWidget {
                 child: Row(
                   children: [
                     SvgButton(
-                      color: Colors.grey.shade100.withAlpha(400),
                       asset: "assets/svg/cross.svg",
                       onTap: () {
                         Navigator.of(context).pop();

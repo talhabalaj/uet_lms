@@ -5,19 +5,27 @@ import 'package:uet_lms/ui/ui_constants.dart';
 
 @lazySingleton
 class ThemeService {
-  ThemeData _currentTheme;
+  String _currentTheme;
 
   Future<void> init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _currentTheme = themes[prefs.getString("theme") ?? "light"];
+    _currentTheme = prefs.getString("theme") ?? "light";
+  }
+
+  Future<void> setTheme(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("theme", name);
+    _currentTheme = name;
   }
 
   static Map<String, ThemeData> themes = {
     "light": ThemeData(
         backgroundColor: Colors.grey[100],
+        cardColor: Colors.white,
         primaryColor: kPrimaryColor,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         scaffoldBackgroundColor: Colors.grey[100],
+
         textTheme: TextTheme(
           headline1: kDefaultTextStyle.copyWith(
               fontWeight: FontWeight.bold, fontSize: 34),
@@ -42,6 +50,7 @@ class ThemeService {
     "dark": ThemeData(
         backgroundColor: Colors.black,
         primaryColor: Colors.white,
+        cardColor: Color(0xff141414),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         scaffoldBackgroundColor: Colors.black,
         textTheme: TextTheme(
@@ -67,5 +76,6 @@ class ThemeService {
         fontFamily: 'Inter'),
   };
 
-  ThemeData get theme => _currentTheme;
+  ThemeData get theme => themes[_currentTheme];
+  String get themeName => _currentTheme;
 }
