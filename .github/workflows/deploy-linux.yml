@@ -8,16 +8,38 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  # deploy-snap:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: snapcore/action-build@v1
+  #     id: snapcraft
+  #   - run: |
+  #       echo ${{secrets.SNAPCRAFT_TOKEN}} | snapcraft login --with -
+  #       snapcraft upload ${{steps.snapcraft.outputs.snap}}
+  #   - uses: actions/upload-artifact@v2
+  #     with:
+  #       name: snap
+  #       path: ${{steps.snapcraft.outputs.snap}}
+  deploy-appImage:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: snapcore/action-build@v1
-      id: snapcraft
-    - run: |
-        echo ${{secrets.SNAPCRAFT_TOKEN}} | snapcraft login --with -
-        snapcraft upload ${{steps.snapcraft.outputs.snap}}
-    - uses: actions/upload-artifact@v2
-      with:
-        name: snap
-        path: ${{steps.snapcraft.outputs.snap}}
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: dev
+      - run: flutter config --enable-linux-desktop
+      - run: flutter pub get
+      - run: scripts/make_appimage
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          repo: uet-lms-release
+          body: New release
+          draft: false
+          prerelease: true
