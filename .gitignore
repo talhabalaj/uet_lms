@@ -47,4 +47,4 @@ app.*.map.json
 .firebase/*
 local.properties
 *.snap
-*.AppImage
+*.AppImage*
