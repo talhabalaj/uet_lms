@@ -39,7 +39,7 @@ jobs:
           script: |
             github.git.createRef({
               owner: context.repo.owner,
-              repo: uet-lms-release,
+              repo: 'uet-lms-release',
               ref: ${{ github.ref }},
               sha: context.sha
             })
