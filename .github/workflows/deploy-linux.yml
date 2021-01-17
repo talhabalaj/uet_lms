@@ -30,6 +30,7 @@ jobs:
           channel: dev
       - run: flutter config --enable-linux-desktop
       - run: flutter pub get
+      - run:  sudo apt-get install clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libjsoncpp-dev libsecret-1-dev
       - run: scripts/make_appimage
       - name: Create Release
         id: create_release
@@ -42,4 +43,25 @@ jobs:
           repo: uet-lms-release
           body: New release
           draft: false
-          prerelease: true
+          prerelease: true 
+          - name: Upload Release Asset
+      - id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        name: Upload .zsync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./UET_LMS-x86_64.AppImage.zsync
+          asset_name: UET_LMS-x86_64.AppImage.zsync
+          asset_content_type: application/octet-stream
+      - id: upload-release-asset-2 
+        uses: actions/upload-release-asset@v1
+        name: Upload .AppImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./UET_LMS-x86_64.AppImage
+          asset_name: UET_LMS-x86_64.AppImage
+          asset_content_type: application/octet-stream
