@@ -18,3 +18,5 @@ for each in ${list[@]}; do
 	echo "[!] Updating $each"
 	sed -i "s/^version: \([0-9\.\+\-]*\)$/version: $1/" "$each"
 done;
+
+git tag v$1 master
