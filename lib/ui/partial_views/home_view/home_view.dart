@@ -164,6 +164,7 @@ class DashBoardView extends StatelessWidget {
             ),
             CustomCircularProgressBar(
               value: attendance,
+              bgColor: Theme.of(context).primaryColor.withAlpha(25),
               loading: model.busy(model.attendance),
             ),
           ],

@@ -43,7 +43,7 @@ class _SimpleWideButtonState extends State<SimpleWideButton> {
       minWidth: double.infinity,
       disabledColor: (widget.color ?? Theme.of(context).primaryColor),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-      color: widget.color ?? Theme.of(context).primaryColor,
+      color: widget.color ?? Theme.of(context).accentColor,
       onPressed: widget.onPressed,
     );
   }

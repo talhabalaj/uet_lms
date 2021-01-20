@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:uet_lms/ui/ui_utils.dart';
-
 class CustomCircularProgressBar extends StatefulWidget {
-  const CustomCircularProgressBar({
+  CustomCircularProgressBar({
     Key key,
     @required this.value,
     this.loading = false,
-  }) : super(key: key);
+    Color bgColor
+  }) : super(key: key) {
+    this.bgColor = bgColor ?? Colors.grey.shade200;
+  }
 
   final double value;
   final bool loading;
   final double angle = 90;
+  Color bgColor;
 
   @override
   _CustomCircularProgressBarState createState() =>
@@ -76,7 +79,7 @@ class _CustomCircularProgressBarState extends State<CustomCircularProgressBar>
                   showTicks: false,
                   axisLineStyle: AxisLineStyle(
                     thickness: .3,
-                    color: Colors.grey.shade200,
+                    color: widget.bgColor,
                     thicknessUnit: GaugeSizeUnit.factor,
                   ),
                   pointers: <GaugePointer>[
@@ -87,7 +90,7 @@ class _CustomCircularProgressBarState extends State<CustomCircularProgressBar>
                         cornerStyle: CornerStyle.bothCurve,
                         sizeUnit: GaugeSizeUnit.factor,
                         enableAnimation: true,
-                        color: Colors.yellow,
+                        color: Theme.of(context).accentColor,
                       )
                     else
                       RangePointer(

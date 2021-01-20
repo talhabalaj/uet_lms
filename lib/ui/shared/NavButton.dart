@@ -32,7 +32,9 @@ class NavButton extends StatelessWidget {
           children: [
             Container(
               width: 5,
-              color: isActive ? Theme.of(context).primaryColor : Colors.transparent,
+              color: isActive
+                  ? Theme.of(context).accentColor
+                  : Colors.transparent,
             ),
             SizedBox(
               width: kHorizontalSpacing - 5,
@@ -44,12 +46,10 @@ class NavButton extends StatelessWidget {
                 child: DefaultTextStyle.merge(
                   style: TextStyle(
                     color: disabled
-                        ? Colors.grey[500]
+                        ? Theme.of(context).primaryColor.withAlpha(100)
                         : (isActive
-                            ? Theme.of(context).primaryColor
-                            : Color(
-                                0xff6b6b6b,
-                              )),
+                            ? Theme.of(context).accentColor
+                            : Theme.of(context).primaryColor.withAlpha(200)),
                   ),
                   child: Builder(
                       builder: (context) => Column(

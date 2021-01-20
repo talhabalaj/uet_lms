@@ -16,12 +16,12 @@ class DefaultShimmer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 5),
       child: Shimmer(
-        color: color ?? Colors.grey[200],
+        color: color ?? Theme.of(context).primaryColor.withAlpha(20),
         child: Container(
           height: height ?? 16,
           decoration: BoxDecoration(
             borderRadius: borderRadius ?? BorderRadius.circular(7),
-            color: color ?? Colors.grey[200],
+            color: color ?? Theme.of(context).primaryColor.withAlpha(20),
           ),
           width: width,
         ),

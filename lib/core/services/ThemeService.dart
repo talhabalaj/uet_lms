@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
+import 'package:uet_lms/ui/ui_utils.dart';
 
 @lazySingleton
 class ThemeService {
@@ -20,12 +21,12 @@ class ThemeService {
 
   static Map<String, ThemeData> themes = {
     "light": ThemeData(
-        backgroundColor: Colors.grey[100],
-        cardColor: Colors.white,
+        backgroundColor: lighten(Colors.indigo, .48),
+        cardColor:lighten(Colors.indigo, .49),
         primaryColor: kPrimaryColor,
+        accentColor: Colors.indigo,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        scaffoldBackgroundColor: Colors.grey[100],
-
+        scaffoldBackgroundColor: lighten(Colors.indigo, .48),
         textTheme: TextTheme(
           headline1: kDefaultTextStyle.copyWith(
               fontWeight: FontWeight.bold, fontSize: 34),
@@ -48,11 +49,12 @@ class ThemeService {
         ),
         fontFamily: 'Inter'),
     "dark": ThemeData(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff101010),
         primaryColor: Colors.white,
-        cardColor: Color(0xff141414),
+        cardColor: Color(0xff202020),
+        accentColor: Colors.deepPurple[100],
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: Color(0xff101010),
         textTheme: TextTheme(
           headline1: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 34),

@@ -13,7 +13,7 @@ class SimpleLineGraph extends StatefulWidget {
     this.minY,
     @required this.spots,
     @required this.colors,
-    this.loadingColor = Colors.yellow,
+    this.loadingColor,
   })  : this.baseTextStyle = baseTextStyle ??
             TextStyle(
               fontSize: 15,
@@ -68,7 +68,7 @@ class _SimpleLineGraphState extends State<SimpleLineGraph> {
 
   @override
   Widget build(BuildContext context) {
-    final loadingColors = List.generate(4, (index) => widget.loadingColor);
+    final loadingColors = List.generate(4, (index) => widget.loadingColor ?? Theme.of(context).accentColor);
     final colors =
         widget.loading ? loadingColors : (widget.colors) ?? loadingColors;
 
