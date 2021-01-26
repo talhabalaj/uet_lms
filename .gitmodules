@@ -1,0 +1,3 @@
+[submodule "uet_lms_api"]
+	path = uet_lms_api
+	url = https://github.com/talhabalaj/uet_lms_api
