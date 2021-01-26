@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:lms_api/models/obe.core.result.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view_model.dart';
@@ -27,7 +28,7 @@ class DMCView extends StatelessWidget {
             HeadingWithSubtitle(
               heading: "DMC",
               subtitle:
-                  "Check your grades and stuff. you known the usual, best of luck tho",
+                  "Check your grades and stuff. you know the usual, best of luck tho",
             ),
             SizedBox(
               height: 20,
@@ -35,7 +36,8 @@ class DMCView extends StatelessWidget {
             if (model.hasError)
               Container(
                 alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height - kAppBarHeight - 120,
+                height:
+                    MediaQuery.of(context).size.height - kAppBarHeight - 120,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -98,58 +100,83 @@ class DMCView extends StatelessWidget {
                 currentValue: model.selectedSemester,
                 selected: (value) => model.selectedSemester = value,
               ),
-              for (Result result in model.result) ...[
-                SizedBox(height: 15),
-                CustomCard(
-                  builder: (context) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
+              AnimationLimiter(
+                key: ValueKey(model.selectedSemester),
+                child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: model.result.length,
+                  itemBuilder: (BuildContext context, int index) =>
+                      AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      verticalOffset: 50.0,
+                      child: FadeInAnimation(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              result.subject.name
-                                  .split(' ')
-                                  .sublist(1)
-                                  .join(" "),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              result.subject.name.split(' ')[0],
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "${result.weightage.toInt()} / 100",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                color: Colors.grey[500],
+                            SizedBox(height: 15),
+                            CustomCard(
+                              builder: (context) => Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          model.result[index].subject.name
+                                              .split(' ')
+                                              .sublist(1)
+                                              .join(" "),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          model.result[index].subject.name
+                                              .split(' ')[0],
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "${model.result[index].weightage.toInt()} / 100",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17,
+                                            color: Colors.grey[500],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    model.result[index].grade,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 40,
+                                      color: model
+                                          .getGradeColor(model.result[index]),
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
-                      Text(
-                        result.grade,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                          color: model.getGradeColor(result),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                )
-              ]
+                ),
+              )
             ] else
               loading(),
             SizedBox(height: 15),

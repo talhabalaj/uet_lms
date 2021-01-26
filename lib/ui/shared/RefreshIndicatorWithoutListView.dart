@@ -13,7 +13,7 @@ class RefreshIndicatorWithoutListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).accentColor,
       backgroundColor: Theme.of(context).cardColor,
       onRefresh: onRefresh,
       child: SingleChildScrollView(

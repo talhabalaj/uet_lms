@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
@@ -35,7 +36,11 @@ void main() async {
     await DesktopWindow.setFullScreen(false);
   }
 
-  runApp(MyApp());
+  runApp(
+    Phoenix(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

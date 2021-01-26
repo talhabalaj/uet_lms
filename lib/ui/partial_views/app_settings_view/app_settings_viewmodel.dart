@@ -10,12 +10,6 @@ class AppSettingsViewModel extends BaseViewModel {
 
   Future<void> updateTheme(String newValue) async {
     await themeService.setTheme(newValue);
-    dialogService.showCustomDialog(
-      variant: DialogType.basic,
-      mainButtonTitle: "Okay",
-      title: "App Restart Required",
-      description: "Exit and relaunch the app to use the new theme",
-    );
     this.notifyListeners();
   }
 }

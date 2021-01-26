@@ -23,7 +23,7 @@ class DMCViewModel extends BaseViewModel {
   List<Result> _filteredResult;
   List<Register> registeredSubjects;
 
-  get result => _filteredResult;
+  List<Result> get result => _filteredResult;
 
   get selectedSemester => _selectedSemester;
   set selectedSemester(String value) {

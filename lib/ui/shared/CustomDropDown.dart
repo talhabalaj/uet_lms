@@ -130,7 +130,7 @@ class _CustomDropdownState extends State<CustomDropdown>
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
                             padding: EdgeInsets.symmetric(
-                                vertical: isMobile() ? 10 : 20),
+                                vertical: isMobile() ? 15 : 20),
                             elevation: 0,
                             hoverElevation: 0,
                             onPressed: () {

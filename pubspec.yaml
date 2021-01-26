@@ -17,6 +17,8 @@ dependencies:
   provider: ^4.3.2+2
   firebase_crashlytics: ^0.2.4
   firebase_core: ^0.5.3
+  flutter_phoenix: ^0.1.0
+  flutter_staggered_animations: ^0.1.2
   injectable: ^1.0.5
   flutter_secure_storage:
     git:

@@ -62,14 +62,14 @@ class LMSSettingsView extends StatelessWidget {
                 Flexible(
                   flex: 4,
                   child: SimpleWideButton(
-                    textColor: Theme.of(context).primaryColor,
+                    color: Theme.of(context).accentColor.withAlpha(15),
+                    textColor: Theme.of(context).accentColor,
                     text: "Remove",
                     height: 50,
                     loading: model.busy(model.removingProfilePic),
                     onPressed: () {
                       model.removeProfilePic();
                     },
-                    color: Colors.grey[200],
                   ),
                 ),
                 Spacer(),

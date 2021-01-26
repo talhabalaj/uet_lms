@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/services/ThemeService.dart';
 import 'package:uet_lms/ui/partial_views/app_settings_view/app_settings_viewmodel.dart';
@@ -34,7 +35,10 @@ class AppSettingsView extends StatelessWidget {
               CustomDropdown(
                 values: ThemeService.themes.keys.toList(),
                 currentValue: model.themeService.themeName,
-                selected: model.updateTheme,
+                selected: (v) async { 
+                  await model.updateTheme(v);
+                  Phoenix.rebirth(context);
+                },
               )
             ]
                 .map((e) => Padding(

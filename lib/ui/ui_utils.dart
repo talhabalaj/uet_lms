@@ -19,12 +19,13 @@ Widget loading({int count = 4}) {
 }
 
 Color getPerColor(double per) {
+  Color cur = locator<ThemeService>().theme.accentColor;
   if (per >= 55 && per < 75) {
-    return Colors.orange;
-  } else if (per <= 55) {
-    return Colors.red;
+    return lighten(cur, .1);
+  } else if (per <= 55) { 
+    return lighten(cur, .2);
   }
-  return locator<ThemeService>().theme.accentColor;
+  return cur;
 }
 
 Color darken(Color color, [double amount = .1]) {

@@ -22,7 +22,7 @@ class ThemeService {
   static Map<String, ThemeData> themes = {
     "light": ThemeData(
         backgroundColor: lighten(Colors.indigo, .48),
-        cardColor:lighten(Colors.indigo, .49),
+        cardColor: lighten(Colors.indigo, .55),
         primaryColor: kPrimaryColor,
         accentColor: Colors.indigo,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -52,7 +52,7 @@ class ThemeService {
         backgroundColor: Color(0xff101010),
         primaryColor: Colors.white,
         cardColor: Color(0xff202020),
-        accentColor: Colors.deepPurple[100],
+        accentColor: Colors.amber,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         scaffoldBackgroundColor: Color(0xff101010),
         textTheme: TextTheme(

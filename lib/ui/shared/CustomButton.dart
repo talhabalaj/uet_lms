@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:uet_lms/ui/ui_utils.dart';
 
 class SimpleWideButton extends StatefulWidget {
   const SimpleWideButton({
@@ -41,9 +42,9 @@ class _SimpleWideButtonState extends State<SimpleWideButton> {
             ),
       height: widget.height ?? 57,
       minWidth: double.infinity,
-      disabledColor: (widget.color ?? Theme.of(context).primaryColor),
+      disabledColor: (widget.color ?? darken(Theme.of(context).accentColor, .1)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-      color: widget.color ?? Theme.of(context).accentColor,
+      color: darken(widget.color ?? Theme.of(context).accentColor, widget.loading ? .05 : 0),
       onPressed: widget.onPressed,
     );
   }
