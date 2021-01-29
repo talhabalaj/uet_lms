@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_chooser/file_chooser.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_api/lms_api.dart';
@@ -57,6 +58,7 @@ Future<bool> catchLMSorInternetException(Exception e,
   if (e is LMSException) {
     errorMessage = e.message;
     description = e.description ?? "Please report this issue to developer.";
+    FirebaseCrashlytics.instance.recordError(e, null);
   } else if (e is SocketException) {
     errorMessage = "No Internet connection.";
     description = "Maybe try again with internet";

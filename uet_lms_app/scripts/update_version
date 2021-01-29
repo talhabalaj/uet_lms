@@ -19,4 +19,4 @@ for each in ${list[@]}; do
 	sed -i "s/^version: \([0-9\.\+\-]*\)$/version: $1/" "$each"
 done;
 
-git tag v$1 master
+#git tag v$1 master
