@@ -34,11 +34,9 @@ class SplashView extends StatelessWidget {
                 ),
               ),
               if (model.internet)
-                Shimmer(
-                  child: Text(
-                    "dOwnLoaDing nuCLEAr COdes",
-                    style: TextStyle(fontSize: 20),
-                  ),
+                Text(
+                  "dOwnLoaDing nuCLEAr COdes",
+                  style: TextStyle(fontSize: 20),
                 ),
             ],
           ),

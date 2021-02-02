@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -60,7 +62,8 @@ class DMCView extends StatelessWidget {
                 height: 200,
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 builder: (context) => DetialedLineGraph(
-                  maxX: 7,
+                  maxX: max(
+                      7.0, (model.registeredSemesters.length - 1).toDouble()),
                   minX: 0,
                   minY: 0,
                   maxY: 4,
@@ -71,7 +74,7 @@ class DMCView extends StatelessWidget {
                           .toList()[idx.toInt()]
                           .name
                           .split(' ');
-                      return '${semesterNameParts[0][0]}${semesterNameParts[1].substring(2)}';
+                      return '${semesterNameParts[0].substring(0, 2)}${semesterNameParts[1].substring(2)}';
                     }
                     return "";
                   },

@@ -25,7 +25,7 @@ class AppSettingsView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: Text(
-                  "PERSONALIZATION",
+                  "THEME",
                   style: TextStyle(
                     color: Colors.grey[500],
                     fontWeight: FontWeight.w600,

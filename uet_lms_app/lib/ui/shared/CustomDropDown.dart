@@ -149,17 +149,21 @@ class _CustomDropdownState extends State<CustomDropdown>
   }
 
   closeMenu() async {
+    this.setState(() {
+      isMenuOpen = !isMenuOpen;
+    });
     await _animationController.reverse();
-    overlayEntry.remove();
-    isMenuOpen = !isMenuOpen;
+    overlayEntry?.remove();
   }
 
   openMenu() async {
     findButton();
+    this.setState(() {
+      isMenuOpen = !isMenuOpen;
+    });
     overlayEntry = _overlayEntryBuilder();
     _animationController.forward();
     Overlay.of(context).insert(overlayEntry);
-    isMenuOpen = !isMenuOpen;
   }
 
   @override
@@ -180,9 +184,14 @@ class _CustomDropdownState extends State<CustomDropdown>
                 widget.currentValue.toLowerCase().capitalize(),
                 style: style,
               ),
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: Theme.of(context).primaryColor,
+              AnimatedContainer(
+                duration: Duration(milliseconds: 250),
+                transformAlignment: Alignment.center,
+                transform: Matrix4.identity()..rotateZ(isMenuOpen ? pi : 0),
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ],
           ),

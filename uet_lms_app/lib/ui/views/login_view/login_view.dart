@@ -1,12 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/ThemeService.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/shared/CutsomTextField.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/views/login_view/login_viewmodel.dart';
 import 'package:stacked/stacked.dart';
-
 
 class LoginView extends StatelessWidget {
   static final id = "/login";
@@ -22,13 +23,17 @@ class LoginView extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
-              child: ColorFiltered(
-                colorFilter: ColorFilter.mode(Theme.of(context).backgroundColor.withAlpha(100), BlendMode.overlay, ),
-                child: Image.asset(
-                  "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
-                  fit: BoxFit.cover,
-                  alignment: Alignment.bottomRight,
-                ),
+              child: Stack(
+                children: [
+                  Image.asset(
+                    "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
+                    fit: BoxFit.cover,
+                    alignment: Alignment.bottomRight,
+                  ),
+                  Container(
+                    color: Theme.of(context).cardColor.withOpacity(.40),
+                  ),
+                ],
               ),
             ),
             _buildBody(context, model, large: large),
@@ -61,29 +66,12 @@ class LoginView extends StatelessWidget {
                   ? null
                   : BoxDecoration(
                       color: Theme.of(context).backgroundColor,
-                      borderRadius: BorderRadius.circular(36),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
+                      ),
                     ),
               child: _buildForm(context, model),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: kHorizontalSpacing, vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.shield, color: Colors.green[400]),
-                SizedBox(
-                  width: 5,
-                ),
-                Flexible(
-                  child: Text(
-                    'Your password is securely stored on-device',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                )
-              ],
             ),
           ),
         ],
@@ -203,6 +191,30 @@ class LoginView extends StatelessWidget {
                 : () async {
                     await model.login();
                   },
+          ),
+          Spacer(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: kHorizontalSpacing, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.shield, color: Colors.green[400]),
+                SizedBox(
+                  width: 5,
+                ),
+                Flexible(
+                  child: Text(
+                    'Your password is securely stored on-device',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(fontSize: 13),
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),

@@ -100,7 +100,7 @@ class _SimpleLineGraphState extends State<SimpleLineGraph> {
           maxY: widget.maxY,
           minY: widget.minY,
           lineBarsData: [
-            LineChartBarData(
+            LineChartBarData(              
               spots:
                   !widget.loading ? widget.spots : widget.loadingSpots[index],
               isCurved: true,

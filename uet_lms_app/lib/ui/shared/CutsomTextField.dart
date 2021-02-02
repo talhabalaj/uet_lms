@@ -99,9 +99,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   ),
                 ),
                 if (widget.isPassword)
-                  Positioned(
-                      right: 16,
-                      top: 13.5,
+                  Align(
+                    heightFactor: 2,
+                      alignment: Alignment.centerRight,
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
@@ -110,12 +110,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
                               passwordShown = !passwordShown;
                             });
                           },
-                          child: Icon(
-                            passwordShown
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Colors.grey[300],
-                            size: 23,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Icon(
+                              passwordShown
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.grey[300],
+                              size: 23,
+                            ),
                           ),
                         ),
                       )),

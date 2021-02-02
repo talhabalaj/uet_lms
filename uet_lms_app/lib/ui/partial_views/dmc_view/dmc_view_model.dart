@@ -28,13 +28,8 @@ class DMCViewModel extends BaseViewModel {
   get selectedSemester => _selectedSemester;
   set selectedSemester(String value) {
     _selectedSemester = value;
-    _filteredResult = _result
-        .where((a) =>
-            registeredSubjects
-                .firstWhere((b) => a.subject.name == b.subjectName)
-                .semesterName ==
-            _selectedSemester)
-        .toList();
+    _filteredResult =
+        _result.where((a) => a.semesterName.toLowerCase() == _selectedSemester.toLowerCase()).toList();
     this.notifyListeners();
   }
 

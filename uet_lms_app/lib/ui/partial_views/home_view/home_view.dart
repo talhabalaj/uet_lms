@@ -93,10 +93,10 @@ class DashBoardView extends StatelessWidget {
                 e.gpa,
               ),
             )
-            ?.toList(),
+            ?.toList() ?? [],
         colors: model.gradeBookDetails
             ?.map((e) => getPerColor(e.gpa / 4 * 100))
-            ?.toList(),
+            ?.toList() ?? [],
         maxY: 4,
         minY: 0,
       ),
