@@ -17,6 +17,9 @@ list=(../pubspec.yaml ../snap/snapcraft.yaml);
 for each in ${list[@]}; do
 	echo "[!] Updating $each"
 	sed -i "s/^version: \([0-9\.\+\-]*\)$/version: $1/" "$each"
+	git add $each
 done;
 
-#git tag v$1 master
+git commit -am "Updated version to $1"
+git tag v$1 master
+echo "Tagged release, please use: \n\tgit push origin v$1\nto upload the Release."
