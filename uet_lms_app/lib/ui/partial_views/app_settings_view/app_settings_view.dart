@@ -38,8 +38,8 @@ class AppSettingsView extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              headingText("INFO"),
               if (!model.isBusy && model.packageInfo != null) ...[
+                headingText("INFO"),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
