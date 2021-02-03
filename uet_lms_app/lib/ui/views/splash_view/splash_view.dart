@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:uet_lms/ui/views/splash_view/spash_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 

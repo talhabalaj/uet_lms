@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'UET LMS',
       debugShowCheckedModeBanner: false,
-      navigatorKey: locator<NavigationService>().navigatorKey,
+      navigatorKey: StackedService.navigatorKey,
       theme: locator<ThemeService>().theme,
       routes: {
         SplashView.id: (context) => SplashView(),

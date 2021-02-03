@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/ThemeService.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/shared/CutsomTextField.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
