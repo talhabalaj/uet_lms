@@ -81,26 +81,30 @@ class DashBoardView extends StatelessWidget {
         model.busy(model.gradeBookDetails) || model.busy(model.semesters);
     return CustomCard(
       height: 130,
+      padding: EdgeInsets.zero,
       builder: (context) => (!loading && model.gradeBookDetails.length < 2)
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Nawa ayein ain?",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+          ? Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Nawa ayein ain?",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(
-                  "No data available for graph",
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                )
-              ],
-            )
+                  Text(
+                    "No data available for graph",
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  )
+                ],
+              ),
+          )
           : SimpleLineGraph(
               loading: loading,
               spots: model.gradeBookDetails
