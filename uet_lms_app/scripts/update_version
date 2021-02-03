@@ -22,4 +22,6 @@ done;
 
 git commit -am "Updated version to $1"
 git tag v$1 master
-echo "Tagged release, please use: \n\tgit push origin v$1\nto upload the Release."
+echo "Tagged release, please use: "
+echo "$ git push origin v$1"
+echo "to upload the Release."
