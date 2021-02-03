@@ -15,8 +15,8 @@ dependencies:
   get_it: ^5.0.1
   stacked: ^1.7.6
   provider: ^4.3.2+2
-  firebase_crashlytics: ^0.2.4
-  firebase_core: ^0.5.3
+  firebase_crashlytics: ^0.4.0+1
+  firebase_core: ^0.7.0
   flutter_phoenix: ^0.1.0
   flutter_staggered_animations: ^0.1.2
   injectable: ^1.0.5
