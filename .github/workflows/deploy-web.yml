@@ -21,13 +21,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - uses: subosito/flutter-action@v1
         with:
           channel: dev
       - run: flutter config --enable-web
-      - run: flutter pub get
       - run: |
+          cd uet_lms_api
+          flutter pub get 
+          cd ..
           cd uet_lms_app
+          flutter pub get
           flutter build web --web-renderer canvaskit --pwa-strategy none 
       - name: Deploy to Firebase
         uses: lowply/deploy-firebase@v0.0.3

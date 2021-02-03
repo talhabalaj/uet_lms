@@ -32,5 +32,5 @@ if [ ! -f "$APPDIR/AppRun" ]; then
   cd ..
 fi
 
-./appimagetool-x86_64.AppImage $APPDIR -u "gh-releases-zsync|talhabalaj|uet-lms-release|latest|UET_LMS-*x86_64.AppImage.zsync"
+./appimagetool-x86_64.AppImage $APPDIR -u "gh-releases-zsync|talhabalaj|uet_lms|latest|UET_LMS-*x86_64.AppImage.zsync"
 clean
