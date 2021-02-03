@@ -14,6 +14,7 @@ class CardScrollView extends StatefulWidget {
       this.horizontalSpacing = 17,
       this.height,
       this.boxShadow,
+      this.constraints,
       this.title})
       : super(key: key);
 
@@ -25,6 +26,7 @@ class CardScrollView extends StatefulWidget {
   final double horizontalSpacing;
   final Widget Function(BuildContext, int) builder;
   final List<BoxShadow> boxShadow;
+  final BoxConstraints constraints;
 
   @override
   _CardScrollViewState createState() => _CardScrollViewState();
@@ -46,6 +48,7 @@ class _CardScrollViewState extends State<CardScrollView>
   Widget build(BuildContext context) {
     return CustomCard(
       height: widget.height,
+      constraints: widget.constraints,
       boxShadow: widget.boxShadow,
       padding: EdgeInsets.zero,
       builder: (context) => Stack(

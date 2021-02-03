@@ -77,29 +77,49 @@ class DashBoardView extends StatelessWidget {
   }
 
   Widget _buildStatCard(HomeViewModel model, BuildContext context) {
+    bool loading =
+        model.busy(model.gradeBookDetails) || model.busy(model.semesters);
     return CustomCard(
       height: 130,
-      padding: EdgeInsets.zero,
-      builder: (context) => SimpleLineGraph(
-        loading:
-            model.busy(model.gradeBookDetails) || model.busy(model.semesters),
-        spots: model.gradeBookDetails
-            ?.map(
-              (e) => FlSpot(
-                (model.semesters
-                    ?.indexWhere(
-                        (element) => element.name.compareTo(e.semester) == 0)
-                    ?.toDouble()),
-                e.gpa,
-              ),
+      builder: (context) => (!loading && model.gradeBookDetails.length < 2)
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Nawa ayein ain?",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "No data available for graph",
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                )
+              ],
             )
-            ?.toList() ?? [],
-        colors: model.gradeBookDetails
-            ?.map((e) => getPerColor(e.gpa / 4 * 100))
-            ?.toList() ?? [],
-        maxY: 4,
-        minY: 0,
-      ),
+          : SimpleLineGraph(
+              loading: loading,
+              spots: model.gradeBookDetails
+                  ?.map(
+                    (e) => FlSpot(
+                      (model.semesters
+                          ?.indexWhere((element) =>
+                              element.name.compareTo(e.semester) == 0)
+                          ?.toDouble()),
+                      e.gpa,
+                    ),
+                  )
+                  ?.toList(),
+              colors: model.gradeBookDetails
+                  ?.map((e) => getPerColor(e.gpa / 4 * 100))
+                  ?.toList(),
+              maxY: 4,
+              minY: 0,
+            ),
     );
   }
 
@@ -114,7 +134,9 @@ class DashBoardView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            model.gradeBookDetails?.last?.cgpa?.toStringAsFixed(1),
+            model.gradeBookDetails.length > 0
+                ? model.gradeBookDetails?.last?.cgpa?.toStringAsFixed(1)
+                : "0.0",
             style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 50),
           ),
           Text(

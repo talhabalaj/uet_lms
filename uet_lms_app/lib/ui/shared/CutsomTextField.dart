@@ -99,29 +99,30 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   ),
                 ),
                 if (widget.isPassword)
-                  Align(
-                    heightFactor: 2,
-                      alignment: Alignment.centerRight,
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              passwordShown = !passwordShown;
-                            });
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Icon(
-                              passwordShown
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Colors.grey[300],
-                              size: 23,
+                  Positioned.fill(
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                passwordShown = !passwordShown;
+                              });
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Icon(
+                                passwordShown
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: Colors.grey[300],
+                                size: 23,
+                              ),
                             ),
                           ),
-                        ),
-                      )),
+                        )),
+                  ),
               ],
             ),
           )

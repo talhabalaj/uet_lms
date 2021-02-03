@@ -32,9 +32,31 @@ class ChallansView extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            if (!model.isBusy)
+            if (model.hasError)
+              Container(
+                alignment: Alignment.center,
+                height:
+                    MediaQuery.of(context).size.height - kAppBarHeight - 120,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      model.modelError.message,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      model.modelError.description,
+                      style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                    )
+                  ],
+                ),
+              )
+            else if (!model.isBusy) 
               for (Challan challan in model.challans)
-                _buildChallan(context, model, challan)
+              _buildChallan(context, model, challan)
             else
               loading(),
           ]

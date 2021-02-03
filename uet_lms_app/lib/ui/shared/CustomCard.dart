@@ -13,6 +13,7 @@ class CustomCard extends StatelessWidget {
     this.shimmerCount,
     this.loading = false,
     this.boxShadow,
+    this.constraints,
   }) : super(key: key);
 
   final double height;
@@ -22,6 +23,7 @@ class CustomCard extends StatelessWidget {
   final bool loading;
   final int shimmerCount;
   final List<BoxShadow> boxShadow;
+  final BoxConstraints constraints;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CustomCard extends StatelessWidget {
     return Container(
       height: height,
       width: width ?? double.infinity,
+      constraints: constraints,
       child: Padding(
         padding: padding ?? EdgeInsets.all(17.0),
         child: loading

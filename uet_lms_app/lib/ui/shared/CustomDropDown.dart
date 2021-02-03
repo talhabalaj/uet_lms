@@ -33,7 +33,7 @@ class _CustomDropdownState extends State<CustomDropdown>
   Offset buttonPosition;
   OverlayEntry overlayEntry;
   AnimationController _animationController;
-  Animation<double> _containerHeight;
+  double _containerHeight;
   Animation<double> _opacity;
 
   findButton() {
@@ -52,21 +52,12 @@ class _CustomDropdownState extends State<CustomDropdown>
       value: 0,
       duration: Duration(milliseconds: 400),
     );
-    double height = 50.0 * (min(3, widget.values?.length ?? 1));
-    _containerHeight = Tween<double>(begin: 0.0, end: height).animate(
+    _containerHeight = 50.0 * (min(3, widget.values?.length ?? 1));
+    _opacity = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeInOutSine,
       ),
-    );
-    _opacity = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-          parent: _animationController,
-          curve: Interval(
-            0.5,
-            1,
-            curve: Curves.easeInOutSine,
-          )),
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -112,7 +103,8 @@ class _CustomDropdownState extends State<CustomDropdown>
               child: AnimatedBuilder(
                   animation: _animationController,
                   builder: (context, _) => CardScrollView(
-                        height: _containerHeight.value,
+                        constraints:
+                            BoxConstraints(maxHeight: _containerHeight),
                         childCount: widget.values.length,
                         boxShadow: boxShadow,
                         verticalSpacing: 10,
@@ -149,11 +141,11 @@ class _CustomDropdownState extends State<CustomDropdown>
   }
 
   closeMenu() async {
+    overlayEntry?.remove();
     this.setState(() {
       isMenuOpen = !isMenuOpen;
     });
     await _animationController.reverse();
-    overlayEntry?.remove();
   }
 
   openMenu() async {
@@ -162,8 +154,8 @@ class _CustomDropdownState extends State<CustomDropdown>
       isMenuOpen = !isMenuOpen;
     });
     overlayEntry = _overlayEntryBuilder();
-    _animationController.forward();
     Overlay.of(context).insert(overlayEntry);
+    _animationController.forward();
   }
 
   @override

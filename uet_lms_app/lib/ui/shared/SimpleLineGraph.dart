@@ -84,8 +84,8 @@ class _SimpleLineGraphState extends State<SimpleLineGraph> {
             topTitle: AxisTitle(
               titleText: "GPA • GRAPH",
               showTitle: true,
-              reservedSize: 30,
-              margin: 5,
+              reservedSize: 20,
+              margin: 10,
               textStyle: widget.baseTextStyle.copyWith(
                 fontWeight: FontWeight.bold,
               ),

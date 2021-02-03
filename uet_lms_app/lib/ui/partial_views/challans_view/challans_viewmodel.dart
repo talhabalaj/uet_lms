@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:lms_api/lms_api.dart';
 import 'package:lms_api/models/obe.dues.students.challan.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/utils.dart';
@@ -15,6 +16,9 @@ class ChallansViewModel extends BaseViewModel {
     this.setBusy(true);
     lmsService.getFeesChallans(refresh: refresh).then((value) {
       challans = value.reversed.toList();
+      if (challans.length < 1) {
+        this.setError(LMSException("Koi Fee Challans Nahi!", description: "There are no fee challans in your account, Kesay?"));
+      }
       this.setBusy(false);
     }).catchError((e) => catchLMSorInternetException(e));
     this.setInitialised(true);
