@@ -3,6 +3,8 @@
    <application
         android:label="UET LMS"
         android:icon="@mipmap/ic_launcher">
+        <uses-permission android:name="com.android.vending.BILLING" />
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
