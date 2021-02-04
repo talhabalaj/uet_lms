@@ -54,7 +54,7 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
+      - run: flutter doctor
       - name: Prepare Android Build
         run: bash scripts/decrypt_android_signingkey.sh
         env:
