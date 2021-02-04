@@ -50,10 +50,6 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
   
-  linux:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
       - run: sudo apt-get install clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libjsoncpp-dev libsecret-1-dev
         name: Install Dependencies for Linux
       
@@ -95,10 +91,6 @@ jobs:
           asset_name: UET_LMS-x86_64.AppImage
           asset_content_type: application/octet-stream
 
-  web:
-    needs: setup
-    runs-on: ubuntu-latest 
-    steps:
       - run: flutter build web --web-renderer canvaskit --pwa-strategy none 
         name: Build Web
         working-directory: ./uet_lms_app/
