@@ -58,7 +58,7 @@ jobs:
         name: Install Dependencies for Linux
       
       - run: scripts/make_appimage
-        working-dir: ./uet_lms_app
+        working-directory: ./uet_lms_app
         name: Build App Image
       
       - name: Create Release
@@ -95,17 +95,17 @@ jobs:
           asset_name: UET_LMS-x86_64.AppImage
           asset_content_type: application/octet-stream
 
-    web:
-      needs: setup
-      runs-on: ubuntu-latest 
-      steps:
-        - run: flutter build web --web-renderer canvaskit --pwa-strategy none 
-          name: Build Web
-          working-dir: ./uet_lms_app/
-        - name: Deploy to Firebase
-          uses: w9jds/firebase-action@master
-          with: 
-            args: deploy --only hosting
-          env:
-            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-            PROJECT_PATH: ./uet_lms_app/
+  web:
+    needs: setup
+    runs-on: ubuntu-latest 
+    steps:
+      - run: flutter build web --web-renderer canvaskit --pwa-strategy none 
+        name: Build Web
+        working-directory: ./uet_lms_app/
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with: 
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_PATH: ./uet_lms_app/
