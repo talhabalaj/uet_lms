@@ -6,15 +6,13 @@ class CustomCircularProgressBar extends StatefulWidget {
     Key key,
     @required this.value,
     this.loading = false,
-    Color bgColor
-  }) : super(key: key) {
-    this.bgColor = bgColor ?? Colors.grey.shade200;
-  }
+    this.bgColor,
+  }) : super(key: key);
 
   final double value;
   final bool loading;
   final double angle = 90;
-  Color bgColor;
+  final Color bgColor;
 
   @override
   _CustomCircularProgressBarState createState() =>
@@ -25,9 +23,11 @@ class _CustomCircularProgressBarState extends State<CustomCircularProgressBar>
     with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _angle;
+  Color bgColor;
 
   @override
   void initState() {
+    bgColor = widget.bgColor ?? Colors.grey.shade200;
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 750),
@@ -79,7 +79,7 @@ class _CustomCircularProgressBarState extends State<CustomCircularProgressBar>
                   showTicks: false,
                   axisLineStyle: AxisLineStyle(
                     thickness: .3,
-                    color: widget.bgColor,
+                    color: bgColor,
                     thicknessUnit: GaugeSizeUnit.factor,
                   ),
                   pointers: <GaugePointer>[
