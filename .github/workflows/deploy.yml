@@ -34,7 +34,7 @@ jobs:
           token: ${{ secrets.PAT }}
       - uses: actions/setup-java@v1
         with:
-          java-version: '15.x'
+          java-version: '8.x'
       - uses: subosito/flutter-action@v1
       # - name: Enable Linux & Web
       #   run: | 
@@ -58,7 +58,9 @@ jobs:
           KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
 
       - name: Build Android
-        run: flutter build appbundle
+        run: |
+          flutter doctor --android-licenses -y  
+          flutter build appbundle
 
       - uses: r0adkll/upload-google-play@v1
         with:

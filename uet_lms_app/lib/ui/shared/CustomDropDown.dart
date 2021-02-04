@@ -52,7 +52,7 @@ class _CustomDropdownState extends State<CustomDropdown>
       value: 0,
       duration: Duration(milliseconds: 400),
     );
-    _containerHeight = 50.0 * (min(3, widget.values?.length ?? 1));
+    _containerHeight = (isMobile() ? 55.0 : 50.0) * (min(3, widget.values?.length ?? 1));
     _opacity = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _animationController,
@@ -176,8 +176,7 @@ class _CustomDropdownState extends State<CustomDropdown>
                 widget.currentValue.toLowerCase().capitalize(),
                 style: style,
               ),
-              AnimatedContainer(
-                duration: Duration(milliseconds: 250),
+              Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()..rotateZ(isMenuOpen ? pi : 0),
                 child: Icon(
