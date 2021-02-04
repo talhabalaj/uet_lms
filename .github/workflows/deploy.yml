@@ -58,9 +58,7 @@ jobs:
           KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
 
       - name: Build Android
-        run: |
-          flutter doctor --android-licenses -y  
-          flutter build appbundle
+        run: flutter build appbundle
 
       - uses: r0adkll/upload-google-play@v1
         with:
