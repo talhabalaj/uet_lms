@@ -57,7 +57,10 @@ jobs:
 
       - name: Prepare Android Build
         run: bash scripts/decrypt_android_signingkey.sh
-      
+        env:
+          SIGNING_KEY_DECRPTION_PASSPHRASE: ${{ secrets.SIGNING_KEY_DECRPTION_PASSPHRASE }}
+          KEY_PASSPHRASE: ${{ secrets.KEY_PASSPHRASE }}
+
       - name: Build Android
         run: flutter build appbundle
 
