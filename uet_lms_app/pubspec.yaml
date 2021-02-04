@@ -21,10 +21,7 @@ dependencies:
   flutter_staggered_animations: ^0.1.2
   injectable: ^1.0.5
   package_info: '>=0.4.3+4 <2.0.0'
-  flutter_secure_storage:
-    git:
-      url: https://github.com/talhabalaj/flutter_secure_storage
-      branch: develop
+  flutter_secure_storage: ^3.3.5
   stacked_services: ^0.6.0+1
   shimmer_animation: ^1.0.0
   syncfusion_flutter_gauges: ^18.4.31
