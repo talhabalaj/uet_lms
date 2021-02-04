@@ -34,7 +34,7 @@ jobs:
           token: ${{ secrets.PAT }}
       - uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: '15.x'
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '1.26.0-8.0.pre'
