@@ -1,4 +1,5 @@
 # UET LMS
+![Deploy](https://github.com/talhabalaj/uet_lms/workflows/Deploy/badge.svg)  
 UET LMS is a cross-platform app for UET's Students to access their LMS on any device fastly. It adds a innovative design with ease of access in mind. 
 
 ## Features
