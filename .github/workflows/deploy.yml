@@ -56,7 +56,7 @@ jobs:
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: Prepare Android Build
-        run: scripts/decrypt_android_signingkey.sh
+        run: bash scripts/decrypt_android_signingkey.sh
       
       - name: Build Android
         run: flutter build appbundle
