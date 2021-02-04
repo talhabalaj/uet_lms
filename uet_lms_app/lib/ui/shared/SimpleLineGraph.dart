@@ -68,7 +68,8 @@ class _SimpleLineGraphState extends State<SimpleLineGraph> {
 
   @override
   Widget build(BuildContext context) {
-    final loadingColors = List.generate(4, (index) => widget.loadingColor ?? Theme.of(context).accentColor);
+    final loadingColors = List.generate(
+        4, (index) => widget.loadingColor ?? Theme.of(context).accentColor);
     final colors =
         widget.loading ? loadingColors : (widget.colors) ?? loadingColors;
 
@@ -100,7 +101,7 @@ class _SimpleLineGraphState extends State<SimpleLineGraph> {
           maxY: widget.maxY,
           minY: widget.minY,
           lineBarsData: [
-            LineChartBarData(              
+            LineChartBarData(
               spots:
                   !widget.loading ? widget.spots : widget.loadingSpots[index],
               isCurved: true,

@@ -54,9 +54,9 @@ class ChallansView extends StatelessWidget {
                   ],
                 ),
               )
-            else if (!model.isBusy) 
+            else if (!model.isBusy)
               for (Challan challan in model.challans)
-              _buildChallan(context, model, challan)
+                _buildChallan(context, model, challan)
             else
               loading(),
           ]

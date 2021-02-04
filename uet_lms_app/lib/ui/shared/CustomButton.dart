@@ -35,16 +35,16 @@ class _SimpleWideButtonState extends State<SimpleWideButton> {
             )
           : Text(
               widget.text ?? 'Button',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: widget.textColor ?? Theme.of(context).backgroundColor),
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: widget.textColor ?? Theme.of(context).backgroundColor),
             ),
       height: widget.height ?? 57,
       minWidth: double.infinity,
-      disabledColor: (widget.color ?? darken(Theme.of(context).accentColor, .1)),
+      disabledColor:
+          (widget.color ?? darken(Theme.of(context).accentColor, .1)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-      color: darken(widget.color ?? Theme.of(context).accentColor, widget.loading ? .05 : 0),
+      color: darken(widget.color ?? Theme.of(context).accentColor,
+          widget.loading ? .05 : 0),
       onPressed: widget.onPressed,
     );
   }

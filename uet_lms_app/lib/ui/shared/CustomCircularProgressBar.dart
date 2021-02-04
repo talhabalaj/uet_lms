@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:uet_lms/ui/ui_utils.dart';
+
 class CustomCircularProgressBar extends StatefulWidget {
   CustomCircularProgressBar({
     Key key,

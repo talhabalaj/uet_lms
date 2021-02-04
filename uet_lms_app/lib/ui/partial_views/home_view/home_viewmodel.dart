@@ -9,8 +9,7 @@ import 'package:uet_lms/core/services/lms_service.dart';
 import "package:uet_lms/core/string_extension.dart";
 import 'package:uet_lms/core/utils.dart';
 
-class 
-HomeViewModel extends BaseViewModel {
+class HomeViewModel extends BaseViewModel {
   final lmsService = locator<LMSService>();
   final NavigationService navigationService = locator<NavigationService>();
   final DialogService dialogService = locator<DialogService>();

@@ -32,9 +32,8 @@ class NavButton extends StatelessWidget {
           children: [
             Container(
               width: 5,
-              color: isActive
-                  ? Theme.of(context).accentColor
-                  : Colors.transparent,
+              color:
+                  isActive ? Theme.of(context).accentColor : Colors.transparent,
             ),
             SizedBox(
               width: kHorizontalSpacing - 5,

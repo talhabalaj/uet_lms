@@ -178,7 +178,7 @@ class _CustomDropdownState extends State<CustomDropdown>
               ),
               AnimatedContainer(
                 duration: Duration(milliseconds: 250),
-                transformAlignment: Alignment.center,
+                alignment: Alignment.center,
                 transform: Matrix4.identity()..rotateZ(isMenuOpen ? pi : 0),
                 child: Icon(
                   Icons.keyboard_arrow_down,

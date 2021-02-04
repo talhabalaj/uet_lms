@@ -17,7 +17,8 @@ class ChallansViewModel extends BaseViewModel {
     lmsService.getFeesChallans(refresh: refresh).then((value) {
       challans = value.reversed.toList();
       if (challans.length < 1) {
-        this.setError(LMSException("Koi Fee Challans Nahi!", description: "There are no fee challans in your account, Kesay?"));
+        this.setError(LMSException("Koi Fee Challans Nahi!",
+            description: "There are no fee challans in your account, Kesay?"));
       }
       this.setBusy(false);
     }).catchError((e) => catchLMSorInternetException(e));

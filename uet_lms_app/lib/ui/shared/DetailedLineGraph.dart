@@ -90,7 +90,6 @@ class _DetialedLineGraphState extends State<DetialedLineGraph> {
             isStrokeCapRound: true,
             dotData: FlDotData(
               show: true,
-
             ),
             belowBarData: BarAreaData(
               show: true,

@@ -38,11 +38,11 @@ dependencies:
   open_file: ^3.0.3
   animations: ^1.1.2
   shared_preferences: ^0.5.12+4
-  file_chooser:
-    git:
-      url: git://github.com/google/flutter-desktop-embedding.git
-      path: plugins/file_chooser
-      ref: 040f36c82b63e8764ec2fd97066767503a667b6d
+  # file_chooser:
+  #   git:
+  #     url: git://github.com/google/flutter-desktop-embedding.git
+  #     path: plugins/file_chooser
+  #     ref: 040f36c82b63e8764ec2fd97066767503a667b6d
   share: ^0.6.5+4
   lms_api:
     path: ../uet_lms_api

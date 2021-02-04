@@ -84,8 +84,8 @@ class DashBoardView extends StatelessWidget {
       padding: EdgeInsets.zero,
       builder: (context) => (!loading && model.gradeBookDetails.length < 2)
           ? Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -104,7 +104,7 @@ class DashBoardView extends StatelessWidget {
                   )
                 ],
               ),
-          )
+            )
           : SimpleLineGraph(
               loading: loading,
               spots: model.gradeBookDetails

@@ -85,9 +85,8 @@ class MainView extends StatelessWidget {
                     horizontal: kHorizontalSpacing,
                   ),
                   child: SvgButton(
-                    color: model.isTopBarTransparent
-                        ? null
-                        : Colors.transparent,
+                    color:
+                        model.isTopBarTransparent ? null : Colors.transparent,
                     asset: "assets/svg/menu.svg",
                     onTap: () {
                       model.scaffold.openDrawer();

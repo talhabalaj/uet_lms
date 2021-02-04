@@ -22,7 +22,7 @@ Color getPerColor(double per) {
   Color cur = locator<ThemeService>().theme.accentColor;
   if (per >= 55 && per < 75) {
     return lighten(cur, .1);
-  } else if (per <= 55) { 
+  } else if (per <= 55) {
     return lighten(cur, .2);
   }
   return cur;
