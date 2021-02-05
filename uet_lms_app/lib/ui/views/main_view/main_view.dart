@@ -94,17 +94,22 @@ class MainView extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(
-                      model.lmsService.user.getChangeableProfilePicUrl() +
-                          '&v=' +
-                          model.dpChangeTimes.toString(),
-                      headers: model.lmsService.user.cookieHeader,
+                Row(
+                  children: [
+                    Container(padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8), child: Text("BETA", style: TextStyle(color: Colors.red)), color: Colors.red[100]),
+                    Padding(
+                      padding: EdgeInsets.only(right: kHorizontalSpacing, left: 10),
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
+                          model.lmsService.user.getChangeableProfilePicUrl() +
+                              '&v=' +
+                              model.dpChangeTimes.toString(),
+                          headers: model.lmsService.user.cookieHeader,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),

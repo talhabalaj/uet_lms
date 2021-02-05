@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/shared/CutsomTextField.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/views/login_view/login_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginView extends StatelessWidget {
   static final id = "/login";
@@ -74,6 +76,29 @@ class LoginView extends StatelessWidget {
                       horizontal: kHorizontalSpacing,
                     ),
                     child: _buildForm(context, model),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Having Issues? ',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                        TextSpan(
+                          text: 'Contact me.',
+                          style: new TextStyle(
+                              color: Theme.of(context).accentColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              launch('mailto:hey@talhabalaj.com');
+                            },
+                        ),
+                      ],
+                    ),
                   ),
                   Spacer(),
                   Padding(
@@ -197,8 +222,6 @@ class LoginView extends StatelessWidget {
             enabled: !model.isBusy,
             onSaved: (value) => model.regNo = value.trim(),
             style: Theme.of(context).textTheme.bodyText1,
-            errorText: "That's not valid, try similar to this 2018cs653",
-            regex: RegExp("20[0-9]{2}[A-Za-z]{2,10}[0-9]{2,3}"),
           ),
           SizedBox(
             height: 22,
