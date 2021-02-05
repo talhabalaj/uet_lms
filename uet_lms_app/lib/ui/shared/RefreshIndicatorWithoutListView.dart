@@ -23,7 +23,7 @@ class RefreshIndicatorWithoutListView extends StatelessWidget {
             maxHeight: height ??
                 (MediaQuery.of(context).size.height -
                     MediaQuery.of(context).padding.top -
-                    (isMobile() ? 30 : 0)),
+                    (isMobile ? 30 : 0)),
           ),
           child: child,
         ),

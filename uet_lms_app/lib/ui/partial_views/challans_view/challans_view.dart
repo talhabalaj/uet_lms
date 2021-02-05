@@ -5,9 +5,9 @@ import 'package:lms_api/models/obe.dues.students.challan.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
+import 'package:uet_lms/ui/shared/Loading.dart';
 import 'package:uet_lms/ui/shared/NestedNavigation.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
-import 'package:uet_lms/ui/ui_utils.dart';
 
 import 'challans_viewmodel.dart';
 
@@ -58,7 +58,7 @@ class ChallansView extends StatelessWidget {
               for (Challan challan in model.challans)
                 _buildChallan(context, model, challan)
             else
-              loading(),
+              Loading(),
           ]
               .map((e) => Padding(
                     child: e,

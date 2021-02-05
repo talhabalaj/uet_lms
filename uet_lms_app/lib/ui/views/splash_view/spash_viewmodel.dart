@@ -10,19 +10,20 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 
 class SplashViewModel extends BaseViewModel {
-  final lmsService = locator<LMSService>();
-  final navigationService = locator<NavigationService>();
-  final dialogService = locator<DialogService>();
+  final lmsService = L<LMSService>();
+  final navigationService = L<NavigationService>();
+  final dialogService = L<DialogService>();
 
   bool _internet = true;
 
   get internet => _internet;
 
   Future<void> initialise() async {
-    if (kIsWeb || !Platform.isLinux) {
+    if (kIsWeb || isMobile) {
       final connectivityResult = await (Connectivity().checkConnectivity());
       if (connectivityResult == ConnectivityResult.none) {
         return noInternet();

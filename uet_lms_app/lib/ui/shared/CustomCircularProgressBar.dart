@@ -97,7 +97,7 @@ class _CustomCircularProgressBarState extends State<CustomCircularProgressBar>
                       RangePointer(
                         value: widget.value,
                         width: .3,
-                        cornerStyle: CornerStyle.bothCurve,
+                        cornerStyle: widget.value == 100 ? CornerStyle.bothFlat : CornerStyle.bothCurve,
                         sizeUnit: GaugeSizeUnit.factor,
                         enableAnimation: true,
                         color: getPerColor(widget.value),

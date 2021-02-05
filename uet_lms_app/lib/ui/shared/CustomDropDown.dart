@@ -12,12 +12,12 @@ class CustomDropdown extends StatefulWidget {
       {Key key,
       @required this.values,
       @required this.currentValue,
-      @required this.selected})
+      @required this.onSelectionChange})
       : super(key: key);
 
   final List<String> values;
   final String currentValue;
-  final Function(String) selected;
+  final Function(String) onSelectionChange;
 
   @override
   _CustomDropdownState createState() => _CustomDropdownState();
@@ -52,7 +52,8 @@ class _CustomDropdownState extends State<CustomDropdown>
       value: 0,
       duration: Duration(milliseconds: 400),
     );
-    _containerHeight = (isMobile() ? 55.0 : 50.0) * (min(3, widget.values?.length ?? 1));
+    _containerHeight =
+        (isMobile ? 55.0 : 50.0) * (min(3, widget.values?.length ?? 1));
     _opacity = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _animationController,
@@ -122,11 +123,12 @@ class _CustomDropdownState extends State<CustomDropdown>
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
                             padding: EdgeInsets.symmetric(
-                                vertical: isMobile() ? 15 : 20),
+                                vertical: isMobile ? 15 : 20),
                             elevation: 0,
                             hoverElevation: 0,
                             onPressed: () {
-                              widget.selected(widget.values[idx]);
+                              if (widget.values[idx] != widget.currentValue)
+                                widget.onSelectionChange(widget.values[idx]);
                               closeMenu();
                             },
                           ),

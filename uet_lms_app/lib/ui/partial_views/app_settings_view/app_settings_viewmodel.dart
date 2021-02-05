@@ -6,14 +6,14 @@ import 'package:package_info/package_info.dart';
 import 'package:uet_lms/core/utils.dart';
 
 class AppSettingsViewModel extends BaseViewModel {
-  final ThemeService themeService = locator<ThemeService>();
-  final DialogService dialogService = locator<DialogService>();
+  final ThemeService themeService = L<ThemeService>();
+  final DialogService dialogService = L<DialogService>();
 
   PackageInfo packageInfo;
 
   Future<void> loadData() async {
     this.setBusy(true);
-    if (isMobile()) {
+    if (isMobile) {
       packageInfo = await PackageInfo.fromPlatform();
     }
     this.setBusy(false);

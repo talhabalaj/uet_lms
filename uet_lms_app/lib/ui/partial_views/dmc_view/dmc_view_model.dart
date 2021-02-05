@@ -8,12 +8,13 @@ import 'package:lms_api/models/obe.core.semester.dart';
 import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/models/UserShowableAppError.dart';
 import 'package:uet_lms/core/services/lms_service.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/ui_utils.dart';
 
 class DMCViewModel extends BaseViewModel {
-  final LMSService lmsService = locator<LMSService>();
+  final LMSService lmsService = L<LMSService>();
 
   List<Semester> registeredSemesters;
 
@@ -50,8 +51,12 @@ class DMCViewModel extends BaseViewModel {
       _result = await lmsService.getResult(refresh: refresh);
 
       if (_result.length == 0) {
-        this.setError(LMSException("Nawa Aya Aein Soneya?",
-            description: "No result has been declared for you. Intezar karo!"));
+        this.setError(
+          UserShowableAppError(
+            message: "Nawa Aya Aein Soneya?",
+            description: "No result has been declared for you. Intezar karo!",
+          ),
+        );
 
         this.setBusy(false);
         return;
@@ -71,7 +76,7 @@ class DMCViewModel extends BaseViewModel {
       }).toList();
       selectedSemester ??= registeredSemesters.first.name;
     } on Exception catch (e) {
-      catchLMSorInternetException(e);
+      onlyCatchLMSorInternetException(e);
     }
     this.setBusy(false);
   }

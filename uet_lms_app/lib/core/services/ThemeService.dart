@@ -21,12 +21,12 @@ class ThemeService {
 
   static Map<String, ThemeData> themes = {
     "light": ThemeData(
-        backgroundColor: lighten(Colors.indigo, .48),
-        cardColor: lighten(Colors.indigo, .55),
+        backgroundColor: Color(0xfff5f5f5),
+        cardColor: Colors.white,
         primaryColor: kPrimaryColor,
         accentColor: Colors.indigo,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        scaffoldBackgroundColor: lighten(Colors.indigo, .48),
+        scaffoldBackgroundColor: Color(0xfff5f5f5),
         textTheme: TextTheme(
           headline1: kDefaultTextStyle.copyWith(
               fontWeight: FontWeight.bold, fontSize: 34),

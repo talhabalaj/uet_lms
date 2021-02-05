@@ -50,14 +50,16 @@ Future<void> saveFile(Uint8List bytes, String fileName,
   }
 }
 
-Future<bool> catchLMSorInternetException(Exception e,
-    {String mainTitleButton, String secondaryButtonTitle = "Cancel"}) async {
+Future<bool> onlyCatchLMSorInternetException(Exception e,
+    {StackTrace stackTrace,
+    String mainTitleButton,
+    String secondaryButtonTitle = "Cancel"}) async {
   String errorMessage, description;
 
   if (e is LMSException) {
     errorMessage = e.message;
     description = e.description ?? "Please report this issue to developer.";
-    FirebaseCrashlytics.instance.recordError(e, null);
+    FirebaseCrashlytics.instance.recordError(e, stackTrace);
   } else if (e is SocketException) {
     errorMessage = "No Internet connection.";
     description = "Maybe try again with internet";
@@ -65,7 +67,7 @@ Future<bool> catchLMSorInternetException(Exception e,
     throw e;
   }
 
-  final result = await locator<DialogService>().showCustomDialog(
+  final result = await L<DialogService>().showCustomDialog(
     variant: DialogType.basic,
     mainButtonTitle: mainTitleButton ?? "Retry",
     secondaryButtonTitle: secondaryButtonTitle,
@@ -77,8 +79,8 @@ Future<bool> catchLMSorInternetException(Exception e,
   return result.confirmed;
 }
 
-bool isMobile() => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
-bool isDesktop() =>
+bool isMobile = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+bool isDesktop =
     !kIsWeb && ((Platform.isLinux || Platform.isWindows || Platform.isMacOS));
 
 Future<Uint8List> openImage() async {

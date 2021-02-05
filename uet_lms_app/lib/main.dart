@@ -21,7 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // initialise firebase
-  if (isMobile()) {
+  if (isMobile) {
     await Firebase.initializeApp();
     if (!kDebugMode) {
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
@@ -29,7 +29,7 @@ void main() async {
     }
   }
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
-  if (isDesktop()) {
+  if (isDesktop) {
     await DesktopWindow.setWindowSize(Size(400, 700));
     await DesktopWindow.setMinWindowSize(Size(400, 600));
     await DesktopWindow.setMaxWindowSize(Size(400, 1000));
@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    locator<ThemeService>().init().then((v) {
+    L<ThemeService>().init().then((v) {
       this.setState(() {});
     });
   }
@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
       title: 'UET LMS',
       debugShowCheckedModeBanner: false,
       navigatorKey: StackedService.navigatorKey,
-      theme: locator<ThemeService>().theme,
+      theme: L<ThemeService>().theme,
       routes: {
         SplashView.id: (context) => SplashView(),
         LoginView.id: (context) => LoginView(),

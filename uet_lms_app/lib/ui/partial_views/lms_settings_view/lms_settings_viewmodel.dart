@@ -14,15 +14,14 @@ class LMSSettingsViewModel extends BaseViewModel {
   String confirmPassword;
   final formKey = GlobalKey<FormState>();
 
-  final lmsService = locator<LMSService>();
-  final dialogService = locator<DialogService>();
+  final lmsService = L<LMSService>();
+  final dialogService = L<DialogService>();
 
   final updatingProfilePic = 'UPDATING';
   final removingProfilePic = 'REMOVING';
 
-  get dpChangeTimes => locator<NestedNavigationService>().dpChangeTimes;
-  void incrementDpChangeTimes() =>
-      locator<NestedNavigationService>().dpChangeTimes++;
+  get dpChangeTimes => L<NestedNavigationService>().dpChangeTimes;
+  void incrementDpChangeTimes() => L<NestedNavigationService>().dpChangeTimes++;
 
   Future<void> changePassword() async {
     this.setBusy(true);

@@ -30,7 +30,7 @@ class LMSSettingsView extends StatelessWidget {
             CircleAvatar(
               radius: 65,
               backgroundColor:
-                  locator<ThemeService>().theme.accentColor.withAlpha(10),
+                  L<ThemeService>().theme.accentColor.withAlpha(10),
               child: ClipOval(
                 child: AspectRatio(
                   aspectRatio: 1,

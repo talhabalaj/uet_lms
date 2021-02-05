@@ -10,11 +10,11 @@ import "package:uet_lms/core/string_extension.dart";
 import 'package:uet_lms/core/utils.dart';
 
 class HomeViewModel extends BaseViewModel {
-  final lmsService = locator<LMSService>();
-  final NavigationService navigationService = locator<NavigationService>();
-  final DialogService dialogService = locator<DialogService>();
+  final lmsService = L<LMSService>();
+  final NavigationService navigationService = L<NavigationService>();
+  final DialogService dialogService = L<DialogService>();
   final NestedNavigationService indexedStackService =
-      locator<NestedNavigationService>();
+      L<NestedNavigationService>();
 
   StudentProfile studentProfile;
   List<Semester> semesters;
@@ -33,7 +33,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   void onError(dynamic e, dynamic s) {
-    catchLMSorInternetException(e);
+    onlyCatchLMSorInternetException(e);
   }
 
   Future<void> loadData({bool refresh = false}) async {

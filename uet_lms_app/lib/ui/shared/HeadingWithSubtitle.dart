@@ -43,10 +43,9 @@ class HeadingWithSubtitle extends StatelessWidget {
               )
             : Text(
                 subtitle,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: Colors.grey[400]),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Theme.of(context).primaryColor.withAlpha(100),
+                    ),
               ),
       ],
     );

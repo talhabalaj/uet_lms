@@ -17,12 +17,14 @@ class NestedNavigation extends StatelessWidget {
       color: Theme.of(context).accentColor,
       backgroundColor: Theme.of(context).cardColor,
       onRefresh: onRefresh ?? () async {},
-      child: ListView(children: [
-        SizedBox(
-          height: kAppBarHeight,
-        ),
-        ...children,
-      ]),
+      child: ListView(
+        children: [
+          SizedBox(
+            height: kAppBarHeight,
+          ),
+          ...children,
+        ],
+      ),
     );
   }
 }

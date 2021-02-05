@@ -24,8 +24,8 @@ class LMSService {
   LMS user;
   FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
-  final NavigationService navigationService = locator<NavigationService>();
-  final DialogService dialogService = locator<DialogService>();
+  final NavigationService navigationService = L<NavigationService>();
+  final DialogService dialogService = L<DialogService>();
 
   get loggedIn => user != null;
 
@@ -84,8 +84,7 @@ class LMSService {
   }
 
   Future<void> setCrashReportsUserId(String userId) async {
-    if (isMobile())
-      await FirebaseCrashlytics.instance.setUserIdentifier(userId);
+    if (isMobile) await FirebaseCrashlytics.instance.setUserIdentifier(userId);
   }
 
   LMS _createLMSObject(String email, String password) {
@@ -215,7 +214,7 @@ class LMSService {
     user = null;
 
     // Reset the Navigation Route
-    locator<NestedNavigationService>().reset();
+    L<NestedNavigationService>().reset();
 
     // Set UserId to loggedOutUser
     setCrashReportsUserId("loggedOutUser");

@@ -138,25 +138,37 @@ class MainView extends StatelessWidget {
                     ),
                   ),
                 NavButton(
-                  disabled: each.value.screenName == null,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    int idx = model.views.indexWhere(
-                      (dynamic element) => element.id == each.value.screenName,
-                    );
-                    if (idx != -1 && idx != model.index) {
-                      model.setIndex(idx);
-                    }
-                  },
-                  title: each.value.title,
-                  isActive: model.views.indexWhere(
+                    disabled: each.value.screenName == null,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      int idx = model.views.indexWhere(
                         (dynamic element) =>
                             element.id == each.value.screenName,
-                      ) ==
-                      model.index,
-                  subtitle: each.value.description +
-                      (each.value.screenName == null ? " [COMING SOON]" : ""),
-                ),
+                      );
+                      if (idx != -1 && idx != model.index) {
+                        model.setIndex(idx);
+                      }
+                    },
+                    title: each.value.title,
+                    isActive: model.views.indexWhere(
+                          (dynamic element) =>
+                              element.id == each.value.screenName,
+                        ) ==
+                        model.index,
+                    subtitle: each.value.description),
+                if (each.value.screenName == null)
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+                    child: Container(
+                      child: Text(
+                        "[COMING SOON]",
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor.withAlpha(100),
+                        ),
+                      ),
+                    ),
+                  ),
                 SizedBox(
                   height: each.value.description.length >= 45 ? 10 : 20,
                 ),

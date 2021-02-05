@@ -7,8 +7,8 @@ import 'package:stacked_services/stacked_services.dart';
 
 class LoginViewModel extends BaseViewModel {
   final formKey = GlobalKey<FormState>();
-  final lmsService = locator<LMSService>();
-  final dialogService = locator<DialogService>();
+  final lmsService = L<LMSService>();
+  final dialogService = L<DialogService>();
 
   String regNo = "", password = "";
 
@@ -21,7 +21,7 @@ class LoginViewModel extends BaseViewModel {
         await lmsService.login(
             email: "$regNo@student.uet.edu.pk", password: password);
       } catch (e) {
-        catchLMSorInternetException(
+        onlyCatchLMSorInternetException(
           e,
           mainTitleButton: "Try again",
           secondaryButtonTitle: null,

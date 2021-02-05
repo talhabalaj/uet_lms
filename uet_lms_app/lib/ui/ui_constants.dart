@@ -10,7 +10,7 @@ final kFavBoxShadow = BoxShadow(
 
 final kPrimaryColor = Color(0xff484848);
 final kDefaultTextStyle = TextStyle(color: kPrimaryColor);
-final kHorizontalSpacing = 25.0;
+final kHorizontalSpacing = 20.0;
 final kAppBarHeight = 90.0;
 
 List<NestedRoute> kMainViewNestedNavLinks = [

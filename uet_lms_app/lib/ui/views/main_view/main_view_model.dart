@@ -6,9 +6,9 @@ import 'package:uet_lms/core/services/lms_service.dart';
 
 class MainViewModel extends BaseViewModel {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final LMSService lmsService = locator<LMSService>();
+  final LMSService lmsService = L<LMSService>();
   final NestedNavigationService indexedStackService =
-      locator<NestedNavigationService>();
+      L<NestedNavigationService>();
 
   bool _isTopBarTransparent = true;
   get dpChangeTimes => indexedStackService.dpChangeTimes;

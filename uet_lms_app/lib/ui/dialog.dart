@@ -5,7 +5,7 @@ import 'package:stacked_services/stacked_services.dart';
 enum DialogType { basic, form }
 
 void setupDialogUi() {
-  final dialogService = locator<DialogService>();
+  final dialogService = L<DialogService>();
 
   final builders = {
     DialogType.basic: (context, sheetRequest, completer) => BasicDialog(

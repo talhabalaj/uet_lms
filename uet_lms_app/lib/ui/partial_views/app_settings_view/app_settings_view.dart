@@ -13,77 +13,80 @@ class AppSettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final infoTextStyle = TextStyle(fontSize: 16, color: Colors.grey[700]);
+    final infoBoldTextStyle =
+        infoTextStyle.copyWith(fontWeight: FontWeight.bold);
     return ViewModelBuilder<AppSettingsViewModel>.reactive(
-        builder: (context, model, child) {
-          final infoTextStyle =
-              TextStyle(fontSize: 16, color: Colors.grey[700]);
-          final infoBoldTextStyle =
-              infoTextStyle.copyWith(fontWeight: FontWeight.bold);
-          return NestedNavigation(
-            children: [
-              HeadingWithSubtitle(
-                heading: "App Settings",
-                subtitle: "You know, the usuals",
+      builder: (context, model, child) {
+        return NestedNavigation(
+          onRefresh: () async {
+            model.loadData();
+          },
+          children: [
+            HeadingWithSubtitle(
+              heading: "App Settings",
+              subtitle: "You know, the usuals",
+            ),
+            SizedBox(height: 20),
+            _buildSmallHeadingText("THEME"),
+            CustomDropdown(
+              values: ThemeService.themes.keys.toList(),
+              currentValue: model.themeService.themeName,
+              onSelectionChange: (v) async {
+                await model.updateTheme(v);
+                Phoenix.rebirth(context);
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            if (!model.isBusy && model.packageInfo != null) ...[
+              _buildSmallHeadingText("INFO"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "App Version",
+                    style: infoBoldTextStyle,
+                  ),
+                  Text(
+                    model.packageInfo.version,
+                    style: infoTextStyle,
+                  )
+                ],
               ),
-              SizedBox(height: 20),
-              headingText("THEME"),
-              CustomDropdown(
-                values: ThemeService.themes.keys.toList(),
-                currentValue: model.themeService.themeName,
-                selected: (v) async {
-                  await model.updateTheme(v);
-                  Phoenix.rebirth(context);
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Build Number",
+                    style: infoBoldTextStyle,
+                  ),
+                  Text(
+                    model.packageInfo.buildNumber,
+                    style: infoTextStyle,
+                  )
+                ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              if (!model.isBusy && model.packageInfo != null) ...[
-                headingText("INFO"),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "App Version",
-                      style: infoBoldTextStyle,
+            ],
+          ]
+              .map((e) => Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kHorizontalSpacing,
                     ),
-                    Text(
-                      model.packageInfo.version,
-                      style: infoTextStyle,
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Build Number",
-                      style: infoBoldTextStyle,
-                    ),
-                    Text(
-                      model.packageInfo.buildNumber,
-                      style: infoTextStyle,
-                    )
-                  ],
-                ),
-              ],
-            ]
-                .map((e) => Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: kHorizontalSpacing,
-                      ),
-                      child: e,
-                    ))
-                .toList(),
-          );
-        },
-        onModelReady: (v) {
-          v.loadData();
-        },
-        viewModelBuilder: () => AppSettingsViewModel());
+                    child: e,
+                  ))
+              .toList(),
+        );
+      },
+      onModelReady: (model) {
+        model.loadData();
+      },
+      viewModelBuilder: () => AppSettingsViewModel(),
+    );
   }
 
-  Padding headingText(String text) {
+  Padding _buildSmallHeadingText(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5.0),
       child: Text(

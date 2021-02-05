@@ -15,11 +15,11 @@ abstract class ThirdPartyServicesModule {
   BottomSheetService get bottomSheetService;
 }
 
-final locator = GetIt.instance;
+final L = GetIt.instance;
 
 @InjectableInit(
   initializerName: r'$initGetIt', // default
   preferRelativeImports: true, // default
   asExtension: false, // default
 )
-void configureDependencies() => $initGetIt(locator);
+void configureDependencies() => $initGetIt(L);
