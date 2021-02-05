@@ -198,7 +198,7 @@ class LoginView extends StatelessWidget {
             onSaved: (value) => model.regNo = value.trim(),
             style: Theme.of(context).textTheme.bodyText1,
             errorText: "That's not valid, try similar to this 2018cs653",
-            regex: RegExp("20[0-9]{2}[A-Za-z]{2,5}[0-9]{2,3}"),
+            regex: RegExp("20[0-9]{2}[A-Za-z]{2,10}[0-9]{2,3}"),
           ),
           SizedBox(
             height: 22,
