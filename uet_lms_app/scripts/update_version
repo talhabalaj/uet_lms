@@ -1,27 +1,73 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-cd $(dirname "$0")
+import yaml
+import os
+import sys
 
-help() {
-	echo "Usage: $0 version [project_dir]";
-	exit -1
-}
+files = ['../snap/snapcraft.yaml', '../pubspec.yaml']
 
-if [ -z $1 ]; then
-	help
-fi
+def help():
+  print(f"Usage: {sys.argv[0]} bugfix|minor|major")
 
 
-list=(../pubspec.yaml ../snap/snapcraft.yaml);
+# chdir to scripts directory if script is launched from somwhere elase
+os.chdir(os.path.dirname(sys.argv[0]))
 
-for each in ${list[@]}; do
-	echo "[!] Updating $each"
-	sed -i "s/^version: \([0-9\.\+\-]*\)$/version: $1/" "$each"
-	git add $each
-done;
+if len(sys.argv) > 1:
+  change_part = sys.argv[1]
+  
+  doc = yaml.load(file := open(files[0]), Loader=yaml.FullLoader)
+  version = doc['version']
+  version_code = None
+  file.close()
 
-git commit -am "Updated version to $1"
-git tag v$1 master
-echo "Tagged release, please use: "
-echo "$ git push origin v$1"
-echo "to upload the Release."
+  if '+' in version:
+    slitted = version.split('+')
+    version = slitted[0]
+    version_code = int(slitted[1])
+    version_code += 1
+  else:
+    version_code = 2
+
+  x, y, z = map(int, version.split('.'))
+
+  if change_part == "major":
+    x += 1
+    y = 0
+    z = 0
+  elif change_part == "minor":
+    y += 1
+    z = 0
+  elif change_part == "bugfix":
+    z += 1
+
+  doc['version'] = f"{x}.{y}.{z}"
+
+  if version_code:
+    doc['version'] += f"+{version_code}"
+
+  update_version = doc['version']
+
+  for each_file in files:
+    with open(each_file, "r+") as file:
+      our_input = yaml.load(file, Loader=yaml.FullLoader)
+      output = yaml.dump(doc, sort_keys=False)
+      file.truncate()
+      file.write(output)
+  print(f"[✅] Updated version to {update_version}")
+  tag = input("Tag release? [Y/n] ")
+
+  if tag == "" or tag.lower() == "y":
+    tagName = "v{doc['version']}"
+    os.system(f"git tag {tagName}")
+    print(f"Tagged release as {tagName}")
+    push = input("Push Tag? [y/N] ")
+    pushCommand = f"git push origin {tagName}"
+    if push.lower() == "y":
+      os.system(pushCommand)
+      print("Tag pushed")
+    else: 
+      print(f"Use this afterwards: $ {pushCommand}")
+
+else:
+  help()
