@@ -119,7 +119,7 @@ class DashBoardView extends StatelessWidget {
                   )
                   ?.toList(),
               colors: model.gradeBookDetails
-                  ?.map((e) => getPerColor(e.gpa / 4 * 100))
+                  ?.map((e) => getPerColor((e.gpa ?? 0) / 4 * 100))
                   ?.toList(),
               maxY: 4,
               minY: 0,
@@ -161,7 +161,7 @@ class DashBoardView extends StatelessWidget {
       builder: (context, idx) {
         double attendance = model.busy(model.attendance)
             ? 0
-            : model.attendance[model.registerdSubjects[idx]] * 100;
+            : (model.attendance[model.registerdSubjects[idx]] ?? 0) * 100;
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

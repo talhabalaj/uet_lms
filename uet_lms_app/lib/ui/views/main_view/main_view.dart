@@ -96,9 +96,20 @@ class MainView extends StatelessWidget {
                 Spacer(),
                 Row(
                   children: [
-                    Container(padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8), child: Text("BETA", style: TextStyle(color: Colors.red)), color: Colors.red[100]),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 8,
+                      ),
+                      child: Text(
+                        "BETA",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      color: Colors.red.withAlpha(50),
+                    ),
                     Padding(
-                      padding: EdgeInsets.only(right: kHorizontalSpacing, left: 10),
+                      padding:
+                          EdgeInsets.only(right: kHorizontalSpacing, left: 10),
                       child: CircleAvatar(
                         radius: 20,
                         backgroundImage: NetworkImage(

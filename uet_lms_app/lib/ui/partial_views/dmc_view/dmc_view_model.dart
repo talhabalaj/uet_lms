@@ -50,6 +50,18 @@ class DMCViewModel extends BaseViewModel {
 
       _result = await lmsService.getResult(refresh: refresh);
 
+      if (_result == null) {
+         this.setError(
+          UserShowableAppError(
+            message: "No results were found.",
+            description: "Am I wrong here? Please contact me.",
+          ),
+        );
+
+        this.setBusy(false);
+        return;
+      }
+
       if (_result.length == 0) {
         this.setError(
           UserShowableAppError(

@@ -90,7 +90,7 @@ class DMCView extends StatelessWidget {
       child: ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: model.result.length,
+        itemCount: model.result?.length,
         itemBuilder: (BuildContext context, int index) =>
             AnimationConfiguration.staggeredList(
           position: index,
@@ -102,53 +102,60 @@ class DMCView extends StatelessWidget {
                 children: [
                   SizedBox(height: 15),
                   CustomCard(
-                    builder: (context) => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                model.result[index].subject.name
-                                    .split(' ')
-                                    .sublist(1)
-                                    .join(" "),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                model.result[index].subject.name.split(' ')[0],
-                                style: TextStyle(fontSize: 14),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "${model.result[index].weightage.toInt()} / 100",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                  color: Colors.grey[500],
+                    builder: (context) {
+                      int marks = model.result[index].weightage?.toInt();
+
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  model.result[index].subject.name
+                                      .split(' ')
+                                      .sublist(1)
+                                      .join(" "),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
-                              )
-                            ],
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  model.result[index].subject.name
+                                      .split(' ')[0],
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                if (marks != null)
+                                  Text(
+                                    "$marks / 100",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: Colors.grey[500],
+                                    ),
+                                  )
+                              ],
+                            ),
                           ),
-                        ),
-                        Text(
-                          model.result[index].grade,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40,
-                            color: model.getGradeColor(model.result[index]),
-                          ),
-                        )
-                      ],
-                    ),
+                          Text(
+                            model.result[index].grade,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
+                              color: model.getGradeColor(model.result[index]),
+                            ),
+                          )
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
@@ -191,7 +198,7 @@ class DMCView extends StatelessWidget {
             )
             ?.toList(),
         colors: model.gradeBookDetails
-            ?.map((e) => getPerColor(e.gpa / 4 * 100))
+            ?.map((e) => getPerColor((e.gpa ?? 0) / 4 * 100))
             ?.toList(),
       ),
     );
