@@ -62,7 +62,7 @@ if len(sys.argv) > 1:
   tag = input("Tag release? [Y/n] ")
 
   if tag == "" or tag.lower() == "y":
-    tagName = "v{doc['version']}"
+    tagName = f"v{update_version}"
     os.system(f"git tag {tagName}")
     print(f"Tagged release as {tagName}")
     push = input("Push Tag? [y/N] ")
