@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/ThemeService.dart';
 import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_viewmodel.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/shared/CutsomTextField.dart';
@@ -30,7 +28,7 @@ class LMSSettingsView extends StatelessWidget {
             CircleAvatar(
               radius: 65,
               backgroundColor:
-                  I<ThemeService>().theme.accentColor.withAlpha(10),
+                  Theme.of(context).accentColor.withAlpha(10),
               child: ClipOval(
                 child: AspectRatio(
                   aspectRatio: 1,

@@ -9,6 +9,7 @@ class NavButton extends StatelessWidget {
     this.title,
     this.subtitle,
     this.disabled = false,
+    this.newTag = false,
     this.isActive = false,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class NavButton extends StatelessWidget {
   final String subtitle;
   final bool isActive;
   final bool disabled;
+  final bool newTag;
 
   @override
   Widget build(BuildContext context) {
@@ -51,33 +53,50 @@ class NavButton extends StatelessWidget {
                             : Theme.of(context).primaryColor.withAlpha(200)),
                   ),
                   child: Builder(
-                      builder: (context) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                this.title,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline2
-                                    .copyWith(
-                                        color: DefaultTextStyle.of(context)
-                                            .style
-                                            .color),
-                              ),
-                              Text(
-                                this.subtitle,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    .copyWith(
-                                      fontSize: 11,
+                    builder: (context) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(
+                              this.title,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline2
+                                  .copyWith(
                                       color: DefaultTextStyle.of(context)
                                           .style
-                                          .color,
-                                    ),
+                                          .color),
+                            ),
+                            if (newTag)
+                              Container(
+                                padding: EdgeInsets.all(4),
+                                margin: EdgeInsets.only(left: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                child: Text(
+                                  "NEW",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                  ),
+                                ),
                               )
-                            ],
-                          )),
+                          ],
+                        ),
+                        Text(
+                          this.subtitle,
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                fontSize: 11,
+                                color: DefaultTextStyle.of(context).style.color,
+                              ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),

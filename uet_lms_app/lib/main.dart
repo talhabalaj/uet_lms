@@ -30,14 +30,14 @@ void main() async {
   // initialise firebase
   if (isMobile) {
     await Firebase.initializeApp();
-    
+
     if (!kDebugMode) {
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
 
-    I<BackgroundService>().registerBackgroundService();
     I<NotificationService>().initialize();
+    I<BackgroundService>().registerBackgroundService();
   }
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (isDesktop) {
@@ -46,7 +46,6 @@ void main() async {
     await DesktopWindow.setMaxWindowSize(Size(400, 1000));
     await DesktopWindow.setFullScreen(false);
   }
-
 
   runApp(
     Phoenix(
@@ -64,10 +63,14 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     I<ThemeService>().init().then((v) {
-      if (mounted)
-        this.setState(() {});
+      if (mounted) this.setState(() {});
     });
+    super.didChangeDependencies();
   }
 
   @override
@@ -75,8 +78,6 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark,
       ),
     );
 
@@ -84,7 +85,9 @@ class _MyAppState extends State<MyApp> {
       title: 'UET LMS',
       debugShowCheckedModeBanner: false,
       navigatorKey: StackedService.navigatorKey,
-      theme: I<ThemeService>().theme,
+      theme: ThemeService.light,
+      darkTheme: ThemeService.dark,
+      themeMode: I<ThemeService>().themeMode,
       routes: {
         SplashView.id: (context) => SplashView(),
         LoginView.id: (context) => LoginView(),

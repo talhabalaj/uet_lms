@@ -12,12 +12,14 @@ class CustomDropdown extends StatefulWidget {
       {Key key,
       @required this.values,
       @required this.currentValue,
-      @required this.onSelectionChange})
+      @required this.onSelectionChange,
+      this.color})
       : super(key: key);
 
   final List<String> values;
   final String currentValue;
   final Function(String) onSelectionChange;
+  final Color color;
 
   @override
   _CustomDropdownState createState() => _CustomDropdownState();
@@ -108,8 +110,9 @@ class _CustomDropdownState extends State<CustomDropdown>
                             BoxConstraints(maxHeight: _containerHeight),
                         childCount: widget.values.length,
                         boxShadow: boxShadow,
-                        verticalSpacing: 10,
-                        horizontalSpacing: 10,
+                        verticalSpacing: 0,
+                        listViewPadding: EdgeInsets.zero,
+                        horizontalSpacing: 0,
                         builder: (context, idx) => Opacity(
                           opacity: _opacity.value,
                           child: MaterialButton(
@@ -123,8 +126,16 @@ class _CustomDropdownState extends State<CustomDropdown>
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
                             padding: EdgeInsets.symmetric(
-                                vertical: isMobile ? 15 : 20),
+                                vertical: isMobile ? 17 : 20),
                             elevation: 0,
+                            shape: idx == 0 || idx + 1 == widget.values.length
+                                ? RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(7),
+                                      topRight: Radius.circular(7),
+                                    ),
+                                  )
+                                : null,
                             hoverElevation: 0,
                             onPressed: () {
                               if (widget.values[idx] != widget.currentValue)
@@ -162,20 +173,24 @@ class _CustomDropdownState extends State<CustomDropdown>
 
   @override
   Widget build(BuildContext context) {
-    assert(widget.values.indexOf(widget.currentValue) != -1,
+    assert(
+        widget.values.indexOf(widget.currentValue) != -1 ||
+            widget.currentValue == null,
         "Value should be in the list");
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         child: CustomCard(
+          color: widget.color,
           key: buttonKey,
+          boxShadow: [],
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           builder: (context) => Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.currentValue.toLowerCase().capitalize(),
+                widget.currentValue?.toLowerCase()?.capitalize() ?? "Select",
                 style: style,
               ),
               Transform(

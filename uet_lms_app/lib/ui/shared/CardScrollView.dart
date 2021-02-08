@@ -12,6 +12,7 @@ class CardScrollView extends StatefulWidget {
       @required this.builder,
       this.verticalSpacing = 15,
       this.horizontalSpacing = 17,
+      this.listViewPadding,
       this.height,
       this.boxShadow,
       this.constraints,
@@ -27,6 +28,7 @@ class CardScrollView extends StatefulWidget {
   final Widget Function(BuildContext, int) builder;
   final List<BoxShadow> boxShadow;
   final BoxConstraints constraints;
+  final EdgeInsets listViewPadding;
 
   @override
   _CardScrollViewState createState() => _CardScrollViewState();
@@ -110,8 +112,9 @@ class _CardScrollViewState extends State<CardScrollView>
 
   ListView _buildListView() {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: widget.listViewPadding ?? EdgeInsets.symmetric(vertical: 10),
       physics: BouncingScrollPhysics(),
+      shrinkWrap: true,
       itemBuilder: (context, idx) => Padding(
         padding: idx == 0
             ? EdgeInsets.only(top: widget.title != null ? 35.0 : 0)

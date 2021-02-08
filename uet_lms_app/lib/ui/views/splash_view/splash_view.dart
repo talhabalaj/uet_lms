@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/ThemeService.dart';
 import 'package:uet_lms/ui/views/splash_view/spash_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
@@ -10,6 +12,7 @@ class SplashView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<SplashViewModel>.reactive(
       builder: (context, model, _) {
+        I<ThemeService>().theme = Theme.of(context);
         return Scaffold(
           body: Column(
             mainAxisAlignment: !model.internet

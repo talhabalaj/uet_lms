@@ -155,6 +155,7 @@ class MainView extends StatelessWidget {
                     ),
                   ),
                 NavButton(
+                    newTag: each.value.newFeature,
                     disabled: each.value.screenName == null,
                     onTap: () {
                       Navigator.of(context).pop();
@@ -187,7 +188,7 @@ class MainView extends StatelessWidget {
                     ),
                   ),
                 SizedBox(
-                  height: each.value.description.length >= 45 ? 10 : 20,
+                  height: 20,
                 ),
               ],
               SizedBox(height: 120),

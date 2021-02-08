@@ -9,7 +9,8 @@ class BackgroundService {
   void registerBackgroundService() {
     BackgroundFetch.configure(
       BackgroundFetchConfig(
-        minimumFetchInterval: 15,
+        minimumFetchInterval: 600,
+        startOnBoot: true,
         stopOnTerminate: false,
         enableHeadless: true,
         requiresBatteryNotLow: false,

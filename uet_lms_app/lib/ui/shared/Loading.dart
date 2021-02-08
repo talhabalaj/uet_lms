@@ -18,6 +18,7 @@ class Loading extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: 20),
             child: CustomCard(
+              builder: null,
               loading: true,
             ),
           ),

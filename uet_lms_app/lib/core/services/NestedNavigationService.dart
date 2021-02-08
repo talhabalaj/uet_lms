@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:uet_lms/ui/partial_views/app_settings_view/app_settings_view.dart';
 import 'package:uet_lms/ui/partial_views/challans_view/challans_view.dart';
 import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view.dart';
+import 'package:uet_lms/ui/partial_views/gpa_estimator/gpa_estimator_view.dart';
 import 'package:uet_lms/ui/partial_views/home_view/home_view.dart';
 import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dart';
 
@@ -16,6 +17,7 @@ class NestedNavigationService {
     DashBoardView(),
     LMSSettingsView(),
     ChallansView(),
+    GPAEstimatorView(),
     DMCView(),
     AppSettingsView(),
   ];

@@ -3,6 +3,7 @@ class NestedRoute {
   String screenName;
   String description;
   String category;
+  bool newFeature;
 
-  NestedRoute(this.title, this.screenName, this.description, this.category);
+  NestedRoute(this.title, this.screenName, this.description, this.category, [this.newFeature = false]);
 }

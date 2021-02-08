@@ -6,7 +6,7 @@ import 'RepeatedShimmer.dart';
 class CustomCard extends StatelessWidget {
   const CustomCard({
     Key key,
-    this.builder,
+    @required this.builder,
     this.height,
     this.padding,
     this.width,
@@ -14,6 +14,7 @@ class CustomCard extends StatelessWidget {
     this.loading = false,
     this.boxShadow,
     this.constraints,
+    this.color
   }) : super(key: key);
 
   final double height;
@@ -23,6 +24,7 @@ class CustomCard extends StatelessWidget {
   final bool loading;
   final int shimmerCount;
   final List<BoxShadow> boxShadow;
+  final Color color;
   final BoxConstraints constraints;
 
   @override
@@ -42,7 +44,7 @@ class CustomCard extends StatelessWidget {
             : builder(context),
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: color ?? Theme.of(context).cardColor,
         boxShadow: boxShadow,
         borderRadius: BorderRadius.circular(7),
       ),

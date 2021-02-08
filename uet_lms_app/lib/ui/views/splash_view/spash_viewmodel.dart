@@ -30,7 +30,7 @@ class SplashViewModel extends BaseViewModel {
       }
     }
 
-    bool shouldRetry = false;
+        bool shouldRetry = false;
     do {
       try {
         await authService.reAuth();

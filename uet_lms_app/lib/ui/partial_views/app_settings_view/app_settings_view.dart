@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:stacked/stacked.dart';
-import 'package:uet_lms/core/services/ThemeService.dart';
 import 'package:uet_lms/ui/partial_views/app_settings_view/app_settings_viewmodel.dart';
 import 'package:uet_lms/ui/shared/CustomDropDown.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
@@ -30,7 +29,7 @@ class AppSettingsView extends StatelessWidget {
             SizedBox(height: 20),
             _buildSmallHeadingText("THEME"),
             CustomDropdown(
-              values: ThemeService.themes.keys.toList(),
+              values: ["light", "dark", "system"],
               currentValue: model.themeService.themeName,
               onSelectionChange: (v) async {
                 await model.updateTheme(v);

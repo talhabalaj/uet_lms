@@ -59,10 +59,10 @@ class DataService {
     });
   }
 
-  Future<List<Register>> getRegisteredSubjects({bool refresh = false}) async {
+  Future<List<Register>> getRegisteredSubjects({bool refresh = false, Semester semester}) async {
     if (refresh) _registerdSubjects.invalidate();
     return _registerdSubjects.fetch(() async {
-      return user.getRegisteredSubjects();
+      return user.getRegisteredSubjects(semester: semester);
     });
   }
 
