@@ -9,6 +9,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/BackgroundService.dart';
+import 'package:uet_lms/core/services/NotificationService.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:uet_lms/ui/views/login_view/login_view.dart';
@@ -36,6 +37,7 @@ void main() async {
     }
 
     I<BackgroundService>().registerBackgroundService();
+    I<NotificationService>().initialize();
   }
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (isDesktop) {

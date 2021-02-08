@@ -1,4 +1,5 @@
 import 'package:async/async.dart' hide Result;
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lms_api/LMS.dart';
 import 'package:lms_api/models/obe.core.register.dart';
@@ -8,8 +9,11 @@ import 'package:lms_api/models/obe.core.student.dart';
 import 'package:lms_api/models/obe.dues.students.challan.dart';
 import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:uet_lms/core/services/AuthService.dart';
+import 'package:hive/hive.dart';
+import 'package:uet_lms/core/services/NotificationService.dart';
 
 import '../locator.dart';
+import '../utils.dart';
 
 @lazySingleton
 class DataService {
@@ -20,7 +24,8 @@ class DataService {
   // data instants;
   final _studentProfile = AsyncCache<StudentProfile>(Duration(hours: 1));
   final _semesters = AsyncCache<List<Semester>>(Duration(hours: 1));
-  final _gradeBookDetails = AsyncCache<List<GradeBookDetail>>(Duration(hours: 1));
+  final _gradeBookDetails =
+      AsyncCache<List<GradeBookDetail>>(Duration(hours: 1));
   final _registerdSubjects = AsyncCache<List<Register>>(Duration(hours: 1));
   final _challans = AsyncCache<List<Challan>>(Duration(hours: 1));
   final _result = AsyncCache<List<Result>>(Duration(hours: 1));
@@ -75,5 +80,51 @@ class DataService {
     _registerdSubjects.invalidate();
     _challans.invalidate();
     _result.invalidate();
+  }
+
+  Future<void> checkResultAndNotify() async {
+    if (isMobile) {
+      FirebaseCrashlytics.instance.log("Checking result");
+    }
+
+    if (!I<AuthService>().loggedIn) {
+      if (await I<AuthService>().canReAuth()) {
+        await I<AuthService>().reAuth();
+      } else {
+        return;
+      }
+    }
+
+    final resultBoxName = userBox("results");
+    final data = await I<DataService>().getResult(refresh: true);
+
+    if (!Hive.isBoxOpen(resultBoxName)) {
+      await Hive.openBox<Result>(resultBoxName);
+    }
+
+    final resultBox = Hive.box<Result>(resultBoxName);
+
+    for (Result each in data) {
+      if (resultBox.containsKey(each.id)) {
+        // check if result is changed
+        if (each.grade == resultBox.get(each.id).grade) {
+          continue;
+        }
+      } else {
+        // result is new
+        resultBox.put(each.id, each);
+      }
+      if (each.semesterName.toLowerCase() ==
+          (await I<DataService>().getRegisteredSemesters())
+              .first
+              .name
+              .toLowerCase()) {
+        print("Result changed ${each.subject.name} ${each.grade}");
+        await I<NotificationService>().showNotification(
+            title: "New Result",
+            body:
+                "Result for ${each.subject.name} has been published, you got ${each.grade}");
+      }
+    }
   }
 }

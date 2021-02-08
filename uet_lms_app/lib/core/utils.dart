@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/adapters/ResultAdapter.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/AuthService.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:hive/hive.dart';
@@ -109,4 +110,10 @@ Future<Uint8List> openImage() async {
 void registerHiveTypeAdapters() {
   Hive.registerAdapter(ResultAdapter());
   Hive.registerAdapter(RegisterAdapter());
+}
+
+String userBox(String boxName) {
+  if (!I<AuthService>().loggedIn)
+    throw Exception("User is not logged in");
+  return "${I<AuthService>().user.uid}_$boxName";
 }

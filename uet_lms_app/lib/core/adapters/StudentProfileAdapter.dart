@@ -19,6 +19,10 @@ class StudentProfileAdapter extends TypeAdapter<StudentProfile> {
 
   @override
   void write(BinaryWriter writer, StudentProfile obj) {
-    
+    writer.write(
+      jsonEncode(
+        obj.toJson(),
+      ),
+    );
   }
 }

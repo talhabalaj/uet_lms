@@ -17,7 +17,6 @@ import 'package:uet_lms/ui/views/main_view/main_view.dart';
 
 import 'NestedNavigationService.dart';
 
-
 @lazySingleton
 class AuthService {
   LMS user;
@@ -26,9 +25,9 @@ class AuthService {
   final NavigationService navigationService = I<NavigationService>();
   final DialogService dialogService = I<DialogService>();
 
-  get loggedIn => user != null;
+  bool get loggedIn => user != null;
 
-    Future<void> setCrashReportsUserId(String userId) async {
+  Future<void> setCrashReportsUserId(String userId) async {
     if (isMobile) await FirebaseCrashlytics.instance.setUserIdentifier(userId);
   }
 
@@ -90,22 +89,34 @@ class AuthService {
     }
   }
 
+  Future<bool> canReAuth() async {
+    final storedData = await this.readFromSecureStorage();
+    final email = storedData['email'];
+    final password = storedData['password'];
+    final cookie = storedData['cookie'];
+
+    if (email == null || password == null || cookie == null) {
+      return false;
+    }
+    return true;
+  }
+
   Future<bool> _reAuth() async {
     if (kIsWeb) {
       return false;
     }
 
     try {
-      final storedData = await this.readFromSecureStorage();
-      final email = storedData['email'];
-      final password = storedData['password'];
-      final cookie = storedData['cookie'];
-
-      if (email == null || password == null || cookie == null) {
-        return false;
-      }
-
       try {
+        final storedData = await this.readFromSecureStorage();
+        final email = storedData['email'];
+        final password = storedData['password'];
+        final cookie = storedData['cookie'];
+
+        if (email == null || password == null || cookie == null) {
+          return false;
+        }
+        
         user = _createLMSObject(email, password);
         await user.loginWithCookie(cookie);
       } on LMSException {
