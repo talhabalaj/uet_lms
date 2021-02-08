@@ -58,20 +58,24 @@ if len(sys.argv) > 1:
       with open(each_file, "w") as file:
         file.write(output)
 
-  print(f"[✅] Updated version to {update_version}")
-  tag = input("Tag release? [Y/n] ")
+  commit = input(f"Commit? [Y/n]")
+  if commit == "" or commit.lower() == "y":
+    os.system(
+        f"git add {' '.join(files)} && git commit -m 'Updated version to {update_version}'")
+    print(f"[✅] Updated version to {update_version}")
+    tag = input("Tag release? [Y/n] ")
 
-  if tag == "" or tag.lower() == "y":
-    tagName = f"v{update_version}"
-    os.system(f"git tag {tagName}")
-    print(f"Tagged release as {tagName}")
-    push = input("Push Tag? [y/N] ")
-    pushCommand = f"git push origin {tagName}"
-    if push.lower() == "y":
-      os.system(pushCommand)
-      print("Tag pushed")
-    else: 
-      print(f"Use this afterwards: $ {pushCommand}")
+    if tag == "" or tag.lower() == "y":
+      tagName = f"v{update_version}"
+      os.system(f"git tag {tagName}")
+      print(f"Tagged release as {tagName}")
+      push = input("Push Tag? [y/N] ")
+      pushCommand = f"git push origin {tagName}"
+      if push.lower() == "y":
+        os.system(pushCommand)
+        print("Tag pushed")
+      else: 
+        print(f"Use this afterwards: $ {pushCommand}")
 
 else:
   help()
