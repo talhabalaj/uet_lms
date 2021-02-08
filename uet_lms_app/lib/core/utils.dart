@@ -10,9 +10,13 @@ import 'package:lms_api/lms_api.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:uet_lms/core/adapters/ResultAdapter.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:hive/hive.dart';
+
+import 'adapters/RegisterAdapter.dart';
 
 Future<void> saveFile(Uint8List bytes, String fileName,
     {bool open = true}) async {
@@ -68,7 +72,7 @@ Future<bool> onlyCatchLMSorInternetException(Exception e,
     throw e;
   }
 
-  final result = await L<DialogService>().showCustomDialog(
+  final result = await I<DialogService>().showCustomDialog(
     variant: DialogType.basic,
     mainButtonTitle: mainTitleButton ?? "Retry",
     secondaryButtonTitle: secondaryButtonTitle,
@@ -100,4 +104,9 @@ Future<Uint8List> openImage() async {
   // if (openResult.canceled) return null;
   // return File(openResult.paths[0]).readAsBytes();
   // }
+}
+
+void registerHiveTypeAdapters() {
+  Hive.registerAdapter(ResultAdapter());
+  Hive.registerAdapter(RegisterAdapter());
 }

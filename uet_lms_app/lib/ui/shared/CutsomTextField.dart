@@ -57,73 +57,57 @@ class _CustomTextFieldState extends State<CustomTextField> {
           SizedBox(
             height: 5,
           ),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: <BoxShadow>[kFavBoxShadow],
-            ),
-            child: Stack(
-              children: [
-                TextFormField(
-                  enabled: widget.enabled,
-                  onSaved: widget.onSaved,
-                  textAlignVertical: TextAlignVertical.center,
-                  cursorColor: Colors.grey[600],
-                  onChanged: widget.onChanged,
-                  validator: widget.validator ??
-                      (widget.regex == null
-                          ? null
-                          : (string) => widget.regex.hasMatch(string)
-                              ? null
-                              : widget.errorText ?? "That's not valid :("),
-                  style: styleToUse,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  obscureText: widget.isPassword && !passwordShown,
-                  decoration: InputDecoration(
-                    suffixText: widget.isPassword ? null : widget.suffixText,
-                    suffixStyle: styleToUse.copyWith(color: Colors.grey[600]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                    fillColor: Theme.of(context).cardColor,
-                    filled: true,
-                    hintText: widget.hintText,
-                    errorMaxLines: 2,
-                    errorStyle:
-                        styleToUse.copyWith(fontSize: 13, color: Colors.red),
-                    hintStyle: styleToUse.copyWith(
-                      color: Color(0xffAEAEAE),
-                    ),
-                  ),
-                ),
-                if (widget.isPassword)
-                  Positioned.fill(
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                passwordShown = !passwordShown;
-                              });
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: Icon(
-                                passwordShown
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                                color: Colors.grey[300],
-                                size: 23,
-                              ),
-                            ),
-                          ),
-                        )),
-                  ),
-              ],
+          TextFormField(
+            enabled: widget.enabled,
+            onSaved: widget.onSaved,
+            textAlignVertical: TextAlignVertical.center,
+            cursorColor: Colors.grey[600],
+            onChanged: widget.onChanged,
+            validator: widget.validator ??
+                (widget.regex == null
+                    ? null
+                    : (string) => widget.regex.hasMatch(string)
+                        ? null
+                        : widget.errorText ?? "That's not valid :("),
+            style: styleToUse,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            obscureText: widget.isPassword && !passwordShown,
+            decoration: InputDecoration(
+              suffixText: widget.isPassword ? null : widget.suffixText,
+              suffixStyle: styleToUse.copyWith(color: Colors.grey[600]),
+              suffixIcon: widget.isPassword
+                  ? MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            passwordShown = !passwordShown;
+                          });
+                        },
+                        child: Icon(
+                          passwordShown
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: Colors.grey[300],
+                          size: 23,
+                        ),
+                      ),
+                    )
+                  : null,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(7),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              fillColor: Theme.of(context).cardColor,
+              filled: true,
+              hintText: widget.hintText,
+              errorMaxLines: 2,
+              errorStyle: styleToUse.copyWith(fontSize: 13, color: Colors.red),
+              hintStyle: styleToUse.copyWith(
+                color: Color(0xffAEAEAE),
+              ),
             ),
           )
         ],

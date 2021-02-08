@@ -30,16 +30,16 @@ class LMSSettingsView extends StatelessWidget {
             CircleAvatar(
               radius: 65,
               backgroundColor:
-                  L<ThemeService>().theme.accentColor.withAlpha(10),
+                  I<ThemeService>().theme.accentColor.withAlpha(10),
               child: ClipOval(
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: Image.network(
-                    model.lmsService.user
+                    model.authService.user
                             .getChangeableProfilePicUrl(small: false) +
                         "&v=" +
                         model.dpChangeTimes.toString(),
-                    headers: model.lmsService.user.cookieHeader,
+                    headers: model.authService.user.cookieHeader,
                   ),
                 ),
               ),
@@ -88,7 +88,7 @@ class LMSSettingsView extends StatelessWidget {
               labelText: "Current Password",
               hintText: "the secret you hold",
               isPassword: true,
-              validator: (value) => value != model.lmsService.user.password
+              validator: (value) => value != model.authService.user.password
                   ? "This should match your current password"
                   : null,
               onChanged: (value) => model.currentPassword = value.trim(),

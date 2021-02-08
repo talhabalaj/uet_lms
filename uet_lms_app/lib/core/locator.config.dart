@@ -8,8 +8,11 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'services/lms_service.dart';
-import 'services/nested_navigation_service.dart';
+import 'services/AuthService.dart';
+import 'services/BackgroundService.dart';
+import 'services/DataService.dart';
+import 'services/NestedNavigationService.dart';
+import 'services/NotificationService.dart';
 import 'services/ThemeService.dart';
 import 'locator.dart';
 
@@ -23,13 +26,16 @@ GetIt $initGetIt(
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
   final thirdPartyServicesModule = _$ThirdPartyServicesModule();
+  gh.lazySingleton<AuthService>(() => AuthService());
+  gh.lazySingleton<BackgroundService>(() => BackgroundService());
   gh.lazySingleton<BottomSheetService>(
       () => thirdPartyServicesModule.bottomSheetService);
+  gh.lazySingleton<DataService>(() => DataService());
   gh.lazySingleton<DialogService>(() => thirdPartyServicesModule.dialogService);
-  gh.lazySingleton<LMSService>(() => LMSService());
   gh.lazySingleton<NavigationService>(
       () => thirdPartyServicesModule.navigationService);
   gh.lazySingleton<NestedNavigationService>(() => NestedNavigationService());
+  gh.lazySingleton<NotificationService>(() => NotificationService());
   gh.lazySingleton<SnackbarService>(
       () => thirdPartyServicesModule.snackBarService);
   gh.lazySingleton<ThemeService>(() => ThemeService());

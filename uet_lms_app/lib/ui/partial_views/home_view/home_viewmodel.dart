@@ -4,17 +4,18 @@ import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/nested_navigation_service.dart';
-import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/core/services/DataService.dart';
+import 'package:uet_lms/core/services/NestedNavigationService.dart';
+import 'package:uet_lms/core/services/AuthService.dart';
 import "package:uet_lms/core/string_extension.dart";
 import 'package:uet_lms/core/utils.dart';
 
 class HomeViewModel extends BaseViewModel {
-  final lmsService = L<LMSService>();
-  final NavigationService navigationService = L<NavigationService>();
-  final DialogService dialogService = L<DialogService>();
+  final authService = I<AuthService>();
+  final NavigationService navigationService = I<NavigationService>();
+  final DialogService dialogService = I<DialogService>();
   final NestedNavigationService indexedStackService =
-      L<NestedNavigationService>();
+      I<NestedNavigationService>();
 
   StudentProfile studentProfile;
   List<Semester> semesters;
@@ -22,7 +23,7 @@ class HomeViewModel extends BaseViewModel {
   List<Register> registerdSubjects;
   Map<Register, double> attendance = Map();
 
-  LMS get user => lmsService.user;
+  LMS get user => authService.user;
 
   String get userFirstName {
     String name = studentProfile?.name;
@@ -32,8 +33,8 @@ class HomeViewModel extends BaseViewModel {
     return null;
   }
 
-  void onError(dynamic e, dynamic s) {
-    onlyCatchLMSorInternetException(e);
+  void onError(dynamic e, StackTrace s) {
+    onlyCatchLMSorInternetException(e, stackTrace: s);
   }
 
   Future<void> loadData({bool refresh = false}) async {
@@ -43,34 +44,44 @@ class HomeViewModel extends BaseViewModel {
     this.setBusyForObject(registerdSubjects, true);
     this.setBusyForObject(attendance, true);
 
-    lmsService.getStudentProfile(refresh: refresh).then((value) {
-      studentProfile = value;
-      this.setBusyForObject(studentProfile, false);
-    }).catchError(onError);
+    I<DataService>().getStudentProfile(refresh: refresh).then(
+      (value) {
+        studentProfile = value;
+        this.setBusyForObject(studentProfile, false);
+      },
+    ).catchError(onError);
 
-    lmsService.getRegisteredSemesters(refresh: refresh).then((value) async {
-      semesters = value.reversed.toList();
-      final lastSemester = semesters.last;
-      this.setBusyForObject(semesters, false);
+    I<DataService>().getRegisteredSemesters(refresh: refresh).then(
+      (value) async {
+        semesters = value.reversed.toList();
+        final lastSemester = semesters.last;
+        this.setBusyForObject(semesters, false);
 
-      registerdSubjects =
-          (await lmsService.getRegisteredSubjects(refresh: refresh))
-              .where((element) =>
-                  element.semesterName.toLowerCase() ==
-                  lastSemester.name.toLowerCase())
-              .toList();
-      this.setBusyForObject(registerdSubjects, false);
-      for (Register subject in registerdSubjects)
-        this.attendance[subject] =
-            await lmsService.user.getAttendanceForRegisteredCourse(subject);
+        registerdSubjects = (await I<DataService>().getRegisteredSubjects(
+          refresh: refresh,
+        ))
+            .where((element) =>
+                element.semesterName.toLowerCase() ==
+                lastSemester.name.toLowerCase())
+            .toList();
 
-      this.setBusyForObject(attendance, false);
-    }).catchError(onError);
+        this.setBusyForObject(registerdSubjects, false);
+
+        for (Register subject in registerdSubjects)
+          this.attendance[subject] = await I<DataService>()
+              .user
+              .getAttendanceForRegisteredCourse(subject);
+
+        this.setBusyForObject(attendance, false);
+      },
+    ).catchError(onError);
 
     // load last GPA
-    lmsService.getSemestersSummary(refresh: refresh).then((value) {
-      gradeBookDetails = value;
-      this.setBusyForObject(gradeBookDetails, false);
-    }).catchError(onError);
+    I<DataService>().getSemestersSummary(refresh: refresh).then(
+      (value) {
+        gradeBookDetails = value;
+        this.setBusyForObject(gradeBookDetails, false);
+      },
+    ).catchError(onError);
   }
 }

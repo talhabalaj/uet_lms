@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
-import 'package:uet_lms/ui/ui_utils.dart';
 
 @lazySingleton
 class ThemeService {

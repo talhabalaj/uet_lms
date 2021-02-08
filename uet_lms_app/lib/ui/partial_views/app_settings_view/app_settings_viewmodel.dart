@@ -6,8 +6,8 @@ import 'package:package_info/package_info.dart';
 import 'package:uet_lms/core/utils.dart';
 
 class AppSettingsViewModel extends BaseViewModel {
-  final ThemeService themeService = L<ThemeService>();
-  final DialogService dialogService = L<DialogService>();
+  final ThemeService themeService = I<ThemeService>();
+  final DialogService dialogService = I<DialogService>();
 
   PackageInfo packageInfo;
 

@@ -5,7 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/BackgroundService.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:uet_lms/ui/views/login_view/login_view.dart';
@@ -18,15 +21,21 @@ import 'core/services/ThemeService.dart';
 void main() async {
   configureDependencies();
   setupDialogUi();
+  registerHiveTypeAdapters();
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
 
   // initialise firebase
   if (isMobile) {
     await Firebase.initializeApp();
+    
     if (!kDebugMode) {
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
+
+    I<BackgroundService>().registerBackgroundService();
   }
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (isDesktop) {
@@ -35,6 +44,7 @@ void main() async {
     await DesktopWindow.setMaxWindowSize(Size(400, 1000));
     await DesktopWindow.setFullScreen(false);
   }
+
 
   runApp(
     Phoenix(
@@ -52,8 +62,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    L<ThemeService>().init().then((v) {
-      this.setState(() {});
+    I<ThemeService>().init().then((v) {
+      if (mounted)
+        this.setState(() {});
     });
   }
 
@@ -71,7 +82,7 @@ class _MyAppState extends State<MyApp> {
       title: 'UET LMS',
       debugShowCheckedModeBanner: false,
       navigatorKey: StackedService.navigatorKey,
-      theme: L<ThemeService>().theme,
+      theme: I<ThemeService>().theme,
       routes: {
         SplashView.id: (context) => SplashView(),
         LoginView.id: (context) => LoginView(),

@@ -90,6 +90,7 @@ class MainView extends StatelessWidget {
                     asset: "assets/svg/menu.svg",
                     onTap: () {
                       model.scaffold.openDrawer();
+                      FocusScope.of(context).requestFocus(new FocusNode());
                     },
                   ),
                 ),

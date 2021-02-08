@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/nested_navigation_service.dart';
-import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/core/services/NestedNavigationService.dart';
+import 'package:uet_lms/core/services/AuthService.dart';
 
 class MainViewModel extends BaseViewModel {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final LMSService lmsService = L<LMSService>();
+  final AuthService lmsService = I<AuthService>();
   final NestedNavigationService indexedStackService =
-      L<NestedNavigationService>();
+      I<NestedNavigationService>();
 
   bool _isTopBarTransparent = true;
   get dpChangeTimes => indexedStackService.dpChangeTimes;

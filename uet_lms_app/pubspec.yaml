@@ -37,6 +37,11 @@ dependencies:
   url_launcher: ^5.7.10
   open_file: ^3.0.3
   animations: ^1.1.2
+  hive: ^1.4.4+1
+  hive_flutter: ^0.3.1
+  background_fetch: ^0.6.0
+  async: ^2.4.2
+  flutter_local_notifications: ^4.0.0
   shared_preferences: ^0.5.12+4
   # file_chooser:
   #   git:

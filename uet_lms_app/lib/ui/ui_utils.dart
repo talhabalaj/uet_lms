@@ -4,7 +4,7 @@ import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/ThemeService.dart';
 
 Color getPerColor(double per) {
-  Color cur = L<ThemeService>().theme.accentColor;
+  Color cur = I<ThemeService>().theme.accentColor;
   if (per >= 55 && per < 75) {
     return lighten(cur, .1);
   } else if (per <= 55) {

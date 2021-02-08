@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/nested_navigation_service.dart';
-import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/core/services/NestedNavigationService.dart';
+import 'package:uet_lms/core/services/AuthService.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 
@@ -14,27 +14,32 @@ class LMSSettingsViewModel extends BaseViewModel {
   String confirmPassword;
   final formKey = GlobalKey<FormState>();
 
-  final lmsService = L<LMSService>();
-  final dialogService = L<DialogService>();
+  final authService = I<AuthService>();
+  final dialogService = I<DialogService>();
 
   final updatingProfilePic = 'UPDATING';
   final removingProfilePic = 'REMOVING';
 
-  get dpChangeTimes => L<NestedNavigationService>().dpChangeTimes;
-  void incrementDpChangeTimes() => L<NestedNavigationService>().dpChangeTimes++;
+  get dpChangeTimes => I<NestedNavigationService>().dpChangeTimes;
+  void incrementDpChangeTimes() => I<NestedNavigationService>().dpChangeTimes++;
 
   Future<void> changePassword() async {
     this.setBusy(true);
     if (formKey.currentState.validate()) {
-      await lmsService.user.changePassword(currentPassword, newPassword);
-      await lmsService.storeOnSecureStorage();
-      formKey.currentState.reset();
-      await dialogService.showCustomDialog(
+      try {
+        await authService.user.changePassword(currentPassword, newPassword);
+        formKey.currentState.reset();
+        await authService.storeOnSecureStorage();
+        await dialogService.showCustomDialog(
           variant: DialogType.basic,
           barrierColor: Colors.black38,
           barrierDismissible: true,
           title: "Password changed Successfully",
-          description: "We hope you set a good for your account, Be secure.");
+          description: "We hope you set a good for your account, Be secure.",
+        );
+      } catch (e, s) {
+        onlyCatchLMSorInternetException(e, stackTrace: s);
+      }
     }
     this.setBusy(false);
   }
@@ -43,16 +48,24 @@ class LMSSettingsViewModel extends BaseViewModel {
     this.setBusyForObject(updatingProfilePic, true);
     final image = await openImage();
     if (image != null) {
-      await lmsService.user.updateProfilePicture(image);
-      incrementDpChangeTimes();
+      try {
+        await authService.user.updateProfilePicture(image);
+        incrementDpChangeTimes();
+      } catch (e, s) {
+        onlyCatchLMSorInternetException(e, stackTrace: s);
+      }
     }
     this.setBusyForObject(updatingProfilePic, false);
   }
 
   Future<void> removeProfilePic() async {
     this.setBusyForObject(removingProfilePic, true);
-    await lmsService.user.updateProfilePicture();
-    incrementDpChangeTimes();
+    try {
+      await authService.user.updateProfilePicture();
+      incrementDpChangeTimes();
+    } catch (e, s) {
+      onlyCatchLMSorInternetException(e, stackTrace: s);
+    }
     this.setBusyForObject(removingProfilePic, false);
   }
 }

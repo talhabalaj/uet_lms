@@ -9,14 +9,14 @@ import 'package:lms_api/lms_api.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/core/services/AuthService.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 
 class SplashViewModel extends BaseViewModel {
-  final lmsService = L<LMSService>();
-  final navigationService = L<NavigationService>();
-  final dialogService = L<DialogService>();
+  final authService = I<AuthService>();
+  final navigationService = I<NavigationService>();
+  final dialogService = I<DialogService>();
 
   bool _internet = true;
 
@@ -33,7 +33,7 @@ class SplashViewModel extends BaseViewModel {
     bool shouldRetry = false;
     do {
       try {
-        await lmsService.reAuth();
+        await authService.reAuth();
       } on SocketException {
         noInternet();
       } on Exception catch (e) {

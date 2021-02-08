@@ -9,12 +9,13 @@ import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/models/UserShowableAppError.dart';
-import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/core/services/AuthService.dart';
+import 'package:uet_lms/core/services/DataService.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/ui_utils.dart';
 
 class DMCViewModel extends BaseViewModel {
-  final LMSService lmsService = L<LMSService>();
+  final AuthService authService = I<AuthService>();
 
   List<Semester> registeredSemesters;
 
@@ -41,17 +42,17 @@ class DMCViewModel extends BaseViewModel {
     this.setBusy(true);
     try {
       gradeBookDetails =
-          (await lmsService.getSemestersSummary(refresh: refresh))
+          (await I<DataService>().getSemestersSummary(refresh: refresh))
               .reversed
               .toList();
 
       registeredSemesters =
-          await lmsService.getRegisteredSemesters(refresh: refresh);
+          await I<DataService>().getRegisteredSemesters(refresh: refresh);
 
-      _result = await lmsService.getResult(refresh: refresh);
+      _result = await I<DataService>().getResult(refresh: refresh);
 
       if (_result == null) {
-         this.setError(
+        this.setError(
           UserShowableAppError(
             message: "No results were found.",
             description: "Am I wrong here? Please contact me.",
@@ -75,7 +76,7 @@ class DMCViewModel extends BaseViewModel {
       }
 
       registeredSubjects =
-          await lmsService.getRegisteredSubjects(refresh: refresh);
+          await I<DataService>().getRegisteredSubjects(refresh: refresh);
       registeredSemesters = registeredSemesters.where((a) {
         final semesterSubjects = registeredSubjects
             .where((b) => a.name == b.semesterName)
@@ -87,8 +88,8 @@ class DMCViewModel extends BaseViewModel {
         return resultOfSubjects.length > 0;
       }).toList();
       selectedSemester ??= registeredSemesters.first.name;
-    } on Exception catch (e) {
-      onlyCatchLMSorInternetException(e);
+    } on Exception catch (e, s) {
+      onlyCatchLMSorInternetException(e, stackTrace: s);
     }
     this.setBusy(false);
   }

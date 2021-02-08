@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/lms_service.dart';
+import 'package:uet_lms/core/services/AuthService.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class LoginViewModel extends BaseViewModel {
   final formKey = GlobalKey<FormState>();
-  final lmsService = L<LMSService>();
-  final dialogService = L<DialogService>();
+  final lmsService = I<AuthService>();
+  final dialogService = I<DialogService>();
 
   String regNo = "", password = "";
 
