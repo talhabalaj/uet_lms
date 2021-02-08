@@ -58,7 +58,7 @@ if len(sys.argv) > 1:
       with open(each_file, "w") as file:
         file.write(output)
 
-  commit = input(f"Commit? [Y/n]")
+  commit = input(f"Commit? {update_version} [Y/n] ")
   if commit == "" or commit.lower() == "y":
     os.system(
         f"git add {' '.join(files)} && git commit -m 'Updated version to {update_version}'")
