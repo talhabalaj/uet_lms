@@ -70,7 +70,7 @@ if len(sys.argv) > 1:
       os.system(f"git tag {tagName}")
       print(f"Tagged release as {tagName}")
       push = input("Push Tag? [y/N] ")
-      pushCommand = f"git push origin {tagName}"
+      pushCommand = f"git push && git push origin {tagName}"
       if push.lower() == "y":
         os.system(pushCommand)
         print("Tag pushed")
