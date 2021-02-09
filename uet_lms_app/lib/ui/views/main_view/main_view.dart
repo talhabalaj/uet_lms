@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
 import 'package:stacked/stacked.dart';
+import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/ThemeService.dart';
 import 'package:uet_lms/ui/shared/AnimatedIndexedStack.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
 import 'package:uet_lms/ui/shared/NavButton.dart';
@@ -17,6 +19,7 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    I<ThemeService>().theme = Theme.of(context);
     return ViewModelBuilder<MainViewModel>.reactive(
       builder: (context, model, _) {
         return KeyBoardShortcuts(

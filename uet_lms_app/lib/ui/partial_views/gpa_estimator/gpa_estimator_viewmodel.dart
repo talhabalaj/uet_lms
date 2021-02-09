@@ -25,17 +25,26 @@ class GPAEstimatorViewModel extends BaseViewModel {
       registeredSemesters = await I<DataService>().getRegisteredSemesters(
         refresh: refresh,
       );
+      final currentSemester = registeredSemesters.first;
       _result = await I<DataService>().getResult(
         refresh: refresh,
       );
       subjects = await I<AuthService>().user.getRegisteredSubjects(
-        semester: registeredSemesters.first,
-      );
+            semester: currentSemester,
+          );
       currentSemesterResult = _result.where(
         (each) =>
             each.semesterName.toLowerCase() ==
-            registeredSemesters.first.name.toLowerCase(),
+            currentSemester.name.toLowerCase(),
       );
+      for (Result result in currentSemesterResult) {
+        final filteredSubjects = subjects.where((s) =>
+            s.subjectName.toLowerCase() == result.subject.name.toLowerCase());
+        if (filteredSubjects.length > 0) {
+          final subject = filteredSubjects.first;
+          subjectGradeMap[subject] = result.grade;
+        }
+      }
       calculateResult();
     } on Exception catch (e, s) {
       onlyCatchLMSorInternetException(e, stackTrace: s);
@@ -47,7 +56,9 @@ class GPAEstimatorViewModel extends BaseViewModel {
     assert(_result != null, 'result should not be null');
     double totalCreds = 0, obtained = 0;
 
-    for (final each in _result) {
+    for (final each in _result.where(
+      (r) => !currentSemesterResult.contains(r),
+    )) {
       totalCreds += each.totalCredHrs ?? 0;
       obtained += double.tryParse(each.subjectGPA) ?? 0;
     }
@@ -60,7 +71,9 @@ class GPAEstimatorViewModel extends BaseViewModel {
     }
     if (totalCredsCurrent != 0)
       gpa = (obtainedCurrent / (totalCredsCurrent * 4)) * 4;
-    
+    else
+      gpa = 0;
+
     cgpa = (obtained + obtainedCurrent) /
         ((totalCreds + totalCredsCurrent) * 4) *
         4;
