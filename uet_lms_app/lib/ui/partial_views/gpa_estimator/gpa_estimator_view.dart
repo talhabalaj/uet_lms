@@ -8,6 +8,7 @@ import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
 import 'package:uet_lms/ui/shared/Loading.dart';
 import 'package:uet_lms/ui/shared/NestedNavigation.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
+import 'package:uet_lms/ui/ui_utils.dart';
 
 import 'gpa_estimator_viewmodel.dart';
 
@@ -32,7 +33,7 @@ class GPAEstimatorView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 25,
+              height: kTitleGutter,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
@@ -113,7 +114,9 @@ class GPAEstimatorView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      kGradeGPAMap[model.subjectGradeMap[each]]?.toStringAsFixed(1) ?? '0.0',
+                                      kGradeGPAMap[model.subjectGradeMap[each]]
+                                              ?.toStringAsFixed(1) ??
+                                          '0.0',
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -136,9 +139,12 @@ class GPAEstimatorView extends StatelessWidget {
                                     model.notifyListeners();
                                   },
                                   values: kGradeGPAMap.keys.toList(),
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withAlpha(10),
+                                  color: withStaticAlpha(
+                                    Theme.of(context)
+                                        .primaryColor
+                                        .withAlpha(10),
+                                    Theme.of(context).cardColor,
+                                  ),
                                 ),
                               )
                             ],
@@ -166,8 +172,10 @@ class GPAEstimatorView extends StatelessWidget {
             FittedBox(
               child: Text(
                 gpa,
-                style:
-                    Theme.of(context).textTheme.headline1.copyWith(fontSize: 45),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline1
+                    .copyWith(fontSize: 45),
               ),
             ),
             Text(

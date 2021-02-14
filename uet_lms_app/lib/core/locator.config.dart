@@ -4,6 +4,7 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -13,6 +14,7 @@ import 'services/BackgroundService.dart';
 import 'services/DataService.dart';
 import 'services/NestedNavigationService.dart';
 import 'services/NotificationService.dart';
+import 'services/PreferencesService.dart';
 import 'services/ThemeService.dart';
 import 'locator.dart';
 
@@ -32,10 +34,13 @@ GetIt $initGetIt(
       () => thirdPartyServicesModule.bottomSheetService);
   gh.lazySingleton<DataService>(() => DataService());
   gh.lazySingleton<DialogService>(() => thirdPartyServicesModule.dialogService);
+  gh.lazySingleton<FirebaseAnalytics>(
+      () => thirdPartyServicesModule.firebaseAnalytics);
   gh.lazySingleton<NavigationService>(
       () => thirdPartyServicesModule.navigationService);
   gh.lazySingleton<NestedNavigationService>(() => NestedNavigationService());
   gh.lazySingleton<NotificationService>(() => NotificationService());
+  gh.lazySingleton<PreferencesService>(() => PreferencesService());
   gh.lazySingleton<SnackbarService>(
       () => thirdPartyServicesModule.snackBarService);
   gh.lazySingleton<ThemeService>(() => ThemeService());
@@ -47,6 +52,8 @@ class _$ThirdPartyServicesModule extends ThirdPartyServicesModule {
   BottomSheetService get bottomSheetService => BottomSheetService();
   @override
   DialogService get dialogService => DialogService();
+  @override
+  FirebaseAnalytics get firebaseAnalytics => FirebaseAnalytics();
   @override
   NavigationService get navigationService => NavigationService();
   @override

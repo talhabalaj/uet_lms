@@ -27,7 +27,7 @@ class NavButton extends StatelessWidget {
       onPressed: disabled ? null : onTap,
       padding: EdgeInsets.zero,
       child: Container(
-        height: subtitle.length <= 45 ? 55 : 65,
+        height: subtitle.length <= 45 ? 65 : 75,
         color: Colors.transparent,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,7 +43,10 @@ class NavButton extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(
-                    right: kHorizontalSpacing, top: 5, bottom: 5),
+                  right: kHorizontalSpacing,
+                  top: 10,
+                  bottom: 10,
+                ),
                 child: DefaultTextStyle.merge(
                   style: TextStyle(
                     color: disabled

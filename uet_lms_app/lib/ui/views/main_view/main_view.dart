@@ -61,6 +61,9 @@ class MainView extends StatelessWidget {
         );
       },
       viewModelBuilder: () => MainViewModel(),
+      onModelReady: (model) {
+        model.requestReview();
+      },
     );
   }
 
@@ -71,7 +74,7 @@ class MainView extends StatelessWidget {
             ? ImageFilter.blur()
             : ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          height: kAppBarHeight,
+          height: kAppBarHeight + MediaQuery.of(context).padding.top,
           decoration: BoxDecoration(
             color: model.isTopBarTransparent
                 ? Colors.transparent
@@ -79,7 +82,8 @@ class MainView extends StatelessWidget {
             boxShadow: model.isTopBarTransparent ? [] : [kFavBoxShadow],
           ),
           child: Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).padding.top - 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -117,10 +121,12 @@ class MainView extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 20,
                         backgroundImage: NetworkImage(
-                          model.lmsService.user.getChangeableProfilePicUrl() +
+                          (model.lmsService.user
+                                      ?.getChangeableProfilePicUrl() ??
+                                  '') +
                               '&v=' +
                               model.dpChangeTimes.toString(),
-                          headers: model.lmsService.user.cookieHeader,
+                          headers: model.lmsService.user?.cookieHeader,
                         ),
                       ),
                     ),
@@ -142,7 +148,6 @@ class MainView extends StatelessWidget {
       child: Stack(
         children: [
           ListView(
-            padding: EdgeInsets.zero,
             children: [
               SizedBox(height: kAppBarHeight),
               for (final each in kMainViewNestedNavLinks.asMap().entries) ...[
@@ -191,7 +196,7 @@ class MainView extends StatelessWidget {
                     ),
                   ),
                 SizedBox(
-                  height: 20,
+                  height: 2,
                 ),
               ],
               SizedBox(height: 120),
@@ -205,8 +210,8 @@ class MainView extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(
                     left: kHorizontalSpacing,
-                    top: MediaQuery.of(context).padding.top),
-                height: kAppBarHeight,
+                    top: MediaQuery.of(context).padding.top - 5),
+                height: kAppBarHeight + MediaQuery.of(context).padding.top,
                 child: Row(
                   children: [
                     SvgButton(

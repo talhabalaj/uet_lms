@@ -30,3 +30,15 @@ Color lighten(Color color, [double amount = .1]) {
 
   return hslLight.toColor();
 }
+
+
+Color withStaticAlpha(Color color, Color background) {
+  double alpha = color.alpha / 255;
+  double oneminusalpha = 1 - alpha;
+
+  int newR = ((color.red * alpha) + (oneminusalpha * background.red)).toInt();
+  int newG = ((color.green * alpha) + (oneminusalpha * background.green)).toInt();
+  int newB = ((color.blue * alpha) + (oneminusalpha * background.blue)).toInt();
+
+  return Color.fromARGB(255, newR, newB, newG);
+}

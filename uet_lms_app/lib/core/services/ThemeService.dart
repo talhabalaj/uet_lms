@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uet_lms/core/models/UserPreferences.dart';
+import 'package:uet_lms/core/services/PreferencesService.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
+
+import '../locator.dart';
 
 @lazySingleton
 class ThemeService {
@@ -19,15 +23,13 @@ class ThemeService {
     }
   }
 
-  Future<void> init() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _currentTheme = prefs.getString("theme") ?? "system";
+  void init() {
+    _currentTheme = I<PreferencesService>().preferences.theme ?? "system";
     setThemeMode();
   }
 
   Future<void> setTheme(String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("theme", name);
+    await I<PreferencesService>().update(UserPreferences(theme: name));
     _currentTheme = name;
     setThemeMode();
   }

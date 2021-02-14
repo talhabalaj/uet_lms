@@ -33,7 +33,7 @@ class DMCView extends StatelessWidget {
                   "Check your grades and stuff. you know the usual, best of luck tho",
             ),
             SizedBox(
-              height: 20,
+              height: kTitleGutter,
             ),
             if (model.hasError)
               Container(

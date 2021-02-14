@@ -65,8 +65,8 @@ class LoginView extends StatelessWidget {
                   BoxDecoration(
                 color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
                 ),
               ),
               child: Column(
@@ -80,21 +80,31 @@ class LoginView extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
+                  Spacer(),
                   RichText(
+                    textAlign: TextAlign.center,
                     text: TextSpan(
                       children: [
                         TextSpan(
                           text: 'Having Issues? ',
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16,
+                          ),
                         ),
                         TextSpan(
-                          text: 'Contact me.',
-                          style: new TextStyle(
-                              color: Theme.of(context).accentColor),
+                          text: 'Join Discord Server',
+                          style: TextStyle(
+                            color: Theme.of(context).accentColor,
+                            fontSize: 16,
+                          ),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              launch('mailto:hey@talhabalaj.com');
+                            ..onTap = () async {
+                              final String url =
+                                  "https://discord.gg/dY9tgs5Scx";
+                              if (await canLaunch(url)) {
+                                launch(url);
+                              }
                             },
                         ),
                       ],

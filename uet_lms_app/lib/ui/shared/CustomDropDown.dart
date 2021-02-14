@@ -36,13 +36,25 @@ class _CustomDropdownState extends State<CustomDropdown>
   OverlayEntry overlayEntry;
   AnimationController _animationController;
   double _containerHeight;
+  double _offset;
   Animation<double> _opacity;
+  Animation<double> scale;
+  bool isOnTheTop = false;
 
   findButton() {
     if (buttonKey.currentContext == null) return;
     RenderBox renderBox = buttonKey.currentContext.findRenderObject();
     buttonSize = renderBox.size;
     buttonPosition = renderBox.localToGlobal(Offset.zero);
+    _offset = buttonPosition.dy + buttonSize.height + 5;
+
+    double end = _offset + _containerHeight;
+    if (end > MediaQuery.of(context).size.height) {
+      _offset = buttonPosition.dy - 5 - _containerHeight;
+      isOnTheTop = true;
+    } else {
+      isOnTheTop = false;
+    }
   }
 
   @override
@@ -55,8 +67,15 @@ class _CustomDropdownState extends State<CustomDropdown>
       duration: Duration(milliseconds: 400),
     );
     _containerHeight =
-        (isMobile ? 55.0 : 50.0) * (min(3, widget.values?.length ?? 1));
+        (isMobile ? 55.0 : 50.0) * (min(5, widget.values?.length ?? 1));
     _opacity = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOutSine,
+      ),
+    );
+
+    scale = _opacity = Tween<double>(begin: .8, end: 1).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeInOutSine,
@@ -77,9 +96,9 @@ class _CustomDropdownState extends State<CustomDropdown>
       builder: (context) {
         final boxShadow = [
           BoxShadow(
-            offset: Offset(0, 1),
+            offset: Offset(0, 2),
             blurRadius: 19,
-            color: Colors.black.withAlpha(20),
+            color: Theme.of(context).primaryColor.withAlpha(25),
             spreadRadius: 0,
           ),
         ];
@@ -100,22 +119,25 @@ class _CustomDropdownState extends State<CustomDropdown>
               ),
             ),
             Positioned(
-              top: buttonPosition.dy + buttonSize.height + 5,
+              top: _offset,
               left: buttonPosition.dx,
               width: buttonSize.width,
               child: AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (context, _) => CardScrollView(
-                        constraints:
-                            BoxConstraints(maxHeight: _containerHeight),
-                        childCount: widget.values.length,
-                        boxShadow: boxShadow,
-                        verticalSpacing: 0,
-                        listViewPadding: EdgeInsets.zero,
-                        horizontalSpacing: 0,
-                        builder: (context, idx) => Opacity(
-                          opacity: _opacity.value,
-                          child: MaterialButton(
+                animation: _animationController,
+                builder: (context, child) => Opacity(child: child, opacity: _opacity.value,),
+                child: ScaleTransition(
+                  scale: scale,
+                  alignment:
+                      isOnTheTop ? Alignment.bottomCenter : Alignment.topCenter,
+                  child: CardScrollView(
+                      constraints: BoxConstraints(maxHeight: _containerHeight),
+                      childCount: widget.values.length,
+                      boxShadow: boxShadow,
+                      verticalSpacing: 0,
+                      listViewPadding: EdgeInsets.zero,
+                      horizontalSpacing: 0,
+                      color: widget.color,
+                      builder: (context, idx) => MaterialButton(
                             child: Text(
                               widget.values[idx].toLowerCase().capitalize(),
                               style: TextStyle(
@@ -128,11 +150,16 @@ class _CustomDropdownState extends State<CustomDropdown>
                             padding: EdgeInsets.symmetric(
                                 vertical: isMobile ? 17 : 20),
                             elevation: 0,
-                            shape: idx == 0 || idx + 1 == widget.values.length
-                                ? RoundedRectangleBorder(
+                            shape: idx == 0 ? RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(7),
                                       topRight: Radius.circular(7),
+                                    ),
+                                  ) :  idx + 1 == widget.values.length
+                                ? RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(7),
+                                      bottomRight: Radius.circular(7),
                                     ),
                                   )
                                 : null,
@@ -142,10 +169,10 @@ class _CustomDropdownState extends State<CustomDropdown>
                                 widget.onSelectionChange(widget.values[idx]);
                               closeMenu();
                             },
-                          ),
-                        ),
-                      ) //code for the drop-down menu...,
-                  ),
+                          ) //code for the drop-down menu...,
+                      ),
+                ),
+              ),
             ),
           ],
         );

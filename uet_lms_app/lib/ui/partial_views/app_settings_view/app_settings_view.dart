@@ -26,7 +26,7 @@ class AppSettingsView extends StatelessWidget {
               heading: "App Settings",
               subtitle: "You know, the usuals",
             ),
-            SizedBox(height: 20),
+            SizedBox(height: kTitleGutter),
             _buildSmallHeadingText("THEME"),
             CustomDropdown(
               values: ["light", "dark", "system"],

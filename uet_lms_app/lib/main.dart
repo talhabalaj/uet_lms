@@ -1,4 +1,6 @@
 import 'package:desktop_window/desktop_window.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +12,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/BackgroundService.dart';
 import 'package:uet_lms/core/services/NotificationService.dart';
+import 'package:uet_lms/core/services/PreferencesService.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
 import 'package:uet_lms/ui/views/login_view/login_view.dart';
@@ -47,6 +50,9 @@ void main() async {
     await DesktopWindow.setFullScreen(false);
   }
 
+  await I<PreferencesService>().init();
+  I<ThemeService>().init();
+
   runApp(
     Phoenix(
       child: MyApp(),
@@ -60,19 +66,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    I<ThemeService>().init().then((v) {
-      if (mounted) this.setState(() {});
-    });
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -94,6 +87,9 @@ class _MyAppState extends State<MyApp> {
         MainView.id: (context) => MainView(),
       },
       initialRoute: SplashView.id,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: I<FirebaseAnalytics>())
+      ],
     );
   }
 }

@@ -29,9 +29,14 @@ class GPAEstimatorViewModel extends BaseViewModel {
       _result = await I<DataService>().getResult(
         refresh: refresh,
       );
-      subjects = await I<AuthService>().user.getRegisteredSubjects(
-            semester: currentSemester,
-          );
+      subjects = (await I<DataService>().getRegisteredSubjects(
+        refresh: refresh,
+      ))
+          .where(
+        (subject) =>
+            subject.semesterName.toLowerCase() ==
+            currentSemester.name.toLowerCase(),
+      ).toList();
       currentSemesterResult = _result.where(
         (each) =>
             each.semesterName.toLowerCase() ==

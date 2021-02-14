@@ -1,4 +1,5 @@
 import 'package:async/async.dart' hide Result;
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lms_api/LMS.dart';
@@ -59,7 +60,8 @@ class DataService {
     });
   }
 
-  Future<List<Register>> getRegisteredSubjects({bool refresh = false, Semester semester}) async {
+  Future<List<Register>> getRegisteredSubjects(
+      {bool refresh = false, Semester semester}) async {
     if (refresh) _registerdSubjects.invalidate();
     return _registerdSubjects.fetch(() async {
       return user.getRegisteredSubjects(semester: semester);
@@ -83,48 +85,55 @@ class DataService {
   }
 
   Future<void> checkResultAndNotify() async {
-    if (isMobile) {
-      FirebaseCrashlytics.instance.log("Checking result");
-    }
+    FirebaseAnalytics analytics = I<FirebaseAnalytics>();
+    await analytics.logEvent(name: "result_check_start");
 
-    if (!I<AuthService>().loggedIn) {
-      if (await I<AuthService>().canReAuth()) {
-        await I<AuthService>().reAuth();
-      } else {
-        return;
-      }
-    }
-
-    final resultBoxName = userBox("results");
-    final data = await I<DataService>().getResult(refresh: true);
-
-    if (!Hive.isBoxOpen(resultBoxName)) {
-      await Hive.openBox<Result>(resultBoxName);
-    }
-
-    final resultBox = Hive.box<Result>(resultBoxName);
-
-    for (Result each in data) {
-      if (resultBox.containsKey(each.id)) {
-        // check if result is changed
-        if (each.grade == resultBox.get(each.id).grade) {
-          continue;
+    try {
+      if (!I<AuthService>().loggedIn) {
+        if (await I<AuthService>().canReAuth()) {
+          await I<AuthService>().reAuth();
+        } else {
+          return;
         }
-      } else {
-        // result is new
-        resultBox.put(each.id, each);
       }
-      if (each.semesterName.toLowerCase() ==
-          (await I<DataService>().getRegisteredSemesters())
-              .first
-              .name
-              .toLowerCase()) {
-        print("Result changed ${each.subject.name} ${each.grade}");
-        await I<NotificationService>().showNotification(
-            title: "New Result",
-            body:
-                "Result for ${each.subject.name} has been published, you got ${each.grade}");
+
+      final resultBoxName = userBox("results");
+      final data = await I<DataService>().getResult(refresh: true);
+
+      if (!Hive.isBoxOpen(resultBoxName)) {
+        await Hive.openBox<Result>(resultBoxName);
       }
+
+      final resultBox = Hive.box<Result>(resultBoxName);
+
+      for (Result each in data) {
+        if (resultBox.containsKey(each.id)) {
+          // check if result is changed
+          if (each.grade == resultBox.get(each.id).grade) {
+            continue;
+          }
+        } else {
+          // result is new
+          resultBox.put(each.id, each);
+        }
+        if (each.semesterName.toLowerCase() ==
+            (await I<DataService>().getRegisteredSemesters())
+                .first
+                .name
+                .toLowerCase()) {
+          print("Result changed ${each.subject.name} ${each.grade}");
+          await I<NotificationService>().showNotification(
+              title: "New Result",
+              body:
+                  "Result for ${each.subject.name} has been published, you got ${each.grade}");
+          await analytics.logEvent(name: "notified_result_change");
+        }
+      }
+      await analytics.logEvent(name: "result_check_completed");
+    } catch (e) {
+      await analytics
+          .logEvent(name: "result_check_failed", parameters: {"error": e});
+      rethrow;
     }
   }
 }

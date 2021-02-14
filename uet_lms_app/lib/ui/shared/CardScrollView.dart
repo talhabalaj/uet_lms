@@ -16,6 +16,7 @@ class CardScrollView extends StatefulWidget {
       this.height,
       this.boxShadow,
       this.constraints,
+      this.color,
       this.title})
       : super(key: key);
 
@@ -29,6 +30,7 @@ class CardScrollView extends StatefulWidget {
   final List<BoxShadow> boxShadow;
   final BoxConstraints constraints;
   final EdgeInsets listViewPadding;
+  final Color color;
 
   @override
   _CardScrollViewState createState() => _CardScrollViewState();
@@ -52,6 +54,7 @@ class _CardScrollViewState extends State<CardScrollView>
       height: widget.height,
       constraints: widget.constraints,
       boxShadow: widget.boxShadow,
+      color: widget.color,
       padding: EdgeInsets.zero,
       builder: (context) => Stack(
         children: [

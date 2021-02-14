@@ -30,7 +30,7 @@ class ChallansView extends StatelessWidget {
                   "Check if your fees is paid or new challan form is available",
             ),
             SizedBox(
-              height: 30,
+              height: kTitleGutter,
             ),
             if (model.hasError)
               Container(
@@ -76,7 +76,7 @@ class ChallansView extends StatelessWidget {
       BuildContext context, ChallansViewModel model, Challan challan) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: 20.0,
+        bottom: 15.0,
       ),
       child: CustomCard(
         builder: (context) => Column(

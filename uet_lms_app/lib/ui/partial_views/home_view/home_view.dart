@@ -47,7 +47,7 @@ class DashBoardView extends StatelessWidget {
                           "How’s your day goin’? Here’s some stats about your University life",
                     ),
                   SizedBox(
-                    height: 30,
+                    height: kTitleGutter,
                   ),
                   Row(
                     children: [

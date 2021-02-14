@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uet_lms/core/locator.config.dart';
@@ -13,6 +14,8 @@ abstract class ThirdPartyServicesModule {
   SnackbarService get snackBarService;
   @lazySingleton
   BottomSheetService get bottomSheetService;
+  @lazySingleton
+  FirebaseAnalytics get firebaseAnalytics;
 }
 
 final I = GetIt.instance;

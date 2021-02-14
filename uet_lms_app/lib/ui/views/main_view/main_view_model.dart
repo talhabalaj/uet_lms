@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/NestedNavigationService.dart';
@@ -28,5 +29,13 @@ class MainViewModel extends BaseViewModel {
     indexedStackService.index = idx;
     _isTopBarTransparent = true;
     this.notifyListeners();
+  }
+
+  Future<void> requestReview() async {
+    //final InAppReview inAppReview = InAppReview.instance;
+
+    // if (await inAppReview.isAvailable()) {
+    //   inAppReview.requestReview();
+    // }
   }
 }

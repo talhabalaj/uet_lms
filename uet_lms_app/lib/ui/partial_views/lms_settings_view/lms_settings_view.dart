@@ -23,7 +23,7 @@ class LMSSettingsView extends StatelessWidget {
               subtitle: "Let’s change that bad password, first.",
             ),
             SizedBox(
-              height: 30,
+              height: kTitleGutter,
             ),
             CircleAvatar(
               radius: 65,
