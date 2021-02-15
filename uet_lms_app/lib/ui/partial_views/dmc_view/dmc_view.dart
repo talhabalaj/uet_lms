@@ -58,7 +58,8 @@ class DMCView extends StatelessWidget {
                 ),
               )
             else if (!model.isBusy) ...[
-              _buildSemesterSummary(model),
+              if (model.registeredSemesters.length < 2)
+                _buildSemesterSummary(model),
               SizedBox(
                 height: 15,
               ),

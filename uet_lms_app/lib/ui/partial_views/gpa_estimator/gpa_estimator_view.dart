@@ -65,7 +65,7 @@ class GPAEstimatorView extends StatelessWidget {
             else if (model.hasError)
               Text(model.modelError.toString())
             else
-              for (Register each in model.subjects)
+              for (Register each in model?.subjects)
                 Padding(
                     padding: EdgeInsets.only(
                       left: kHorizontalSpacing,
