@@ -80,7 +80,6 @@ class LoginView extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Spacer(),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(

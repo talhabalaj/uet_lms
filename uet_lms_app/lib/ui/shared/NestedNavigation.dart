@@ -20,7 +20,7 @@ class NestedNavigation extends StatelessWidget {
       child: ListView(
         children: [
           SizedBox(
-            height: kAppBarHeight,
+            height: kAppBarHeight + 10,
           ),
           ...children,
         ],

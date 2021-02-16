@@ -12,7 +12,7 @@ final kPrimaryColor = Color(0xff484848);
 final kDefaultTextStyle = TextStyle(color: kPrimaryColor);
 final kHorizontalSpacing = 20.0;
 final kAppBarHeight = 70.0;
-final kTitleGutter = 20.0;
+final kTitleGutter = 30.0;
 
 List<NestedRoute> kMainViewNestedNavLinks = [
   NestedRoute(

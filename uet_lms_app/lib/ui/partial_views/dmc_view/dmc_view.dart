@@ -58,11 +58,12 @@ class DMCView extends StatelessWidget {
                 ),
               )
             else if (!model.isBusy) ...[
-              if (model.registeredSemesters.length < 2)
+              if (model.registeredSemesters.length > 2) ...[
                 _buildSemesterSummary(model),
-              SizedBox(
-                height: 15,
-              ),
+                SizedBox(
+                  height: 15,
+                ),
+              ],
               CustomDropdown(
                 values: model.registeredSemesters.map((e) => e.name).toList(),
                 currentValue: model.selectedSemester,

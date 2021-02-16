@@ -36,7 +36,7 @@ class DashBoardView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: kAppBarHeight,
+                    height: kAppBarHeight + 10,
                   ),
                   if (model.busy(model.studentProfile))
                     HeadingWithSubtitle()
