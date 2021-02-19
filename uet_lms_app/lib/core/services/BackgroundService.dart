@@ -1,6 +1,7 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uet_lms/core/services/DataService.dart';
+import 'package:uet_lms/core/services/PreferencesService.dart';
 
 import '../locator.dart';
 
@@ -9,18 +10,20 @@ class BackgroundService {
   void registerBackgroundService() {
     BackgroundFetch.configure(
       BackgroundFetchConfig(
-        minimumFetchInterval: 600,
+        minimumFetchInterval: 120,
         startOnBoot: true,
         stopOnTerminate: false,
         enableHeadless: true,
-        requiresBatteryNotLow: false,
+        requiresBatteryNotLow: true,
         requiresCharging: false,
-        requiresStorageNotLow: false,
+        requiresStorageNotLow: true,
         requiresDeviceIdle: false,
         requiredNetworkType: NetworkType.ANY,
       ),
       (String taskId) async {
-        await I<DataService>().checkResultAndNotify();
+        if (I<PreferencesService>().preferences.notifyGradeUpdate) {
+          await I<DataService>().checkResultAndNotify();
+        }
         BackgroundFetch.finish(taskId);
       },
     );

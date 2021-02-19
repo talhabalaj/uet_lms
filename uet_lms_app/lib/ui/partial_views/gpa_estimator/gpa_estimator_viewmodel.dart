@@ -3,7 +3,6 @@ import 'package:lms_api/models/obe.core.result.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/constants.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/services/AuthService.dart';
 import 'package:uet_lms/core/services/DataService.dart';
 import 'package:uet_lms/core/utils.dart';
 

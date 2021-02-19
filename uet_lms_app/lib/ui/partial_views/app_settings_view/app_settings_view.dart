@@ -12,7 +12,7 @@ class AppSettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final infoTextStyle = TextStyle(fontSize: 16, color: Colors.grey[700]);
+    final infoTextStyle = TextStyle(fontSize: 16, color: Colors.grey[500]);
     final infoBoldTextStyle =
         infoTextStyle.copyWith(fontWeight: FontWeight.bold);
     return ViewModelBuilder<AppSettingsViewModel>.reactive(
@@ -35,6 +35,30 @@ class AppSettingsView extends StatelessWidget {
                 await model.updateTheme(v);
                 Phoenix.rebirth(context);
               },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            _buildSmallHeadingText("NOTIFICATIONS"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    "Get notifications when new Grades are published.",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Switch.adaptive(
+                  value: model.preferences.notifyGradeUpdate,
+                  onChanged: model.setNotifyGradePreference,
+                ),
+              ],
             ),
             SizedBox(
               height: 20,

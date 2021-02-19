@@ -35,7 +35,7 @@ class PreferencesService {
         jsonDecode(json),
       );
     } else {
-      _preferences = UserPreferences(notifyGradeUpdate: true, theme: "system");
+      _preferences = UserPreferences();
     }
   }
 

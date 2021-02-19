@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uet_lms/core/models/UserPreferences.dart';
 import 'package:uet_lms/core/services/PreferencesService.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
@@ -24,7 +23,7 @@ class ThemeService {
   }
 
   void init() {
-    _currentTheme = I<PreferencesService>().preferences.theme ?? "system";
+    _currentTheme = I<PreferencesService>().preferences.theme;
     setThemeMode();
   }
 

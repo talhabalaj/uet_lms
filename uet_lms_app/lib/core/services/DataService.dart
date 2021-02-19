@@ -1,6 +1,5 @@
 import 'package:async/async.dart' hide Result;
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lms_api/LMS.dart';
 import 'package:lms_api/models/obe.core.register.dart';
@@ -132,8 +131,40 @@ class DataService {
       await analytics.logEvent(name: "result_check_completed");
     } catch (e) {
       await analytics
-          .logEvent(name: "result_check_failed", parameters: {"error": e});
+          .logEvent(name: "result_check_failed", parameters: {"error": e.toString()});
       rethrow;
     }
   }
+
+  //  Future<void> checkAttendanceAndNotify() async {
+  //   FirebaseAnalytics analytics = I<FirebaseAnalytics>();
+  //   await analytics.logEvent(name: "attendance_check_start");
+
+  //   try {
+  //     if (!I<AuthService>().loggedIn) {
+  //       if (await I<AuthService>().canReAuth()) {
+  //         await I<AuthService>().reAuth();
+  //       } else {
+  //         return;
+  //       }
+  //     }
+
+  //     final attendanceBox = userBox("attendance");
+  //     final 
+  //     final data = await I<DataService>().user.getAttendanceForRegisteredCourse();
+
+  //     if (!Hive.isBoxOpen(attendanceBox)) {
+  //       await Hive.openBox<Result>(attendanceBox);
+  //     }
+
+  //     final resultBox = Hive.box<Result>(attendanceBox);
+
+  //         await analytics.logEvent(name: "notified_attendance_change");
+  //     await analytics.logEvent(name: "attendance_check_completed");
+  //   } catch (e) {
+  //     await analytics
+  //         .logEvent(name: "attendance_check_failed", parameters: {"error": e.toString()});
+  //     rethrow;
+  //   }
+  // }
 }

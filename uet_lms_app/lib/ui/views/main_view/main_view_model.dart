@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:in_app_review/in_app_review.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/NestedNavigationService.dart';
@@ -11,24 +11,32 @@ class MainViewModel extends BaseViewModel {
   final NestedNavigationService indexedStackService =
       I<NestedNavigationService>();
 
-  bool _isTopBarTransparent = true;
-  get dpChangeTimes => indexedStackService.dpChangeTimes;
+  final AutoScrollController navScrollController = AutoScrollController();
 
-  get isTopBarTransparent => _isTopBarTransparent;
+  bool _isTopBarTransparent = true;
+  int scrollIdx = 0;
+  int get dpChangeTimes => indexedStackService.dpChangeTimes;
+
+  bool get isTopBarTransparent => _isTopBarTransparent;
   set isTopBarTransparent(bool value) {
     _isTopBarTransparent = value;
     this.notifyListeners();
   }
 
-  get index => indexedStackService.index;
-  get scaffold => scaffoldKey.currentState;
-  get currentViews => indexedStackService.currentViews;
-  get views => indexedStackService.views;
+  int get index => indexedStackService.index;
+  ScaffoldState get scaffold => scaffoldKey.currentState;
+  List<Widget> get currentViews => indexedStackService.currentViews;
+  List<Widget> get views => indexedStackService.views;
 
-  void setIndex(int idx) {
-    indexedStackService.index = idx;
-    _isTopBarTransparent = true;
-    this.notifyListeners();
+  void setActiveScreen(int _idx, String _screen) {
+    scrollIdx = _idx;
+    int idx = views.indexWhere((view) => (view as dynamic).id == _screen);
+
+    if (idx != -1 && indexedStackService.index != idx) {
+      indexedStackService.index = idx;
+      _isTopBarTransparent = true;
+      this.notifyListeners();
+    }
   }
 
   Future<void> requestReview() async {

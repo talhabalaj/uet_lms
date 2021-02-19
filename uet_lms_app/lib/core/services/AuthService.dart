@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -105,39 +106,30 @@ class AuthService {
     if (kIsWeb) {
       return false;
     }
-
     try {
-      try {
-        final storedData = await this.readFromSecureStorage();
-        final email = storedData['email'];
-        final password = storedData['password'];
-        final cookie = storedData['cookie'];
+      final storedData = await this.readFromSecureStorage();
+      final email = storedData['email'];
+      final password = storedData['password'];
+      final cookie = storedData['cookie'];
 
-        if (email == null || password == null || cookie == null) {
-          return false;
-        }
-        
-        user = _createLMSObject(email, password);
-        await user.loginWithCookie(cookie);
-      } on LMSException {
-        await user.login();
-        await storeOnSecureStorage();
+      if (email == null || password == null || cookie == null) {
+        return false;
       }
 
-      setCrashReportsUserId(user.email);
-      return true;
-    } on PlatformException catch (e) {
-      log("[Error Flutter Secure Storage]", error: e);
-    } on LMSException catch (e) {
-      if (!e.message.startsWith("Auth")) {
-        throw e;
-      }
-      log("[Error LMS]", error: e);
+      user = _createLMSObject(email, password);
+      await user.loginWithCookie(cookie);
+
+      I<FirebaseAnalytics>().logEvent(name: 'reauth_with_cookie');
+    } on AuthError {
+      await user.login();
+      await storeOnSecureStorage();
+
+      I<FirebaseAnalytics>().logEvent(name: 'reauth_with_creds');
     }
 
-    await this._logout();
-
-    return false;
+    setCrashReportsUserId(user.email);
+    
+    return true;
   }
 
   Future<void> logout() async {

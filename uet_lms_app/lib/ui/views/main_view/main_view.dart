@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/models/NestedRoute.dart';
 import 'package:uet_lms/core/services/ThemeService.dart';
 import 'package:uet_lms/ui/shared/AnimatedIndexedStack.dart';
 import 'package:uet_lms/ui/shared/CustomButton.dart';
@@ -13,6 +14,7 @@ import 'package:uet_lms/ui/shared/NavButton.dart';
 import 'package:uet_lms/ui/shared/SvgButton.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:uet_lms/ui/views/main_view/main_view_model.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class MainView extends StatelessWidget {
   static String id = "/main";
@@ -95,9 +97,25 @@ class MainView extends StatelessWidget {
                     color:
                         model.isTopBarTransparent ? null : Colors.transparent,
                     asset: "assets/svg/menu.svg",
-                    onTap: () {
+                    onTap: () async {
+                      // open the drawer
                       model.scaffold.openDrawer();
+
+                      // close the keyboard if opened
                       FocusScope.of(context).requestFocus(new FocusNode());
+
+                      // scroll to the active link
+                      await model.navScrollController.scrollToIndex(
+                        model.scrollIdx,
+                        duration: Duration(microseconds: 1),
+                      );
+                      
+                      // need to scroll more
+                      if (model.scrollIdx > 2) {
+                        model.navScrollController.jumpTo(
+                          model.navScrollController.offset + 100,
+                        );
+                      }
                     },
                   ),
                 ),
@@ -148,6 +166,7 @@ class MainView extends StatelessWidget {
       child: Stack(
         children: [
           ListView(
+            controller: model.navScrollController,
             children: [
               SizedBox(height: kAppBarHeight),
               for (final each in kMainViewNestedNavLinks.asMap().entries) ...[
@@ -162,26 +181,30 @@ class MainView extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ),
-                NavButton(
-                    newTag: each.value.newFeature,
-                    disabled: each.value.screenName == null,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      int idx = model.views.indexWhere(
-                        (dynamic element) =>
-                            element.id == each.value.screenName,
-                      );
-                      if (idx != -1 && idx != model.index) {
-                        model.setIndex(idx);
-                      }
-                    },
-                    title: each.value.title,
-                    isActive: model.views.indexWhere(
-                          (dynamic element) =>
-                              element.id == each.value.screenName,
-                        ) ==
-                        model.index,
-                    subtitle: each.value.description),
+                Builder(builder: (context) {
+                  int idx = each.key;
+                  NestedRoute value = each.value;
+
+                  return AutoScrollTag(
+                    index: idx,
+                    key: ValueKey(idx),
+                    controller: model.navScrollController,
+                    child: NavButton(
+                      newTag: value.newFeature,
+                      disabled: value.screenName == null,
+                      onTap: () {
+                        // close the drawer
+                        Navigator.of(context).pop();
+
+                        // set active
+                        model.setActiveScreen(idx, each.value.screenName);
+                      },
+                      title: value.title,
+                      isActive: idx == model.scrollIdx,
+                      subtitle: value.description,
+                    ),
+                  );
+                }),
                 if (each.value.screenName == null)
                   Padding(
                     padding:
@@ -196,7 +219,7 @@ class MainView extends StatelessWidget {
                     ),
                   ),
                 SizedBox(
-                  height: 2,
+                  height: 10,
                 ),
               ],
               SizedBox(height: 120),
