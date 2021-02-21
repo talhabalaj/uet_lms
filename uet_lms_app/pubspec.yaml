@@ -2,10 +2,10 @@ name: uet_lms
 description: This is UET LMS!
 
 publish_to: none # Remove this line if you wish to publish to pub.dev
-version: 0.3.3+21
+version: 0.3.5+23
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: '>=2.8.0 <3.0.0'
 
 dependencies:
   flutter:
