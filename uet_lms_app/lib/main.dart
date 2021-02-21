@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:hive/hive.dart';
@@ -68,9 +69,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final themeMode = I<ThemeService>().themeMode;
+    Brightness brightness = Brightness.light;
+
+    if (themeMode == ThemeMode.light) {
+      brightness = Brightness.dark;
+    } else if (themeMode == ThemeMode.system) {
+      brightness = Theme.of(context).brightness;
+    }
+
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
+        statusBarBrightness: brightness,
+        statusBarIconBrightness: brightness,
+        systemNavigationBarIconBrightness: brightness,
       ),
     );
 
@@ -80,7 +93,7 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: StackedService.navigatorKey,
       theme: ThemeService.light,
       darkTheme: ThemeService.dark,
-      themeMode: I<ThemeService>().themeMode,
+      themeMode: themeMode,
       routes: {
         SplashView.id: (context) => SplashView(),
         LoginView.id: (context) => LoginView(),

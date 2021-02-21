@@ -120,7 +120,7 @@ class AuthService {
       await user.loginWithCookie(cookie);
 
       I<FirebaseAnalytics>().logEvent(name: 'reauth_with_cookie');
-    } on AuthError {
+    } on LMSException {
       await user.login();
       await storeOnSecureStorage();
 

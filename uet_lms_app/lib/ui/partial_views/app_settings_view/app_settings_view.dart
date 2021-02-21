@@ -57,6 +57,7 @@ class AppSettingsView extends StatelessWidget {
                 Switch.adaptive(
                   value: model.preferences.notifyGradeUpdate,
                   onChanged: model.setNotifyGradePreference,
+                  activeColor: Theme.of(context).accentColor,
                 ),
               ],
             ),

@@ -41,6 +41,7 @@ class ThemeService {
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     scaffoldBackgroundColor: Color(0xfff5f5f5),
     brightness: Brightness.dark,
+    appBarTheme: AppBarTheme(brightness: Brightness.dark),
     textTheme: TextTheme(
       headline1:
           kDefaultTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 34),
@@ -70,6 +71,7 @@ class ThemeService {
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     scaffoldBackgroundColor: Color(0xff101010),
     brightness: Brightness.light,
+    appBarTheme: AppBarTheme(brightness: Brightness.light),
     fontFamily: 'Inter',
     textTheme: TextTheme(
       headline1: TextStyle(

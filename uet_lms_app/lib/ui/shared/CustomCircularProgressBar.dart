@@ -21,7 +21,7 @@ class CustomCircularProgressBar extends StatefulWidget {
 }
 
 class _CustomCircularProgressBarState extends State<CustomCircularProgressBar>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _angle;
   Color bgColor;
