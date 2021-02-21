@@ -40,7 +40,7 @@ class NestedNavigationService {
   }
 
   void _setScreenName() {
-    routeObserver.analytics.setCurrentScreen(screenName: '/${(currentViews[index] as dynamic).id}');
+    routeObserver.analytics.setCurrentScreen(screenName: '${(currentViews[index] as dynamic).id}');
   }
 
   void _addCurrentToBrowsed() => browsed.add(views[index]);
