@@ -89,13 +89,10 @@ class _BasicDialogState extends State<BasicDialog>
                             height: 20,
                           ),
                           if (widget.request.description != null)
-                            Container(
-                              height: _containerHeight.value - 200,
-                              child: SingleChildScrollView(
-                                child: Text(
-                                  widget.request.description,
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
+                            SingleChildScrollView(
+                              child: Text(
+                                widget.request.description,
+                                style: Theme.of(context).textTheme.bodyText1,
                               ),
                             ),
                         ],

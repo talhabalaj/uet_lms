@@ -19,43 +19,29 @@ class AnimatedIndexedStack extends StatefulWidget {
   _AnimatedIndexedStackState createState() => _AnimatedIndexedStackState();
 }
 
-class _AnimatedIndexedStackState extends State<AnimatedIndexedStack>
-    with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
-
-  @override
-  void didUpdateWidget(AnimatedIndexedStack oldWidget) {
-    if (widget.index != oldWidget.index) {
-      _controller.reset();
-      _controller.forward();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void initState() {
-    _controller = AnimationController(vsync: this, duration: widget.duration);
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(curve: Curves.easeInOutSine, parent: _controller));
-    _controller.forward();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class _AnimatedIndexedStackState extends State<AnimatedIndexedStack> {
+  
   @override
   Widget build(BuildContext context) {
-    return FadeScaleTransition(
-      animation: _animation,
+    return PageTransitionSwitcher(
       child: IndexedStack(
         index: widget.index,
+        key: ValueKey(widget.index),
         children: widget.children,
       ),
+      duration: Duration(milliseconds: 750),
+      transitionBuilder: (
+        Widget child,
+        Animation<double> primaryAnimation,
+        Animation<double> secondaryAnimation,
+      ) {
+        return FadeThroughTransition(
+          child: child,
+          fillColor: Colors.transparent,
+          animation: primaryAnimation,
+          secondaryAnimation: secondaryAnimation,
+        );
+      },
     );
   }
 }

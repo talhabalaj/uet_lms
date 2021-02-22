@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lms_api/lms_api.dart';
@@ -107,28 +104,34 @@ class AuthService {
       return false;
     }
     try {
-      final storedData = await this.readFromSecureStorage();
-      final email = storedData['email'];
-      final password = storedData['password'];
-      final cookie = storedData['cookie'];
+      try {
+        final storedData = await this.readFromSecureStorage();
+        final email = storedData['email'];
+        final password = storedData['password'];
+        final cookie = storedData['cookie'];
 
-      if (email == null || password == null || cookie == null) {
-        return false;
+        if (email == null || password == null || cookie == null) {
+          return false;
+        }
+
+        user = _createLMSObject(email, password);
+        await user.loginWithCookie(cookie);
+
+        I<FirebaseAnalytics>().logEvent(name: 'reauth_with_cookie');
+      } on LMSException {
+        await user.login();
+        await storeOnSecureStorage();
+
+        I<FirebaseAnalytics>().logEvent(name: 'reauth_with_creds');
       }
-
-      user = _createLMSObject(email, password);
-      await user.loginWithCookie(cookie);
-
-      I<FirebaseAnalytics>().logEvent(name: 'reauth_with_cookie');
-    } on LMSException {
-      await user.login();
-      await storeOnSecureStorage();
-
-      I<FirebaseAnalytics>().logEvent(name: 'reauth_with_creds');
+    } on AuthError {
+      await this._logout();
+      await navigationService.clearStackAndShow(LoginView.id);
+      return false;
     }
 
     setCrashReportsUserId(user.email);
-    
+
     return true;
   }
 

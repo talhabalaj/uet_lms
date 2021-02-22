@@ -13,13 +13,13 @@ import '../locator.dart';
 
 @lazySingleton
 class NestedNavigationService {
-
   final routeObserver = FirebaseAnalyticsObserver(
     analytics: I<FirebaseAnalytics>(),
   );
 
   int _index = 0;
   int dpChangeTimes = 0;
+  List<int> stack = [];
   List<Widget> currentViews = [];
   List<Widget> browsed = [];
   List<Widget> views = [
@@ -37,18 +37,28 @@ class NestedNavigationService {
     _addCurrentToBrowsed();
     updateViews();
     _setScreenName();
+    if (stack.length == 0 || stack.last != idx)
+      stack.add(idx);
+  }
+
+  int back() {
+    if (stack.length > 1) {
+      stack.removeLast();
+      index = stack.last;
+      return index;
+    }
+    return -1;
   }
 
   void _setScreenName() {
-    routeObserver.analytics.setCurrentScreen(screenName: '${(currentViews[index] as dynamic).id}');
+    routeObserver.analytics
+        .setCurrentScreen(screenName: '${(currentViews[index] as dynamic).id}');
   }
 
   void _addCurrentToBrowsed() => browsed.add(views[index]);
 
   NestedNavigationService() {
-    _addCurrentToBrowsed();
-    updateViews();
-    _setScreenName();
+    index = 0;
   }
 
   void updateViews() {
@@ -66,6 +76,7 @@ class NestedNavigationService {
 
   void reset() {
     browsed.clear();
+    stack.clear();
     index = 0;
   }
 

@@ -32,11 +32,6 @@ class SplashView extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                 ),
               ),
-              if (model.internet)
-                Text(
-                  "dOwnLoaDing nuCLEAr COdes",
-                  style: TextStyle(fontSize: 20),
-                ),
             ],
           ),
         );

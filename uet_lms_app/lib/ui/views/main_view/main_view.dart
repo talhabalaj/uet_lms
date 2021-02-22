@@ -24,40 +24,45 @@ class MainView extends StatelessWidget {
     I<ThemeService>().theme = Theme.of(context);
     return ViewModelBuilder<MainViewModel>.reactive(
       builder: (context, model, _) {
-        return KeyBoardShortcuts(
-          onKeysPressed: () {
-            if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+        return WillPopScope(
+          onWillPop: () async {
+            return model.scaffold.isDrawerOpen || !model.back();
           },
-          keysToPress: [LogicalKeyboardKey.escape].toSet(),
-          child: Scaffold(
-            key: model.scaffoldKey,
-            drawerScrimColor: Colors.black12,
-            drawerDragStartBehavior: DragStartBehavior.start,
-            drawer: this._buildNav(context, model),
-            body: Stack(
-              children: [
-                NotificationListener<ScrollNotification>(
-                  onNotification: (ScrollNotification notification) {
-                    if (notification.depth == 0) {
-                      if (notification.metrics.pixels == 0 &&
-                          !model.isTopBarTransparent) {
-                        model.isTopBarTransparent = true;
-                      } else if (notification.metrics.pixels > 0 &&
-                          model.isTopBarTransparent) {
-                        model.isTopBarTransparent = false;
+          child: KeyBoardShortcuts(
+            onKeysPressed: () {
+              if (!model.back() && Navigator.of(context).canPop()) Navigator.of(context).pop();
+            },
+            keysToPress: [LogicalKeyboardKey.escape].toSet(),
+            child: Scaffold(
+              key: model.scaffoldKey,
+              drawerScrimColor: Colors.black12,
+              drawerDragStartBehavior: DragStartBehavior.start,
+              drawer: this._buildNav(context, model),
+              body: Stack(
+                children: [
+                  NotificationListener<ScrollNotification>(
+                    onNotification: (ScrollNotification notification) {
+                      if (notification.depth == 0) {
+                        if (notification.metrics.pixels == 0 &&
+                            !model.isTopBarTransparent) {
+                          model.isTopBarTransparent = true;
+                        } else if (notification.metrics.pixels > 0 &&
+                            model.isTopBarTransparent) {
+                          model.isTopBarTransparent = false;
+                        }
+                        return true;
                       }
-                      return true;
-                    }
 
-                    return false;
-                  },
-                  child: AnimatedIndexedStack(
-                    index: model.index,
-                    children: model.currentViews,
+                      return false;
+                    },
+                    child: AnimatedIndexedStack(
+                      index: model.index,
+                      children: model.currentViews,
+                    ),
                   ),
-                ),
-                _buildTopAppBar(context, model),
-              ],
+                  _buildTopAppBar(context, model),
+                ],
+              ),
             ),
           ),
         );
@@ -109,7 +114,7 @@ class MainView extends StatelessWidget {
                         model.scrollIdx,
                         duration: Duration(microseconds: 1),
                       );
-                      
+
                       // need to scroll more
                       if (model.scrollIdx > 2) {
                         model.navScrollController.jumpTo(

@@ -5,6 +5,8 @@ import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/NestedNavigationService.dart';
 import 'package:uet_lms/core/services/AuthService.dart';
 
+import '../../ui_constants.dart';
+
 class MainViewModel extends BaseViewModel {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final AuthService lmsService = I<AuthService>();
@@ -45,5 +47,20 @@ class MainViewModel extends BaseViewModel {
     // if (await inAppReview.isAvailable()) {
     //   inAppReview.requestReview();
     // }
+  }
+
+  bool back() {
+    int idx = this.indexedStackService.back();
+    if (idx != -1) {
+      for (int i = 0; i < kMainViewNestedNavLinks.length; i++) {
+        if (kMainViewNestedNavLinks[i].screenName ==
+            (views[idx] as dynamic).id) {
+          scrollIdx = i;
+          this.notifyListeners();
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
