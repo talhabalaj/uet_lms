@@ -32,10 +32,11 @@ class GPAEstimatorViewModel extends BaseViewModel {
         refresh: refresh,
       ))
           .where(
-        (subject) =>
-            subject.semesterName.toLowerCase() ==
-            currentSemester.name.toLowerCase(),
-      ).toList();
+            (subject) =>
+                subject.semesterName.toLowerCase() ==
+                currentSemester.name.toLowerCase(),
+          )
+          .toList();
       currentSemesterResult = _result.where(
         (each) =>
             each.semesterName.toLowerCase() ==
@@ -52,6 +53,7 @@ class GPAEstimatorViewModel extends BaseViewModel {
       calculateResult();
     } on Exception catch (e, s) {
       onlyCatchLMSorInternetException(e, stackTrace: s);
+      this.setError(e);
     }
     this.setBusy(false);
   }

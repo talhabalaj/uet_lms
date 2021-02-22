@@ -30,7 +30,8 @@ class MainView extends StatelessWidget {
           },
           child: KeyBoardShortcuts(
             onKeysPressed: () {
-              if (!model.back() && Navigator.of(context).canPop()) Navigator.of(context).pop();
+              if (!model.back() && Navigator.of(context).canPop())
+                Navigator.of(context).pop();
             },
             keysToPress: [LogicalKeyboardKey.escape].toSet(),
             child: Scaffold(
@@ -75,6 +76,12 @@ class MainView extends StatelessWidget {
   }
 
   Widget _buildTopAppBar(BuildContext context, MainViewModel model) {
+    String originalUrl = model.lmsService.user?.getChangeableProfilePicUrl();
+    String imageUrl;
+    if (originalUrl != null) {
+      imageUrl = '$originalUrl&v=${model.dpChangeTimes.toString()}';
+    }
+
     return ClipRect(
       child: BackdropFilter(
         filter: model.isTopBarTransparent
@@ -143,12 +150,8 @@ class MainView extends StatelessWidget {
                           EdgeInsets.only(right: kHorizontalSpacing, left: 10),
                       child: CircleAvatar(
                         radius: 20,
-                        backgroundImage: NetworkImage(
-                          (model.lmsService.user
-                                      ?.getChangeableProfilePicUrl() ??
-                                  '') +
-                              '&v=' +
-                              model.dpChangeTimes.toString(),
+                        backgroundColor: Theme.of(context).accentColor.withAlpha(50),
+                        backgroundImage: imageUrl == null ? null : NetworkImage(imageUrl,
                           headers: model.lmsService.user?.cookieHeader,
                         ),
                       ),

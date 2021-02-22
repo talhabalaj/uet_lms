@@ -105,7 +105,7 @@ class DMCView extends StatelessWidget {
                   SizedBox(height: 15),
                   CustomCard(
                     builder: (context) {
-                      int marks = model.result[index].weightage?.toInt();
+                      int marks = model.result != null ? model.result[index].weightage?.toInt() : null;
 
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

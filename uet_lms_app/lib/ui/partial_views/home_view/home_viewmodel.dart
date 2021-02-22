@@ -33,8 +33,9 @@ class HomeViewModel extends BaseViewModel {
     return null;
   }
 
-  void onError(dynamic e, StackTrace s) {
-    onlyCatchLMSorInternetException(e, stackTrace: s);
+  void onError(dynamic e, StackTrace s) async {
+    bool retry = await onlyCatchLMSorInternetException(e, stackTrace: s);
+    if (retry) this.loadData();
   }
 
   Future<void> loadData({bool refresh = false}) async {
@@ -43,45 +44,43 @@ class HomeViewModel extends BaseViewModel {
     this.setBusyForObject(gradeBookDetails, true);
     this.setBusyForObject(registerdSubjects, true);
     this.setBusyForObject(attendance, true);
+    try {
+      studentProfile =
+          await I<DataService>().getStudentProfile(refresh: refresh);
 
-    I<DataService>().getStudentProfile(refresh: refresh).then(
-      (value) {
-        studentProfile = value;
-        this.setBusyForObject(studentProfile, false);
-      },
-    ).catchError(onError);
+      this.setBusyForObject(studentProfile, false);
 
-    I<DataService>().getRegisteredSemesters(refresh: refresh).then(
-      (value) async {
-        semesters = value.reversed.toList();
-        final lastSemester = semesters.last;
-        this.setBusyForObject(semesters, false);
+      semesters =
+          (await I<DataService>().getRegisteredSemesters(refresh: refresh))
+              .reversed
+              .toList();
+      final lastSemester = semesters.last;
+      this.setBusyForObject(semesters, false);
 
-        registerdSubjects = (await I<DataService>().getRegisteredSubjects(
-          refresh: refresh,
-        ))
-            .where((element) =>
-                element.semesterName.toLowerCase() ==
-                lastSemester.name.toLowerCase())
-            .toList();
+      registerdSubjects = (await I<DataService>().getRegisteredSubjects(
+        refresh: refresh,
+      ))
+          .where((element) =>
+              element.semesterName.toLowerCase() ==
+              lastSemester.name.toLowerCase())
+          .toList();
 
-        this.setBusyForObject(registerdSubjects, false);
+      this.setBusyForObject(registerdSubjects, false);
 
-        for (Register subject in registerdSubjects)
-          this.attendance[subject] = await I<DataService>()
-              .user
-              .getAttendanceForRegisteredCourse(subject);
+      // load last GPA
+      gradeBookDetails =
+          await I<DataService>().getSemestersSummary(refresh: refresh);
+      this.setBusyForObject(gradeBookDetails, false);
+      
+      for (Register subject in registerdSubjects)
+        this.attendance[subject] = await I<DataService>()
+            .user
+            .getAttendanceForRegisteredCourse(subject);
 
-        this.setBusyForObject(attendance, false);
-      },
-    ).catchError(onError);
+      this.setBusyForObject(attendance, false);
 
-    // load last GPA
-    I<DataService>().getSemestersSummary(refresh: refresh).then(
-      (value) {
-        gradeBookDetails = value;
-        this.setBusyForObject(gradeBookDetails, false);
-      },
-    ).catchError(onError);
+    } catch (e, s) {
+      onError(e, s);
+    }
   }
 }

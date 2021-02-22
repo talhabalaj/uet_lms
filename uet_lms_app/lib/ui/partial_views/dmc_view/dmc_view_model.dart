@@ -90,6 +90,7 @@ class DMCViewModel extends BaseViewModel {
       selectedSemester ??= registeredSemesters.first.name;
     } on Exception catch (e, s) {
       onlyCatchLMSorInternetException(e, stackTrace: s);
+      this.setError(e);
     }
     this.setBusy(false);
   }
