@@ -231,6 +231,7 @@ class LoginView extends StatelessWidget {
             enabled: !model.isBusy,
             onSaved: (value) => model.regNo = value.trim(),
             style: Theme.of(context).textTheme.bodyText1,
+            validator: (val) => val.length == 0 ? 'Should not be empty' : null,
           ),
           SizedBox(
             height: 22,
@@ -241,6 +242,7 @@ class LoginView extends StatelessWidget {
             enabled: !model.isBusy,
             onSaved: (value) => model.password = value.trim(),
             hintText: "the secret passphrase",
+            validator: (val) => val.length == 0 ? 'Should not be empty' : null,
             isPassword: true,
           ),
           SizedBox(

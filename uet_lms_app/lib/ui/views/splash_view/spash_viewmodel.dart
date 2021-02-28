@@ -11,6 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/AuthService.dart';
 import 'package:uet_lms/core/utils.dart';
+import 'package:uet_lms/ui/dialog.dart';
 
 class SplashViewModel extends BaseViewModel {
   final authService = I<AuthService>();
@@ -36,9 +37,17 @@ class SplashViewModel extends BaseViewModel {
       await authService.reAuth();
     } on SocketException {
       noInternet();
-    } on Exception catch (e, s) {
+    } on LMSException catch (e, s) {
       bool retry = await onlyCatchLMSorInternetException(e, stackTrace: s);
       if (retry) return this.initialise();
+    } on PlatformException catch (e, s) {
+      I<DialogService>().showCustomDialog(
+          variant: DialogType.basic,
+          description:
+              "This is a rare issue, please fully close the app and retry. If it still doesnt work uninstall and reinstall the app.",
+          mainButtonTitle: 'It\'s okay',
+          title: "Platform Exception");
+      rethrow;
     }
     this.setBusy(false);
   }
