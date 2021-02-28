@@ -5,11 +5,13 @@ class AnimatedIndexedStack extends StatefulWidget {
   final int index;
   final List<Widget> children;
   final Duration duration;
+  final bool animationReversed;
 
   const AnimatedIndexedStack({
     Key key,
     this.index,
     this.children,
+    this.animationReversed = false,
     this.duration = const Duration(
       milliseconds: 400,
     ),
@@ -20,9 +22,9 @@ class AnimatedIndexedStack extends StatefulWidget {
 }
 
 class _AnimatedIndexedStackState extends State<AnimatedIndexedStack> {
-  
   @override
   Widget build(BuildContext context) {
+
     return PageTransitionSwitcher(
       child: IndexedStack(
         index: widget.index,
@@ -30,6 +32,7 @@ class _AnimatedIndexedStackState extends State<AnimatedIndexedStack> {
         children: widget.children,
       ),
       duration: Duration(milliseconds: 750),
+      reverse: widget.animationReversed,
       transitionBuilder: (
         Widget child,
         Animation<double> primaryAnimation,

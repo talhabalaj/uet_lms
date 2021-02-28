@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lms_api/models/obe.dues.students.challan.dart';
 import 'package:stacked/stacked.dart';
+import 'package:uet_lms/core/models/UserShowableAppError.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
 import 'package:uet_lms/ui/shared/Loading.dart';
@@ -32,7 +33,7 @@ class ChallansView extends StatelessWidget {
             SizedBox(
               height: kTitleGutter,
             ),
-            if (model.hasError)
+            if (model.hasError && model.modelError is UserShowableAppError)
               Container(
                 alignment: Alignment.center,
                 height:

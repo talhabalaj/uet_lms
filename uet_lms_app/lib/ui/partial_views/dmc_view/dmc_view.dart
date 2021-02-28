@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:stacked/stacked.dart';
+import 'package:uet_lms/core/models/UserShowableAppError.dart';
 import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view_model.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
 import 'package:uet_lms/ui/shared/CustomDropDown.dart';
@@ -35,7 +36,7 @@ class DMCView extends StatelessWidget {
             SizedBox(
               height: kTitleGutter,
             ),
-            if (model.hasError)
+            if (model.hasError && model.modelError is UserShowableAppError)
               Container(
                 alignment: Alignment.center,
                 height:

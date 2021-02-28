@@ -31,7 +31,7 @@ class DashBoardView extends StatelessWidget {
                 right: kHorizontalSpacing,
                 bottom: 20,
               ),
-              child: Column(
+              child: model.hasError ?  Center(child: Text(model.modelError.toString()),) : Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

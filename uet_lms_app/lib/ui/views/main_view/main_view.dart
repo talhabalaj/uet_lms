@@ -59,6 +59,7 @@ class MainView extends StatelessWidget {
                     child: AnimatedIndexedStack(
                       index: model.index,
                       children: model.currentViews,
+                      animationReversed: model.isReverse,
                     ),
                   ),
                   _buildTopAppBar(context, model),

@@ -4,6 +4,7 @@ import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/models/UserShowableAppError.dart';
 import 'package:uet_lms/core/services/DataService.dart';
 import 'package:uet_lms/core/services/NestedNavigationService.dart';
 import 'package:uet_lms/core/services/AuthService.dart';
@@ -23,6 +24,8 @@ class HomeViewModel extends BaseViewModel {
   List<Register> registerdSubjects;
   Map<Register, double> attendance = Map();
 
+  int retries = 0;
+
   LMS get user => authService.user;
 
   String get userFirstName {
@@ -35,10 +38,12 @@ class HomeViewModel extends BaseViewModel {
 
   void onError(dynamic e, StackTrace s) async {
     bool retry = await onlyCatchLMSorInternetException(e, stackTrace: s);
-    if (retry) this.loadData();
+    if (retry) this.loadData(refresh: true);
   }
 
   Future<void> loadData({bool refresh = false}) async {
+    this.clearErrors();
+
     this.setBusyForObject(studentProfile, true);
     this.setBusyForObject(semesters, true);
     this.setBusyForObject(gradeBookDetails, true);
@@ -71,15 +76,18 @@ class HomeViewModel extends BaseViewModel {
       gradeBookDetails =
           await I<DataService>().getSemestersSummary(refresh: refresh);
       this.setBusyForObject(gradeBookDetails, false);
-      
+
       for (Register subject in registerdSubjects)
-        this.attendance[subject] = await I<DataService>()
-            .user
-            .getAttendanceForRegisteredCourse(subject);
+        this.attendance[subject] =
+            await I<DataService>().getAttendance(subject: subject);
 
       this.setBusyForObject(attendance, false);
-
     } catch (e, s) {
+      if (e is LMSException && e.message == 'AccessError' && retries <= 3) {
+        retries++;
+        return this.loadData(refresh: true);
+      }
+      this.setError(e);
       onError(e, s);
     }
   }

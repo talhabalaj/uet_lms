@@ -5,9 +5,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "uet_lms",
+      "name": "debug: uet_lms",
       "request": "launch",
       "type": "dart",
+    },
+    {
+      "name": "profile: uet_lms",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "profile"
     }
   ]
 }

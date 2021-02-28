@@ -23,7 +23,7 @@ class AuthService {
   final NavigationService navigationService = I<NavigationService>();
   final DialogService dialogService = I<DialogService>();
 
-  bool get loggedIn => user != null;
+  bool get loggedIn => user != null && user.cookie != null;
 
   Future<void> setCrashReportsUserId(String userId) async {
     if (isMobile) await FirebaseCrashlytics.instance.setUserIdentifier(userId);
@@ -100,33 +100,23 @@ class AuthService {
   }
 
   Future<bool> _reAuth() async {
-    if (kIsWeb) {
-      return false;
-    }
     try {
-      try {
-        final storedData = await this.readFromSecureStorage();
-        final email = storedData['email'];
-        final password = storedData['password'];
-        final cookie = storedData['cookie'];
+      final storedData = await this.readFromSecureStorage();
+      final email = storedData['email'];
+      final password = storedData['password'];
+      final cookie = storedData['cookie'];
 
-        if (email == null || password == null || cookie == null) {
-          return false;
-        }
-
-        user = _createLMSObject(email, password);
-        await user.loginWithCookie(cookie);
-
-        I<FirebaseAnalytics>().logEvent(name: 'reauth_with_cookie');
-      } on LMSException {
-        await user.login();
-        await storeOnSecureStorage();
-
-        I<FirebaseAnalytics>().logEvent(name: 'reauth_with_creds');
+      if (email == null || password == null || cookie == null) {
+        return false;
       }
+
+      user = _createLMSObject(email, password);
+      await user.login();
+      await storeOnSecureStorage();
+
+      I<FirebaseAnalytics>().logEvent(name: 'reauth_with_creds');
     } on AuthError {
       await this._logout();
-      await navigationService.clearStackAndShow(LoginView.id);
       return false;
     }
 

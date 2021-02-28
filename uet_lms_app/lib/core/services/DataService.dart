@@ -29,6 +29,19 @@ class DataService {
   final _registerdSubjects = AsyncCache<List<Register>>(Duration(hours: 1));
   final _challans = AsyncCache<List<Challan>>(Duration(hours: 1));
   final _result = AsyncCache<List<Result>>(Duration(hours: 1));
+  final Map<int, AsyncCache<double>> _attendance = {};
+
+  Future<double> getAttendance({bool refresh = false, Register subject}) {
+    if (!_attendance.containsKey(subject.id)) {
+      _attendance[subject.id] = AsyncCache<double>(Duration(hours: 1));
+    } else {
+      if (refresh) _attendance[subject.id].invalidate();
+    }
+
+    return _attendance[subject.id].fetch(() async {
+      return user.getAttendanceForRegisteredCourse(subject);
+    });
+  }
 
   Future<List<Result>> getResult({bool refresh = false}) async {
     if (refresh) _result.invalidate();
@@ -130,8 +143,8 @@ class DataService {
       }
       await analytics.logEvent(name: "result_check_completed");
     } catch (e) {
-      await analytics
-          .logEvent(name: "result_check_failed", parameters: {"error": e.toString()});
+      await analytics.logEvent(
+          name: "result_check_failed", parameters: {"error": e.toString()});
       rethrow;
     }
   }
@@ -150,7 +163,7 @@ class DataService {
   //     }
 
   //     final attendanceBox = userBox("attendance");
-  //     final 
+  //     final
   //     final data = await I<DataService>().user.getAttendanceForRegisteredCourse();
 
   //     if (!Hive.isBoxOpen(attendanceBox)) {

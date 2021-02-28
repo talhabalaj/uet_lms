@@ -15,6 +15,7 @@ class MainViewModel extends BaseViewModel {
 
   final AutoScrollController navScrollController = AutoScrollController();
 
+  bool isReverse = false;
   bool _isTopBarTransparent = true;
   int scrollIdx = 0;
   int get dpChangeTimes => indexedStackService.dpChangeTimes;
@@ -37,6 +38,7 @@ class MainViewModel extends BaseViewModel {
     if (idx != -1 && indexedStackService.index != idx) {
       indexedStackService.index = idx;
       _isTopBarTransparent = true;
+      isReverse = false;
       this.notifyListeners();
     }
   }
@@ -56,6 +58,7 @@ class MainViewModel extends BaseViewModel {
         if (kMainViewNestedNavLinks[i].screenName ==
             (views[idx] as dynamic).id) {
           scrollIdx = i;
+          isReverse = true;
           this.notifyListeners();
           return true;
         }

@@ -66,7 +66,7 @@ Future<bool> onlyCatchLMSorInternetException(Exception e,
     description = e.description ?? "Please report this issue to developer.";
     if (e is ReportableLMSError)
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-  } else if (e is SocketException) {
+  } else if (e is SocketException || e is HttpException) {
     errorMessage = "No Internet connection.";
     description = "Maybe try again with internet";
   } else {

@@ -11,7 +11,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/AuthService.dart';
 import 'package:uet_lms/core/utils.dart';
-import 'package:uet_lms/ui/dialog.dart';
 
 class SplashViewModel extends BaseViewModel {
   final authService = I<AuthService>();
@@ -23,46 +22,25 @@ class SplashViewModel extends BaseViewModel {
   get internet => _internet;
 
   Future<void> initialise() async {
+    this.setBusy(true);
+
     if (kIsWeb || isMobile) {
       final connectivityResult = await (Connectivity().checkConnectivity());
       if (connectivityResult == ConnectivityResult.none) {
+        this.setBusy(false);
         return noInternet();
       }
     }
 
-    bool shouldRetry = false;
-    do {
-      try {
-        await authService.reAuth();
-      } on SocketException {
-        noInternet();
-      } on Exception catch (e) {
-        String errMessage, description;
-
-        if (e is LMSException) {
-          errMessage = e.message;
-          description = e.description;
-        } else {
-          errMessage = e.runtimeType.toString();
-        }
-
-        shouldRetry = (await dialogService.showCustomDialog(
-                variant: DialogType.basic,
-                title: errMessage,
-                barrierColor: Colors.black38,
-                barrierDismissible: true,
-                description:
-                    description ?? "Please report this issue to the developer.",
-                mainButtonTitle: "Retry",
-                secondaryButtonTitle: "Exit"))
-            .confirmed;
-        if (!shouldRetry) {
-          SystemNavigator.pop();
-        }
-      }
-    } while (shouldRetry);
-
-    this.setInitialised(true);
+    try {
+      await authService.reAuth();
+    } on SocketException {
+      noInternet();
+    } on Exception catch (e, s) {
+      bool retry = await onlyCatchLMSorInternetException(e, stackTrace: s);
+      if (retry) return this.initialise();
+    }
+    this.setBusy(false);
   }
 
   void noInternet() {
