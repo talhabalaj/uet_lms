@@ -44,7 +44,7 @@ class SplashViewModel extends BaseViewModel {
       I<DialogService>().showCustomDialog(
           variant: DialogType.basic,
           description:
-              "This is a rare issue, please fully close the app and retry. If it still doesnt work uninstall and reinstall the app.",
+              "Please clear data of the app. App Info -> Clear Data -> Clear All Data",
           mainButtonTitle: 'It\'s okay',
           title: "Platform Exception");
       rethrow;
