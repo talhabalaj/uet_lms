@@ -15,7 +15,7 @@ import 'package:uet_lms/core/services/NotificationService.dart';
 import '../locator.dart';
 import '../utils.dart';
 
-@lazySingleton
+@singleton
 class DataService {
   final AuthService authService = I<AuthService>();
 

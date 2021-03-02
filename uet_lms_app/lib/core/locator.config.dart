@@ -4,58 +4,56 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:get_it/get_it.dart';
-import 'package:injectable/injectable.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:firebase_analytics/firebase_analytics.dart' as _i6;
+import 'package:get_it/get_it.dart' as _i1;
+import 'package:injectable/injectable.dart' as _i2;
+import 'package:stacked_services/stacked_services.dart' as _i5;
 
-import 'services/AuthService.dart';
-import 'services/BackgroundService.dart';
-import 'services/DataService.dart';
-import 'services/NestedNavigationService.dart';
-import 'services/NotificationService.dart';
-import 'services/PreferencesService.dart';
-import 'services/ThemeService.dart';
-import 'locator.dart';
+import 'locator.dart' as _i12;
+import 'services/AuthService.dart' as _i3;
+import 'services/BackgroundService.dart' as _i4;
+import 'services/DataService.dart' as _i11;
+import 'services/NestedNavigationService.dart' as _i7;
+import 'services/NotificationService.dart' as _i8;
+import 'services/PreferencesService.dart' as _i9;
+import 'services/ThemeService.dart'
+    as _i10; // ignore_for_file: unnecessary_lambdas
 
-/// adds generated dependencies
-/// to the provided [GetIt] instance
-
-GetIt $initGetIt(
-  GetIt get, {
-  String environment,
-  EnvironmentFilter environmentFilter,
-}) {
-  final gh = GetItHelper(get, environment, environmentFilter);
+// ignore_for_file: lines_longer_than_80_chars
+/// initializes the registration of provided dependencies inside of [GetIt]
+_i1.GetIt $initGetIt(_i1.GetIt get,
+    {String environment, _i2.EnvironmentFilter environmentFilter}) {
+  final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final thirdPartyServicesModule = _$ThirdPartyServicesModule();
-  gh.lazySingleton<AuthService>(() => AuthService());
-  gh.lazySingleton<BackgroundService>(() => BackgroundService());
-  gh.lazySingleton<BottomSheetService>(
+  gh.lazySingleton<_i3.AuthService>(() => _i3.AuthService());
+  gh.lazySingleton<_i4.BackgroundService>(() => _i4.BackgroundService());
+  gh.factory<_i5.BottomSheetService>(
       () => thirdPartyServicesModule.bottomSheetService);
-  gh.lazySingleton<DataService>(() => DataService());
-  gh.lazySingleton<DialogService>(() => thirdPartyServicesModule.dialogService);
-  gh.lazySingleton<FirebaseAnalytics>(
+  gh.factory<_i5.DialogService>(() => thirdPartyServicesModule.dialogService);
+  gh.factory<_i6.FirebaseAnalytics>(
       () => thirdPartyServicesModule.firebaseAnalytics);
-  gh.lazySingleton<NavigationService>(
+  gh.factory<_i5.NavigationService>(
       () => thirdPartyServicesModule.navigationService);
-  gh.lazySingleton<NestedNavigationService>(() => NestedNavigationService());
-  gh.lazySingleton<NotificationService>(() => NotificationService());
-  gh.lazySingleton<PreferencesService>(() => PreferencesService());
-  gh.lazySingleton<SnackbarService>(
+  gh.lazySingleton<_i7.NestedNavigationService>(
+      () => _i7.NestedNavigationService());
+  gh.lazySingleton<_i8.NotificationService>(() => _i8.NotificationService());
+  gh.lazySingleton<_i9.PreferencesService>(() => _i9.PreferencesService());
+  gh.factory<_i5.SnackbarService>(
       () => thirdPartyServicesModule.snackBarService);
-  gh.lazySingleton<ThemeService>(() => ThemeService());
+  gh.lazySingleton<_i10.ThemeService>(() => _i10.ThemeService());
+  gh.singleton<_i11.DataService>(_i11.DataService());
   return get;
 }
 
-class _$ThirdPartyServicesModule extends ThirdPartyServicesModule {
+class _$ThirdPartyServicesModule extends _i12.ThirdPartyServicesModule {
   @override
-  BottomSheetService get bottomSheetService => BottomSheetService();
+  _i5.BottomSheetService get bottomSheetService => _i5.BottomSheetService();
   @override
-  DialogService get dialogService => DialogService();
+  _i5.DialogService get dialogService => _i5.DialogService();
   @override
-  FirebaseAnalytics get firebaseAnalytics => FirebaseAnalytics();
+  _i6.FirebaseAnalytics get firebaseAnalytics => _i6.FirebaseAnalytics();
   @override
-  NavigationService get navigationService => NavigationService();
+  _i5.NavigationService get navigationService => _i5.NavigationService();
   @override
-  SnackbarService get snackBarService => SnackbarService();
+  _i5.SnackbarService get snackBarService => _i5.SnackbarService();
 }

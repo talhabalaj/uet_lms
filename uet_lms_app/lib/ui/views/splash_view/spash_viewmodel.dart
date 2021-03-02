@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lms_api/lms_api.dart';
 import 'package:stacked/stacked.dart';

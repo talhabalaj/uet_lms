@@ -10,6 +10,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uet_lms/core/locator.dart';
+import 'package:uet_lms/core/services/AdsService.dart';
 import 'package:uet_lms/core/services/BackgroundService.dart';
 import 'package:uet_lms/core/services/NotificationService.dart';
 import 'package:uet_lms/core/services/PreferencesService.dart';
@@ -41,6 +42,7 @@ void main() async {
 
     I<NotificationService>().initialize();
     I<BackgroundService>().registerBackgroundService();
+    AdsService.initiliase();
   }
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (isDesktop) {
@@ -67,6 +69,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  void initState() {
+    super.initState();
+    AdsService.showBannerAd();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeMode = I<ThemeService>().themeMode;
     Brightness brightness = Brightness.light;
@@ -86,22 +94,26 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-    return MaterialApp(
-      title: 'UET LMS',
-      debugShowCheckedModeBanner: false,
-      navigatorKey: StackedService.navigatorKey,
-      theme: ThemeService.light,
-      darkTheme: ThemeService.dark,
-      themeMode: themeMode,
-      routes: {
-        SplashView.id: (context) => SplashView(),
-        LoginView.id: (context) => LoginView(),
-        MainView.id: (context) => MainView(),
-      },
-      initialRoute: SplashView.id,
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: I<FirebaseAnalytics>())
-      ],
+    return Container(
+      color: brightness != Brightness.dark ? Colors.black : Colors.white,
+      padding: EdgeInsets.only(bottom: 50.0),
+      child: MaterialApp(
+        title: 'UET LMS',
+        debugShowCheckedModeBanner: false,
+        navigatorKey: StackedService.navigatorKey,
+        theme: ThemeService.light,
+        darkTheme: ThemeService.dark,
+        themeMode: themeMode,
+        routes: {
+          SplashView.id: (context) => SplashView(),
+          LoginView.id: (context) => LoginView(),
+          MainView.id: (context) => MainView(),
+        },
+        initialRoute: SplashView.id,
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: I<FirebaseAnalytics>())
+        ],
+      ),
     );
   }
 }
