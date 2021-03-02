@@ -210,7 +210,7 @@ class LoginView extends StatelessWidget {
             height: 9,
           ),
           Text(
-            "You have to sign in use LMS services, This should just take a second",
+            "You have to sign in to use LMS services, This should just take a second",
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ],

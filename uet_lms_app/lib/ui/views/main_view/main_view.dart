@@ -214,19 +214,7 @@ class MainView extends StatelessWidget {
                     ),
                   );
                 }),
-                if (each.value.screenName == null)
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
-                    child: Container(
-                      child: Text(
-                        "[COMING SOON]",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor.withAlpha(100),
-                        ),
-                      ),
-                    ),
-                  ),
+               
                 SizedBox(
                   height: 10,
                 ),

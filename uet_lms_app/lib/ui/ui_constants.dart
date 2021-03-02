@@ -34,8 +34,8 @@ List<NestedRoute> kMainViewNestedNavLinks = [
       "ACADEMIC"),
   NestedRoute("Fee Challans", "/challans",
       "Check if your fees is paid or new challan form is available", "DUES"),
-  NestedRoute("Student Profile", null,
-      "Check the information, University has on you.", "INFORMATION"),
+  NestedRoute("Student Profile", "/student_profile",
+      "Check the information University has on you, also your hostel allotment details.", "INFORMATION", true),
   NestedRoute(
       "GPA Estimator",
       "/gpa_estimator",

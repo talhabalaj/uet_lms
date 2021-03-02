@@ -8,6 +8,7 @@ import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view.dart';
 import 'package:uet_lms/ui/partial_views/gpa_estimator/gpa_estimator_view.dart';
 import 'package:uet_lms/ui/partial_views/home_view/home_view.dart';
 import 'package:uet_lms/ui/partial_views/lms_settings_view/lms_settings_view.dart';
+import 'package:uet_lms/ui/partial_views/student_profile/student_profile_view.dart';
 
 import '../locator.dart';
 
@@ -29,6 +30,7 @@ class NestedNavigationService {
     GPAEstimatorView(),
     DMCView(),
     AppSettingsView(),
+    StudentProfileView()
   ];
 
   get index => _index;

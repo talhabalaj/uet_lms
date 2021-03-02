@@ -7,6 +7,7 @@ import 'package:lms_api/models/obe.core.result.dart';
 import 'package:lms_api/models/obe.core.semester.dart';
 import 'package:lms_api/models/obe.core.student.dart';
 import 'package:lms_api/models/obe.dues.students.challan.dart';
+import 'package:lms_api/models/campus.hostel.detail.dart';
 import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:uet_lms/core/services/AuthService.dart';
 import 'package:hive/hive.dart';
@@ -29,7 +30,9 @@ class DataService {
   final _registerdSubjects = AsyncCache<List<Register>>(Duration(hours: 1));
   final _challans = AsyncCache<List<Challan>>(Duration(hours: 1));
   final _result = AsyncCache<List<Result>>(Duration(hours: 1));
+  final _hostelAllocation = AsyncCache<List<HostelAllocationDetail>>(Duration(hours: 1));
   final Map<int, AsyncCache<double>> _attendance = {};
+
 
   Future<double> getAttendance({bool refresh = false, Register subject}) {
     if (!_attendance.containsKey(subject.id)) {
@@ -47,6 +50,13 @@ class DataService {
     if (refresh) _result.invalidate();
     return _result.fetch(() async {
       return user.getResult();
+    });
+  }
+
+   Future<List<HostelAllocationDetail>> getHostelInformation(int roomId, {bool refresh = false}) async {
+    if (refresh) _hostelAllocation.invalidate();
+    return _hostelAllocation.fetch(() async {
+      return user.getHostelInformation(roomId);
     });
   }
 
@@ -94,6 +104,7 @@ class DataService {
     _registerdSubjects.invalidate();
     _challans.invalidate();
     _result.invalidate();
+    _attendance.clear();
   }
 
   Future<void> checkResultAndNotify() async {
