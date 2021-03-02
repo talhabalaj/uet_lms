@@ -39,7 +39,7 @@ class SplashViewModel extends BaseViewModel {
     } on LMSException catch (e, s) {
       bool retry = await onlyCatchLMSorInternetException(e, stackTrace: s);
       if (retry) return this.initialise();
-    } on PlatformException catch (e, s) {
+    } on PlatformException catch (e) {
       I<DialogService>().showCustomDialog(
           variant: DialogType.basic,
           description:

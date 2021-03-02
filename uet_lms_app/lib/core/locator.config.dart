@@ -27,18 +27,19 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   final thirdPartyServicesModule = _$ThirdPartyServicesModule();
   gh.lazySingleton<_i3.AuthService>(() => _i3.AuthService());
   gh.lazySingleton<_i4.BackgroundService>(() => _i4.BackgroundService());
-  gh.factory<_i5.BottomSheetService>(
+  gh.lazySingleton<_i5.BottomSheetService>(
       () => thirdPartyServicesModule.bottomSheetService);
-  gh.factory<_i5.DialogService>(() => thirdPartyServicesModule.dialogService);
-  gh.factory<_i6.FirebaseAnalytics>(
+  gh.lazySingleton<_i5.DialogService>(
+      () => thirdPartyServicesModule.dialogService);
+  gh.lazySingleton<_i6.FirebaseAnalytics>(
       () => thirdPartyServicesModule.firebaseAnalytics);
-  gh.factory<_i5.NavigationService>(
+  gh.lazySingleton<_i5.NavigationService>(
       () => thirdPartyServicesModule.navigationService);
   gh.lazySingleton<_i7.NestedNavigationService>(
       () => _i7.NestedNavigationService());
   gh.lazySingleton<_i8.NotificationService>(() => _i8.NotificationService());
   gh.lazySingleton<_i9.PreferencesService>(() => _i9.PreferencesService());
-  gh.factory<_i5.SnackbarService>(
+  gh.lazySingleton<_i5.SnackbarService>(
       () => thirdPartyServicesModule.snackBarService);
   gh.lazySingleton<_i10.ThemeService>(() => _i10.ThemeService());
   gh.singleton<_i11.DataService>(_i11.DataService());

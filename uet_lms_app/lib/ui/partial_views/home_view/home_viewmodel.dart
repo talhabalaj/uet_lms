@@ -4,7 +4,6 @@ import 'package:lms_api/models/obe.grade.book.detail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:uet_lms/core/locator.dart';
-import 'package:uet_lms/core/models/UserShowableAppError.dart';
 import 'package:uet_lms/core/services/DataService.dart';
 import 'package:uet_lms/core/services/NestedNavigationService.dart';
 import 'package:uet_lms/core/services/AuthService.dart';
