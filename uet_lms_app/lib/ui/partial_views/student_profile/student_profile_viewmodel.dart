@@ -14,12 +14,14 @@ class StudentProfileViewModel extends BaseViewModel {
     this.clearErrors();
     try {
       profile = await I<DataService>().getStudentProfile(refresh: refresh);
-      if (profile.room.id != null)
+      if (profile.room.id != null) {
         hostelAllocationDetail = await I<DataService>()
             .getHostelInformation(profile.room.id, refresh: refresh);
 
-      hostelAllocationDetail =
-          hostelAllocationDetail.where((e) => e.state == 'Alloted' && e.studentId.id != profile.id).toList();
+        hostelAllocationDetail = hostelAllocationDetail
+            .where((e) => e.state == 'Alloted' && e.studentId.id != profile.id)
+            .toList();
+      }
     } catch (e, s) {
       await onlyCatchLMSorInternetException(e, stackTrace: s);
       this.setError(e);
