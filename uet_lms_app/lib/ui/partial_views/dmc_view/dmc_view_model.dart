@@ -75,6 +75,11 @@ class DMCViewModel extends BaseViewModel {
         return;
       }
 
+      _result = _result
+          .where((e) =>
+              e.resultStatus == "Confirmed" || e.resultStatus == "Provisional")
+          .toList();
+
       registeredSubjects =
           await I<DataService>().getRegisteredSubjects(refresh: refresh);
       registeredSemesters = registeredSemesters.where((a) {
