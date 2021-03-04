@@ -2,7 +2,7 @@ name: uet_lms
 description: This is UET LMS!
 
 publish_to: none # Remove this line if you wish to publish to pub.dev
-version: 0.5.1+32
+version: 0.5.2+33
 
 environment:
   sdk: '>=2.8.0 <3.0.0'
