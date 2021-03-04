@@ -36,6 +36,8 @@ jobs:
         with:
           java-version: '8.x'
       - uses: subosito/flutter-action@v1
+        with:
+          version: 'v1.22.6'
       # - name: Enable Linux & Web
       #   run: | 
       #     flutter config --enable-linux-desktop
