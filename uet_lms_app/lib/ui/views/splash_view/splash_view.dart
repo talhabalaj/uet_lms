@@ -29,19 +29,10 @@ class SplashView extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
                   ],
-                  // Flexible(
-                  //   child: Lottie.asset(
-                  //     "assets/lottie/${model.internet ? "loading" : "no-internet"}.json",
-                  //     fit: BoxFit.scaleDown,
-                  //   ),
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      'App is removed, as per request of UET\'s IT Deparment. Purana LMS use karo ab. 😉',
-                      style: TextStyle(
-                        fontSize: 22,
-                      ),
+                  Flexible(
+                    child: Lottie.asset(
+                      "assets/lottie/${model.internet ? "loading" : "no-internet"}.json",
+                      fit: BoxFit.scaleDown,
                     ),
                   ),
                 ],
@@ -66,7 +57,7 @@ class SplashView extends StatelessWidget {
         );
       },
       onModelReady: (model) async {
-        //await model.initialise();
+        await model.initialise();
       },
       viewModelBuilder: () => SplashViewModel(),
     );
