@@ -93,7 +93,7 @@ class DMCView extends StatelessWidget {
       child: ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: model.result?.length,
+        itemCount: model.result?.length ?? 0,
         itemBuilder: (BuildContext context, int index) =>
             AnimationConfiguration.staggeredList(
           position: index,
