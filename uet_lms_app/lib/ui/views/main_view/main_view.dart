@@ -34,38 +34,49 @@ class MainView extends StatelessWidget {
                 Navigator.of(context).pop();
             },
             keysToPress: [LogicalKeyboardKey.escape].toSet(),
-            child: Scaffold(
-              key: model.scaffoldKey,
-              drawerScrimColor: Colors.black12,
-              drawerDragStartBehavior: DragStartBehavior.start,
-              drawer: this._buildNav(context, model),
-              body: Stack(
-                children: [
-                  NotificationListener<ScrollNotification>(
-                    onNotification: (ScrollNotification notification) {
-                      if (notification.depth == 0) {
-                        if (notification.metrics.pixels == 0 &&
-                            !model.isTopBarTransparent) {
-                          model.isTopBarTransparent = true;
-                        } else if (notification.metrics.pixels > 0 &&
-                            model.isTopBarTransparent) {
-                          model.isTopBarTransparent = false;
-                        }
-                        return true;
-                      }
+            child: LayoutBuilder(builder: (context, constraints) {
+              model.isLarge = MediaQuery.of(context).size.width > 700;
 
-                      return false;
-                    },
-                    child: AnimatedIndexedStack(
-                      index: model.index,
-                      children: model.currentViews,
-                      animationReversed: model.isReverse,
+              return Scaffold(
+                key: model.scaffoldKey,
+                drawerScrimColor: Colors.black12,
+                drawerDragStartBehavior: DragStartBehavior.start,
+                drawer: model.isLarge ? null : this._buildNav(context, model),
+                body: Row(
+                  children: [
+                    if (model.isLarge) this._buildNav(context, model),
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          NotificationListener<ScrollNotification>(
+                            onNotification: (ScrollNotification notification) {
+                              if (notification.depth == 0) {
+                                if (notification.metrics.pixels == 0 &&
+                                    !model.isTopBarTransparent) {
+                                  model.isTopBarTransparent = true;
+                                } else if (notification.metrics.pixels > 0 &&
+                                    model.isTopBarTransparent) {
+                                  model.isTopBarTransparent = false;
+                                }
+                                return true;
+                              }
+
+                              return false;
+                            },
+                            child: AnimatedIndexedStack(
+                              index: model.index,
+                              children: model.currentViews,
+                              animationReversed: model.isReverse,
+                            ),
+                          ),
+                          _buildTopAppBar(context, model),
+                        ],
+                      ),
                     ),
-                  ),
-                  _buildTopAppBar(context, model),
-                ],
-              ),
-            ),
+                  ],
+                ),
+              );
+            }),
           ),
         );
       },
@@ -97,41 +108,44 @@ class MainView extends StatelessWidget {
             boxShadow: model.isTopBarTransparent ? [] : [kFavBoxShadow],
           ),
           child: Padding(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).padding.top - 5),
+            padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top != 0
+                    ? MediaQuery.of(context).padding.top - 5
+                    : 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: kHorizontalSpacing,
-                  ),
-                  child: SvgButton(
-                    color:
-                        model.isTopBarTransparent ? null : Colors.transparent,
-                    asset: "assets/svg/menu.svg",
-                    onTap: () async {
-                      // open the drawer
-                      model.scaffold.openDrawer();
+                if (!model.isLarge)
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kHorizontalSpacing,
+                    ),
+                    child: SvgButton(
+                      color:
+                          model.isTopBarTransparent ? null : Colors.transparent,
+                      asset: "assets/svg/menu.svg",
+                      onTap: () async {
+                        // open the drawer
+                        model.scaffold.openDrawer();
 
-                      // close the keyboard if opened
-                      FocusScope.of(context).requestFocus(new FocusNode());
+                        // close the keyboard if opened
+                        FocusScope.of(context).requestFocus(new FocusNode());
 
-                      // scroll to the active link
-                      await model.navScrollController.scrollToIndex(
-                        model.scrollIdx,
-                        duration: Duration(microseconds: 1),
-                      );
-
-                      // need to scroll more
-                      if (model.scrollIdx > 2) {
-                        model.navScrollController.jumpTo(
-                          model.navScrollController.offset + 100,
+                        // scroll to the active link
+                        await model.navScrollController.scrollToIndex(
+                          model.scrollIdx,
+                          duration: Duration(microseconds: 1),
                         );
-                      }
-                    },
+
+                        // need to scroll more
+                        if (model.scrollIdx > 2) {
+                          model.navScrollController.jumpTo(
+                            model.navScrollController.offset + 100,
+                          );
+                        }
+                      },
+                    ),
                   ),
-                ),
                 Spacer(),
                 Row(
                   children: [
@@ -151,10 +165,14 @@ class MainView extends StatelessWidget {
                           EdgeInsets.only(right: kHorizontalSpacing, left: 10),
                       child: CircleAvatar(
                         radius: 20,
-                        backgroundColor: Theme.of(context).accentColor.withAlpha(50),
-                        backgroundImage: imageUrl == null ? null : NetworkImage(imageUrl,
-                          headers: model.lmsService.user?.cookieHeader,
-                        ),
+                        backgroundColor:
+                            Theme.of(context).accentColor.withAlpha(50),
+                        backgroundImage: imageUrl == null
+                            ? null
+                            : NetworkImage(
+                                imageUrl,
+                                headers: model.lmsService.user?.cookieHeader,
+                              ),
                       ),
                     ),
                   ],
@@ -177,7 +195,7 @@ class MainView extends StatelessWidget {
           ListView(
             controller: model.navScrollController,
             children: [
-              SizedBox(height: kAppBarHeight),
+              if (!model.isLarge) SizedBox(height: kAppBarHeight),
               for (final each in kMainViewNestedNavLinks.asMap().entries) ...[
                 if (each.value.category != "" &&
                     kMainViewNestedNavLinks[each.key - 1].category !=
@@ -203,7 +221,7 @@ class MainView extends StatelessWidget {
                       disabled: value.screenName == null,
                       onTap: () {
                         // close the drawer
-                        Navigator.of(context).pop();
+                        if (!model.isLarge) Navigator.of(context).pop();
 
                         // set active
                         model.setActiveScreen(idx, each.value.screenName);
@@ -214,7 +232,6 @@ class MainView extends StatelessWidget {
                     ),
                   );
                 }),
-               
                 SizedBox(
                   height: 10,
                 ),
@@ -222,29 +239,32 @@ class MainView extends StatelessWidget {
               SizedBox(height: 120),
             ],
           ),
-          ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
-              child: Container(
-                width: double.infinity,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(
-                    left: kHorizontalSpacing,
-                    top: MediaQuery.of(context).padding.top - 5),
-                height: kAppBarHeight + MediaQuery.of(context).padding.top,
-                child: Row(
-                  children: [
-                    SvgButton(
-                      asset: "assets/svg/cross.svg",
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+          if (!model.isLarge)
+            ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(
+                      left: kHorizontalSpacing,
+                      top: MediaQuery.of(context).padding.top != 0
+                          ? MediaQuery.of(context).padding.top - 5
+                          : 5),
+                  height: kAppBarHeight + MediaQuery.of(context).padding.top,
+                  child: Row(
+                    children: [
+                      SvgButton(
+                        asset: "assets/svg/cross.svg",
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRect(

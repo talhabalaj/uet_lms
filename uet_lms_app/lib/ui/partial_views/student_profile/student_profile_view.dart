@@ -227,53 +227,55 @@ class StudentProfileView extends StatelessWidget {
                             SizedBox(
                               height: 15,
                             ),
-                            Text(
-                              'ROOMMATES (ON LMS)',
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withAlpha(150),
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
+                            if (model.hostelAllocationDetail != null) ...[
+                              Text(
+                                'ROOMMATES (ON LMS)',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withAlpha(150),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            for (final each in model.hostelAllocationDetail)
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 10.0),
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: Theme.of(context)
-                                          .accentColor
-                                          .withAlpha(40),
-                                      child: ClipOval(
-                                        child: AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Image.network(
-                                            I<DataService>()
-                                                .user
-                                                .getProfilePictureURL(
-                                                    stdid: each.studentId.id),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              for (final each in model.hostelAllocationDetail)
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 10.0),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 20,
+                                        backgroundColor: Theme.of(context)
+                                            .accentColor
+                                            .withAlpha(40),
+                                        child: ClipOval(
+                                          child: AspectRatio(
+                                            aspectRatio: 1,
+                                            child: Image.network(
+                                              I<DataService>()
+                                                  .user
+                                                  .getProfilePictureURL(
+                                                      stdid: each.studentId.id),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      each.name.capitalize(),
-                                      style: TextStyle(
-                                        fontSize: 14,
+                                      SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
+                                      Text(
+                                        each.name.capitalize(),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                            ],
                           ],
                         );
                       },

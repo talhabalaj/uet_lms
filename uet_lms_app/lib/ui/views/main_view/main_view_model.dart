@@ -17,6 +17,7 @@ class MainViewModel extends BaseViewModel {
 
   bool isReverse = false;
   bool _isTopBarTransparent = true;
+  bool isLarge = false;
   int scrollIdx = 0;
   int get dpChangeTimes => indexedStackService.dpChangeTimes;
 

@@ -46,9 +46,7 @@ void main() async {
   }
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (isDesktop) {
-    await DesktopWindow.setWindowSize(Size(400, 700));
     await DesktopWindow.setMinWindowSize(Size(400, 600));
-    await DesktopWindow.setMaxWindowSize(Size(400, 1000));
     await DesktopWindow.setFullScreen(false);
   }
 
@@ -96,7 +94,7 @@ class _MyAppState extends State<MyApp> {
 
     return Container(
       color: brightness != Brightness.dark ? Colors.black : Colors.white,
-      padding: EdgeInsets.only(bottom: 50.0),
+      padding: EdgeInsets.only(bottom: isMobile ? 50.0 : 0),
       child: MaterialApp(
         title: 'UET LMS',
         debugShowCheckedModeBanner: false,

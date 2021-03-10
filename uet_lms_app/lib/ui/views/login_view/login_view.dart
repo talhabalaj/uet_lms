@@ -47,28 +47,28 @@ class LoginView extends StatelessWidget {
   Widget _buildBody(BuildContext context, LoginViewModel model,
       {bool large = false}) {
     return Container(
-      //constraints: large ? BoxConstraints(maxWidth: 412) : null,
+      constraints: large ? BoxConstraints(maxWidth: 412) : null,
       padding: MediaQuery.of(context).padding,
-      //color: large ? Theme.of(context).backgroundColor : null,
+      color: large ? Theme.of(context).backgroundColor : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          /* large ? _buildLargerHeader(context) :  */ _buildSmallHeader(
-              context),
+          large ? _buildLargerHeader(context) : _buildSmallHeader(context),
           Expanded(
             child: Container(
               padding: EdgeInsets.only(
-                top: /* large ? 0 :  */ 30,
+                top: large ? 0 : 30,
               ),
-              decoration: /* large ? null :  */
-                  BoxDecoration(
-                color: Theme.of(context).backgroundColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-              ),
+              decoration: large
+                  ? null
+                  : BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
+                      ),
+                    ),
               child: Column(
                 children: [
                   Padding(
@@ -142,32 +142,32 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  // Widget _buildLargerHeader(BuildContext context) {
-  //   return Flexible(
-  //     child: Padding(
-  //       padding:
-  //           EdgeInsets.symmetric(horizontal: kHorizontalSpacing, vertical: 20),
-  //       child: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         mainAxisAlignment: MainAxisAlignment.start,
-  //         children: [
-  //           Image.asset(
-  //             "assets/images/Logo.png",
-  //             height: 70,
-  //           ),
-  //           SizedBox(
-  //             height: 5,
-  //           ),
-  //           Text(
-  //             "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
-  //             style: Theme.of(context).textTheme.headline4,
-  //             textAlign: TextAlign.center,
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  //}
+  Widget _buildLargerHeader(BuildContext context) {
+    return Flexible(
+      child: Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: kHorizontalSpacing, vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset(
+              "assets/images/Logo.png",
+              height: 70,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
+              style: Theme.of(context).textTheme.headline4,
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _buildSmallHeader(BuildContext context) {
     return Padding(
