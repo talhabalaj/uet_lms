@@ -7,6 +7,7 @@ import 'package:uet_lms/ui/shared/CardScrollView.dart';
 import 'package:uet_lms/ui/shared/CustomCard.dart';
 import 'package:uet_lms/ui/shared/CustomCircularProgressBar.dart';
 import 'package:uet_lms/ui/shared/HeadingWithSubtitle.dart';
+import 'package:uet_lms/ui/shared/NestedNavigation.dart';
 import 'package:uet_lms/ui/shared/RefreshIndicatorWithoutListView.dart';
 import 'package:uet_lms/ui/shared/SimpleLineGraph.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
@@ -23,52 +24,56 @@ class DashBoardView extends StatelessWidget {
           await model.loadData();
         },
         builder: (context, model, _) {
-          return RefreshIndicatorWithoutListView(
+          return NestedNavigation(
             onRefresh: () => model.loadData(refresh: true),
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: kHorizontalSpacing,
-                right: kHorizontalSpacing,
-                bottom: 20,
-              ),
-              child: model.hasError ?  Center(child: Text(model.modelError.toString()),) : Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: kAppBarHeight + 10,
+            children: [
+              if (model.hasError)
+                Center(
+                  child: Text(model.modelError.toString()),
+                )
+              else ...[
+                if (model.busy(model.studentProfile))
+                  HeadingWithSubtitle()
+                else
+                  HeadingWithSubtitle(
+                    heading: "Welcome, ${model.userFirstName}",
+                    subtitle:
+                        "How’s your day goin’? Here’s some stats about your University life",
                   ),
-                  if (model.busy(model.studentProfile))
-                    HeadingWithSubtitle()
-                  else
-                    HeadingWithSubtitle(
-                      heading: "Welcome, ${model.userFirstName}",
-                      subtitle:
-                          "How’s your day goin’? Here’s some stats about your University life",
+                SizedBox(
+                  height: kTitleGutter,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildStatCard(model, context),
                     ),
-                  SizedBox(
-                    height: kTitleGutter,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildStatCard(model, context),
+                    SizedBox(
+                      width: 18,
+                    ),
+                    _buildGPACard(model, context),
+                  ],
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+                Expanded(
+                  child: _buildRegisteredSubjectsScrollView(context, model),
+                ),
+                 SizedBox(
+                  height: 18,
+                ),
+              ],
+            ]
+                .map(
+                  (e) => Padding(
+                      padding: EdgeInsets.only(
+                        left: kHorizontalSpacing,
+                        right: kHorizontalSpacing,
                       ),
-                      SizedBox(
-                        width: 18,
-                      ),
-                      _buildGPACard(model, context),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 18,
-                  ),
-                  Expanded(
-                    child: _buildRegisteredSubjectsScrollView(context, model),
-                  ),
-                ],
-              ),
-            ),
+                      child: e),
+                )
+                .toList(),
           );
         },
         viewModelBuilder: () => HomeViewModel(),

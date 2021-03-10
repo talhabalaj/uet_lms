@@ -14,27 +14,36 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool large = MediaQuery.of(context).size.width > 1000;
+    bool large = MediaQuery.of(context).size.width > 800;
 
     return ViewModelBuilder<LoginViewModel>.reactive(
       builder: (context, model, _) => Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            Container(
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Image.asset(
-                    "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
-                    fit: BoxFit.cover,
-                    alignment: Alignment.bottomRight,
+            Row(
+              children: [
+                if (large)
+                  SizedBox(
+                    width: 412,
                   ),
-                  Container(
-                    color: Theme.of(context).cardColor.withOpacity(.80),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
+                        fit: BoxFit.fitHeight,
+                        alignment: Alignment.bottomRight,
+                      ),
+                      Container(
+                        color: large
+                            ? Colors.transparent
+                            : Theme.of(context).cardColor.withOpacity(.70),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             _buildBody(context, model, large: large),
           ],
@@ -58,7 +67,7 @@ class LoginView extends StatelessWidget {
           Expanded(
             child: Container(
               padding: EdgeInsets.only(
-                top: large ? 0 : 30,
+                top: 30,
               ),
               decoration: large
                   ? null
@@ -143,28 +152,26 @@ class LoginView extends StatelessWidget {
   }
 
   Widget _buildLargerHeader(BuildContext context) {
-    return Flexible(
-      child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: kHorizontalSpacing, vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset(
-              "assets/images/Logo.png",
-              height: 70,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
-              style: Theme.of(context).textTheme.headline4,
-              textAlign: TextAlign.center,
-            )
-          ],
-        ),
+    return Padding(
+      padding:
+          EdgeInsets.symmetric(horizontal: kHorizontalSpacing, vertical: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Image.asset(
+            "assets/images/Logo.png",
+            height: 70,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            "UNIVERSITY OF ENGINEERING AND TECHNOLOGY, LAHORE",
+            style: Theme.of(context).textTheme.headline4,
+            textAlign: TextAlign.center,
+          )
+        ],
       ),
     );
   }

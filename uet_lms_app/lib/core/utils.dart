@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 //import 'package:file_chooser/file_chooser.dart';
+import 'package:file_chooser/file_chooser.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,24 +34,24 @@ Future<void> saveFile(Uint8List bytes, String fileName,
       await tempFile.writeAsBytes(bytes);
       await OpenFile.open(tempFile.path);
     } else {
-      // final result = await showSavePanel(
-      //   allowedFileTypes: [
-      //     FileTypeFilterGroup(
-      //       fileExtensions: [fileName.split('.')[1]],
-      //     ),
-      //   ],
-      //   confirmButtonText: "Save",
-      //   suggestedFileName: fileName,
-      // );
+      final result = await showSavePanel(
+        allowedFileTypes: [
+          FileTypeFilterGroup(
+            fileExtensions: [fileName.split('.')[1]],
+          ),
+        ],
+        confirmButtonText: "Save",
+        suggestedFileName: fileName,
+      );
 
-      // if (!result.canceled) {
-      //   final path = result.paths[0];
-      //   final file = File(path);
-      //   await file.writeAsBytes(bytes);
-      //   if (open) {
-      //     await OpenFile.open("\"${file.path}\"");
-      //   }
-      // }
+      if (!result.canceled) {
+        final path = result.paths[0];
+        final file = File(path);
+        await file.writeAsBytes(bytes);
+        if (open) {
+          await OpenFile.open("\"${file.path}\"");
+        }
+      }
     }
   }
 }
@@ -90,21 +91,21 @@ bool isDesktop =
     !kIsWeb && ((Platform.isLinux || Platform.isWindows || Platform.isMacOS));
 
 Future<Uint8List> openImage() async {
-  // if (isMobile()) {
+  if (isMobile) {
   return (await ImagePicker().getImage(source: ImageSource.gallery))
       .readAsBytes();
-  // } else {
-  // final openResult = await showOpenPanel(
-  //   allowedFileTypes: [
-  //     FileTypeFilterGroup(
-  //       fileExtensions: ['jpg', 'jpeg', 'png'],
-  //     )
-  //   ],
-  //   allowsMultipleSelection: false,
-  // );
-  // if (openResult.canceled) return null;
-  // return File(openResult.paths[0]).readAsBytes();
-  // }
+  } else {
+    final openResult = await showOpenPanel(
+      allowedFileTypes: [
+        FileTypeFilterGroup(
+          fileExtensions: ['jpg', 'jpeg', 'png'],
+        )
+      ],
+      allowsMultipleSelection: false,
+    );
+    if (openResult.canceled) return null;
+    return File(openResult.paths[0]).readAsBytes();
+  }
 }
 
 void registerHiveTypeAdapters() {

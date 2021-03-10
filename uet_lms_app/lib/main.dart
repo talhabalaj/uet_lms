@@ -47,6 +47,7 @@ void main() async {
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (isDesktop) {
     await DesktopWindow.setMinWindowSize(Size(400, 600));
+    await DesktopWindow.setMaxWindowSize(Size(800, 900));
     await DesktopWindow.setFullScreen(false);
   }
 

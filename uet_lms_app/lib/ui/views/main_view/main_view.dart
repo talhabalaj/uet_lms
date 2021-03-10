@@ -45,6 +45,9 @@ class MainView extends StatelessWidget {
                 body: Row(
                   children: [
                     if (model.isLarge) this._buildNav(context, model),
+                    SizedBox(
+                      width: 5,
+                    ),
                     Expanded(
                       child: Stack(
                         children: [
@@ -236,7 +239,24 @@ class MainView extends StatelessWidget {
                   height: 10,
                 ),
               ],
-              SizedBox(height: 120),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ClipRect(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: kHorizontalSpacing, vertical: 20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                      child: SimpleWideButton(
+                        text: "Sign Out",
+                        onPressed: () {
+                          model.lmsService.logout();
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           if (!model.isLarge)
@@ -265,24 +285,6 @@ class MainView extends StatelessWidget {
                 ),
               ),
             ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ClipRect(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: kHorizontalSpacing, vertical: 20),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
-                  child: SimpleWideButton(
-                    text: "Sign Out",
-                    onPressed: () {
-                      model.lmsService.logout();
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
