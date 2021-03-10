@@ -1,9 +1,9 @@
 name: uet-lms
-version: 0.5.7+38
+version: 0.5.8+39
 summary: UET's LMS
 description: UET's LMS Student Portal
 
-confinement: devmode
+confinement: strict
 base: core18
 grade: devel
 
