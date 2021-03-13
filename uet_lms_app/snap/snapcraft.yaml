@@ -9,7 +9,7 @@ grade: devel
 
 apps:
   uet-lms:
-    command: uet_lms
+    command: uet_lms_app
     extensions: [flutter-dev]
     plugs:
     - network
