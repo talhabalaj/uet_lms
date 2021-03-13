@@ -49,8 +49,8 @@ jobs:
           flutter config --enable-web
 
       - name: Get Deps for API
-        run: flutter pub get
-        working-directory: ./uet_lms_api 
+        run: dart pub get
+        working-directory: ./uet_lms_app/uet_lms_api
 
       - name: Get Deps for App
         run: flutter pub get
