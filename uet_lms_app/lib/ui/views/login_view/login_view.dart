@@ -14,34 +14,24 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool large = MediaQuery.of(context).size.width > 800;
+    bool large = MediaQuery.of(context).size.width > 799;
 
     return ViewModelBuilder<LoginViewModel>.reactive(
       builder: (context, model, _) => Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            Row(
+            Stack(
               children: [
-                if (large)
-                  SizedBox(
-                    width: 412,
-                  ),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
-                        fit: BoxFit.fitHeight,
-                        alignment: Alignment.bottomRight,
-                      ),
-                      Container(
-                        color: large
-                            ? Colors.transparent
-                            : Theme.of(context).cardColor.withOpacity(.70),
-                      ),
-                    ],
-                  ),
+                Image.asset(
+                  "assets/images/Login_TopImage${large ? "_Desktop" : ""}.png",
+                  fit: BoxFit.fitHeight,
+                  alignment: Alignment.bottomRight,
+                ),
+                Container(
+                  color: large
+                      ? Colors.transparent
+                      : Theme.of(context).cardColor.withOpacity(.70),
                 ),
               ],
             ),

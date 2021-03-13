@@ -24,57 +24,61 @@ class DashBoardView extends StatelessWidget {
           await model.loadData();
         },
         builder: (context, model, _) {
+          var padding = EdgeInsets.symmetric(horizontal: kHorizontalSpacing);
+
           return NestedNavigation(
-            onRefresh: () => model.loadData(refresh: true),
-            children: [
-              if (model.hasError)
-                Center(
-                  child: Text(model.modelError.toString()),
-                )
-              else ...[
-                if (model.busy(model.studentProfile))
-                  HeadingWithSubtitle()
-                else
-                  HeadingWithSubtitle(
-                    heading: "Welcome, ${model.userFirstName}",
-                    subtitle:
-                        "How’s your day goin’? Here’s some stats about your University life",
-                  ),
-                SizedBox(
-                  height: kTitleGutter,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildStatCard(model, context),
-                    ),
-                    SizedBox(
-                      width: 18,
-                    ),
-                    _buildGPACard(model, context),
-                  ],
-                ),
-                SizedBox(
-                  height: 18,
-                ),
-                Expanded(
-                  child: _buildRegisteredSubjectsScrollView(context, model),
-                ),
-                 SizedBox(
-                  height: 18,
-                ),
-              ],
-            ]
-                .map(
-                  (e) => Padding(
-                      padding: EdgeInsets.only(
-                        left: kHorizontalSpacing,
-                        right: kHorizontalSpacing,
+              onRefresh: () => model.loadData(refresh: true),
+              children: [
+                if (model.hasError)
+                  Center(
+                    child: Text(model.modelError.toString()),
+                  )
+                else ...[
+                  if (model.busy(model.studentProfile))
+                    Padding(
+                      padding: padding,
+                      child: HeadingWithSubtitle(),
+                    )
+                  else
+                    Padding(
+                      padding: padding,
+                      child: HeadingWithSubtitle(
+                        heading: "Welcome, ${model.userFirstName}",
+                        subtitle:
+                            "How’s your day goin’? Here’s some stats about your University life",
                       ),
-                      child: e),
-                )
-                .toList(),
-          );
+                    ),
+                  SizedBox(
+                    height: kTitleGutter,
+                  ),
+                  Padding(
+                    padding: padding,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _buildStatCard(model, context),
+                        ),
+                        SizedBox(
+                          width: 18,
+                        ),
+                        _buildGPACard(model, context),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: padding,
+                      child: _buildRegisteredSubjectsScrollView(context, model),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                ],
+              ]);
         },
         viewModelBuilder: () => HomeViewModel(),
       ),

@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/partial_views/app_settings_view/app_settings_view.dart';
 import 'package:uet_lms/ui/partial_views/challans_view/challans_view.dart';
 import 'package:uet_lms/ui/partial_views/dmc_view/dmc_view.dart';
@@ -39,8 +40,7 @@ class NestedNavigationService {
     _addCurrentToBrowsed();
     updateViews();
     _setScreenName();
-    if (stack.length == 0 || stack.last != idx)
-      stack.add(idx);
+    if (stack.length == 0 || stack.last != idx) stack.add(idx);
   }
 
   int back() {
@@ -53,8 +53,9 @@ class NestedNavigationService {
   }
 
   void _setScreenName() {
-    routeObserver.analytics
-        .setCurrentScreen(screenName: '${(currentViews[index] as dynamic).id}');
+    if (isMobile)
+      routeObserver.analytics.setCurrentScreen(
+          screenName: '${(currentViews[index] as dynamic).id}');
   }
 
   void _addCurrentToBrowsed() => browsed.add(views[index]);

@@ -109,9 +109,9 @@ class _MyAppState extends State<MyApp> {
           MainView.id: (context) => MainView(),
         },
         initialRoute: SplashView.id,
-        navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: I<FirebaseAnalytics>())
-        ],
+        navigatorObservers: isMobile
+            ? [FirebaseAnalyticsObserver(analytics: I<FirebaseAnalytics>())]
+            : [],
       ),
     );
   }

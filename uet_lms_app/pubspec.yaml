@@ -54,7 +54,7 @@ dependencies:
       ref: 040f36c82b63e8764ec2fd97066767503a667b6d
   share: ^0.6.5+4
   lms_api:
-    path: ../uet_lms_api
+    path: ./uet_lms_api
 
 dev_dependencies:
   flutter_test:
