@@ -259,6 +259,9 @@ class StudentProfileView extends StatelessWidget {
                                                   .user
                                                   .getProfilePictureURL(
                                                       stdid: each.studentId.id),
+                                              headers: I<DataService>()
+                                                  .user
+                                                  .cookieHeader,
                                             ),
                                           ),
                                         ),

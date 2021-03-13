@@ -68,11 +68,9 @@ class DashBoardView extends StatelessWidget {
                   SizedBox(
                     height: 18,
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: padding,
-                      child: _buildRegisteredSubjectsScrollView(context, model),
-                    ),
+                  Padding(
+                    padding: padding,
+                    child: _buildRegisteredSubjectsScrollView(context, model),
                   ),
                   SizedBox(
                     height: 18,
