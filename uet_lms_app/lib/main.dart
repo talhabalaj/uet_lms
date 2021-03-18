@@ -41,8 +41,8 @@ void main() async {
     }
 
     I<NotificationService>().initialize();
-    I<BackgroundService>().registerBackgroundService();
-    AdsService.initiliase();
+    //I<BackgroundService>().registerBackgroundService();
+    //AdsService.initiliase();
   }
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
   if (isDesktop) {
@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
 
     return Container(
       color: brightness != Brightness.dark ? Colors.black : Colors.white,
-      padding: EdgeInsets.only(bottom: isMobile ? 50.0 : 0),
+      //padding: EdgeInsets.only(bottom: isMobile ? 50.0 : 0),
       child: MaterialApp(
         title: 'UET LMS',
         debugShowCheckedModeBanner: false,
@@ -103,12 +103,20 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeService.light,
         darkTheme: ThemeService.dark,
         themeMode: themeMode,
-        routes: {
-          SplashView.id: (context) => SplashView(),
-          LoginView.id: (context) => LoginView(),
-          MainView.id: (context) => MainView(),
-        },
-        initialRoute: SplashView.id,
+        home: Container(
+          child: Text(
+            "Disabled",
+            style: TextStyle(
+              fontSize: 30,
+            ),
+          ),
+        ),
+        // routes: {
+        //   SplashView.id: (context) => SplashView(),
+        //   LoginView.id: (context) => LoginView(),
+        //   MainView.id: (context) => MainView(),
+        // },
+        // initialRoute: SplashView.id,
         navigatorObservers: isMobile
             ? [FirebaseAnalyticsObserver(analytics: I<FirebaseAnalytics>())]
             : [],
