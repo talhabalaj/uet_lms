@@ -11,8 +11,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/services/AdsService.dart';
-import 'package:uet_lms/core/services/BackgroundService.dart';
-import 'package:uet_lms/core/services/NotificationService.dart';
 import 'package:uet_lms/core/services/PreferencesService.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/dialog.dart';
@@ -40,8 +38,8 @@ void main() async {
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
 
-    I<NotificationService>().initialize();
-    //I<BackgroundService>().registerBackgroundService();
+    // I<NotificationService>().initialize();
+    // I<BackgroundService>().registerBackgroundService();
     //AdsService.initiliase();
   }
   // for desktop app set windows size, check web first, reason no implementation of Platform on web
@@ -95,7 +93,7 @@ class _MyAppState extends State<MyApp> {
 
     return Container(
       color: brightness != Brightness.dark ? Colors.black : Colors.white,
-      //padding: EdgeInsets.only(bottom: isMobile ? 50.0 : 0),
+      padding: EdgeInsets.only(bottom: isMobile ? 50.0 : 0),
       child: MaterialApp(
         title: 'UET LMS',
         debugShowCheckedModeBanner: false,
@@ -103,20 +101,12 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeService.light,
         darkTheme: ThemeService.dark,
         themeMode: themeMode,
-        home: Container(
-          child: Text(
-            "Disabled",
-            style: TextStyle(
-              fontSize: 30,
-            ),
-          ),
-        ),
-        // routes: {
-        //   SplashView.id: (context) => SplashView(),
-        //   LoginView.id: (context) => LoginView(),
-        //   MainView.id: (context) => MainView(),
-        // },
-        // initialRoute: SplashView.id,
+        routes: {
+          SplashView.id: (context) => SplashView(),
+          LoginView.id: (context) => LoginView(),
+          MainView.id: (context) => MainView(),
+        },
+        initialRoute: SplashView.id,
         navigatorObservers: isMobile
             ? [FirebaseAnalyticsObserver(analytics: I<FirebaseAnalytics>())]
             : [],

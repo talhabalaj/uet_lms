@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
 import 'CustomButton.dart';
 import 'package:uet_lms/ui/ui_constants.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -53,93 +51,85 @@ class _BasicDialogState extends State<BasicDialog>
 
   @override
   Widget build(BuildContext context) {
-    return KeyBoardShortcuts(
-      onKeysPressed: () {
-        _completeDialog(false);
-      },
-      keysToPress: [LogicalKeyboardKey.escape].toSet(),
-      child: Column(
-        children: [
-          Spacer(),
-          AnimatedBuilder(
-            animation: _animationController,
-            builder: (context, _) => Container(
-              constraints: BoxConstraints(
-                  maxWidth: 500, maxHeight: _containerHeight.value),
-              child: Opacity(
-                opacity: _opacity.value,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: kHorizontalSpacing, vertical: 30),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (widget.request.title != null)
-                            Text(
-                              widget.request.title,
-                              style: Theme.of(context).textTheme.headline2,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          SizedBox(
-                            height: 20,
+    return Column(
+      children: [
+        Spacer(),
+        AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, _) => Container(
+            constraints: BoxConstraints(
+                maxWidth: 500, maxHeight: _containerHeight.value),
+            child: Opacity(
+              opacity: _opacity.value,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: kHorizontalSpacing, vertical: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (widget.request.title != null)
+                          Text(
+                            widget.request.title,
+                            style: Theme.of(context).textTheme.headline2,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
-                          if (widget.request.description != null)
-                            SingleChildScrollView(
-                              child: Text(
-                                widget.request.description,
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        if (widget.request.description != null)
+                          SingleChildScrollView(
+                            child: Text(
+                              widget.request.description,
+                              style: Theme.of(context).textTheme.bodyText1,
                             ),
-                        ],
-                      ),
-                      Flexible(
-                        child: Row(
-                          children: [
+                          ),
+                      ],
+                    ),
+                    Flexible(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: SimpleWideButton(
+                              text: widget.request.mainButtonTitle ?? "Okay",
+                              onPressed: () => _completeDialog(true),
+                            ),
+                          ),
+                          if (widget.request.secondaryButtonTitle != null) ...[
+                            SizedBox(
+                              width: 10,
+                            ),
                             Expanded(
                               child: SimpleWideButton(
-                                text: widget.request.mainButtonTitle ?? "Okay",
-                                onPressed: () => _completeDialog(true),
+                                color:
+                                    Theme.of(context).accentColor.withAlpha(15),
+                                textColor: Theme.of(context).accentColor,
+                                text: widget.request.secondaryButtonTitle,
+                                onPressed: () => _completeDialog(false),
                               ),
                             ),
-                            if (widget.request.secondaryButtonTitle !=
-                                null) ...[
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: SimpleWideButton(
-                                  color: Theme.of(context)
-                                      .accentColor
-                                      .withAlpha(15),
-                                  textColor: Theme.of(context).accentColor,
-                                  text: widget.request.secondaryButtonTitle,
-                                  onPressed: () => _completeDialog(false),
-                                ),
-                              ),
-                            ]
-                          ],
-                        ),
+                          ]
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(36),
-                  topRight: Radius.circular(36),
-                ),
-                color: Theme.of(context).cardColor,
               ),
             ),
-          )
-        ],
-      ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(36),
+                topRight: Radius.circular(36),
+              ),
+              color: Theme.of(context).cardColor,
+            ),
+          ),
+        )
+      ],
     );
   }
 

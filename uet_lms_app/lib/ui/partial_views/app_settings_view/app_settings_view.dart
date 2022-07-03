@@ -39,28 +39,28 @@ class AppSettingsView extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            _buildSmallHeadingText("NOTIFICATIONS"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text(
-                    "Get notifications when new Grades are published.",
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Switch.adaptive(
-                  value: model.preferences.notifyGradeUpdate,
-                  onChanged: model.setNotifyGradePreference,
-                  activeColor: Theme.of(context).accentColor,
-                ),
-              ],
-            ),
+            // _buildSmallHeadingText("NOTIFICATIONS"),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Flexible(
+            //       child: Text(
+            //         "Get notifications when new Grades are published.",
+            //         style: TextStyle(
+            //           fontSize: 15,
+            //         ),
+            //       ),
+            //     ),
+            //     SizedBox(
+            //       width: 15,
+            //     ),
+            //     Switch.adaptive(
+            //       value: model.preferences.notifyGradeUpdate,
+            //       onChanged: model.setNotifyGradePreference,
+            //       activeColor: Theme.of(context).accentColor,
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 20,
             ),

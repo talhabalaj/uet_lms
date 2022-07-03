@@ -16,4 +16,8 @@ Map<String, double> kGradeGPAMap = {
   'D': 1,
   'D-': 0.7,
   'F': 0,
+  'WF': null,
+  'IP': null,
+  'W': null,
+  'I': null,
 };

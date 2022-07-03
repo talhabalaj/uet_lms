@@ -54,6 +54,24 @@ class GPAEstimatorView extends StatelessWidget {
                 ],
               ),
             ),
+            if (!model.isBusy) ...[
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: kHorizontalSpacing),
+                child: CustomDropdown(
+                    values: model.registeredSemesters
+                            ?.map((e) => e.name)
+                            ?.toList() ??
+                        [],
+                    currentValue: model?.selectedSemester,
+                    onSelectionChange: (selected) {
+                      model.selectedSemester = selected;
+                      model.loadData();
+                    }),
+              ),
+            ],
             SizedBox(
               height: 15,
             ),
@@ -73,84 +91,91 @@ class GPAEstimatorView extends StatelessWidget {
                       bottom: 15,
                     ),
                     child: CustomCard(
-                      builder: (context) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            each.subjectName.split(' ').sublist(1).join(' '),
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          Text(
-                            each.subjectName.split(' ')[0],
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      each.subjectCreditHour,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
+                      builder: (context) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              each.subjectName.split(' ').sublist(1).join(' '),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            Text(
+                              each.subjectName.split(' ')[0],
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        each.subjectCreditHour,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      "TOTAL",
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      kGradeGPAMap[model.subjectGradeMap[each]]
-                                              ?.toStringAsFixed(1) ??
-                                          '0.0',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      "ESTIMATED",
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: CustomDropdown(
-                                  currentValue: model.subjectGradeMap[each],
-                                  onSelectionChange: (v) {
-                                    model.subjectGradeMap[each] = v;
-                                    model.calculateResult();
-                                    model.notifyListeners();
-                                  },
-                                  values: kGradeGPAMap.keys.toList(),
-                                  color: withStaticAlpha(
-                                    Theme.of(context)
-                                        .primaryColor
-                                        .withAlpha(10),
-                                    Theme.of(context).cardColor,
+                                      Text(
+                                        "TOTAL",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1,
+                                      )
+                                    ],
                                   ),
                                 ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        kGradeGPAMap[
+                                                    model.subjectGradeMap[each]]
+                                                ?.toStringAsFixed(1) ??
+                                            '0.0',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "ESTIMATED",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: CustomDropdown(
+                                    currentValue: model.subjectGradeMap[each],
+                                    onSelectionChange: (v) {
+                                      model.subjectGradeMap[each] = v;
+                                      model.calculateResult();
+                                      model.notifyListeners();
+                                    },
+                                    values: kGradeGPAMap.keys.toList(),
+                                    color: withStaticAlpha(
+                                      Theme.of(context)
+                                          .primaryColor
+                                          .withAlpha(10),
+                                      Theme.of(context).cardColor,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        );
+                      },
                     ))
           ],
         );

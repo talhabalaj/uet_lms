@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:keyboard_shortcuts/keyboard_shortcuts.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uet_lms/core/locator.dart';
 import 'package:uet_lms/core/models/NestedRoute.dart';
@@ -28,59 +26,52 @@ class MainView extends StatelessWidget {
           onWillPop: () async {
             return model.scaffold.isDrawerOpen || !model.back();
           },
-          child: KeyBoardShortcuts(
-            onKeysPressed: () {
-              if (!model.back() && Navigator.of(context).canPop())
-                Navigator.of(context).pop();
-            },
-            keysToPress: [LogicalKeyboardKey.escape].toSet(),
-            child: LayoutBuilder(builder: (context, constraints) {
-              model.isLarge = MediaQuery.of(context).size.width > 700;
+          child: LayoutBuilder(builder: (context, constraints) {
+            model.isLarge = MediaQuery.of(context).size.width > 700;
 
-              return Scaffold(
-                key: model.scaffoldKey,
-                drawerScrimColor: Colors.black12,
-                drawerDragStartBehavior: DragStartBehavior.start,
-                drawer: model.isLarge ? null : this._buildNav(context, model),
-                body: Row(
-                  children: [
-                    if (model.isLarge) this._buildNav(context, model),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          NotificationListener<ScrollNotification>(
-                            onNotification: (ScrollNotification notification) {
-                              if (notification.depth == 0) {
-                                if (notification.metrics.pixels == 0 &&
-                                    !model.isTopBarTransparent) {
-                                  model.isTopBarTransparent = true;
-                                } else if (notification.metrics.pixels > 0 &&
-                                    model.isTopBarTransparent) {
-                                  model.isTopBarTransparent = false;
-                                }
-                                return true;
+            return Scaffold(
+              key: model.scaffoldKey,
+              drawerScrimColor: Colors.black12,
+              drawerDragStartBehavior: DragStartBehavior.start,
+              drawer: model.isLarge ? null : this._buildNav(context, model),
+              body: Row(
+                children: [
+                  if (model.isLarge) this._buildNav(context, model),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        NotificationListener<ScrollNotification>(
+                          onNotification: (ScrollNotification notification) {
+                            if (notification.depth == 0) {
+                              if (notification.metrics.pixels == 0 &&
+                                  !model.isTopBarTransparent) {
+                                model.isTopBarTransparent = true;
+                              } else if (notification.metrics.pixels > 0 &&
+                                  model.isTopBarTransparent) {
+                                model.isTopBarTransparent = false;
                               }
+                              return true;
+                            }
 
-                              return false;
-                            },
-                            child: AnimatedIndexedStack(
-                              index: model.index,
-                              children: model.currentViews,
-                              animationReversed: model.isReverse,
-                            ),
+                            return false;
+                          },
+                          child: AnimatedIndexedStack(
+                            index: model.index,
+                            children: model.currentViews,
+                            animationReversed: model.isReverse,
                           ),
-                          _buildTopAppBar(context, model),
-                        ],
-                      ),
+                        ),
+                        _buildTopAppBar(context, model),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }),
-          ),
+                  ),
+                ],
+              ),
+            );
+          }),
         );
       },
       viewModelBuilder: () => MainViewModel(),

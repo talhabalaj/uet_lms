@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:uet_lms/core/utils.dart';
 import 'package:uet_lms/ui/shared/CardScrollView.dart';
 import 'CustomCard.dart';
@@ -102,7 +101,7 @@ class _CustomDropdownState extends State<CustomDropdown>
             spreadRadius: 0,
           ),
         ];
-
+        
         return Stack(
           children: [
             MouseRegion(
@@ -137,7 +136,8 @@ class _CustomDropdownState extends State<CustomDropdown>
                       listViewPadding: EdgeInsets.zero,
                       horizontalSpacing: 0,
                       color: widget.color,
-                      builder: (context, idx) => MaterialButton(
+                      builder: (context, idx) {
+                        return MaterialButton(
                             child: Text(
                               widget.values[idx].toLowerCase().capitalize(),
                               style: TextStyle(
@@ -169,7 +169,8 @@ class _CustomDropdownState extends State<CustomDropdown>
                                 widget.onSelectionChange(widget.values[idx]);
                               closeMenu();
                             },
-                          ) //code for the drop-down menu...,
+                        );
+                      } //code for the drop-down menu...,
                       ),
                 ),
               ),
@@ -201,7 +202,7 @@ class _CustomDropdownState extends State<CustomDropdown>
   @override
   Widget build(BuildContext context) {
     assert(
-        widget.values.indexOf(widget.currentValue) != -1 ||
+        widget.values?.indexOf(widget.currentValue) != -1 ||
             widget.currentValue == null,
         "Value should be in the list");
 

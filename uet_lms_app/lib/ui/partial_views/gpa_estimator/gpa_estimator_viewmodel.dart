@@ -11,7 +11,7 @@ class GPAEstimatorViewModel extends BaseViewModel {
   List<Semester> registeredSemesters;
   List<Register> subjects;
   Iterable<Result> currentSemesterResult;
-
+  String selectedSemester;
   Map<Register, String> subjectGradeMap = {};
   double gpa = 0;
   double cgpa = 0;
@@ -24,7 +24,9 @@ class GPAEstimatorViewModel extends BaseViewModel {
       registeredSemesters = await I<DataService>().getRegisteredSemesters(
         refresh: refresh,
       );
-      final currentSemester = registeredSemesters.first;
+      final currentSemester =
+          selectedSemester ?? registeredSemesters.first.name;
+      if (selectedSemester == null) selectedSemester = currentSemester;
       _result = await I<DataService>().getResult(
         refresh: refresh,
       );
@@ -34,13 +36,12 @@ class GPAEstimatorViewModel extends BaseViewModel {
           .where(
             (subject) =>
                 subject.semesterName.toLowerCase() ==
-                currentSemester.name.toLowerCase(),
+                currentSemester.toLowerCase(),
           )
           .toList();
       currentSemesterResult = _result.where(
         (each) =>
-            each.semesterName.toLowerCase() ==
-            currentSemester.name.toLowerCase(),
+            each.semesterName.toLowerCase() == currentSemester.toLowerCase(),
       );
       for (Result result in currentSemesterResult) {
         final filteredSubjects = subjects.where((s) =>
@@ -65,15 +66,21 @@ class GPAEstimatorViewModel extends BaseViewModel {
     for (final each in _result.where(
       (r) => !currentSemesterResult.contains(r),
     )) {
-      totalCreds += each.totalCredHrs ?? 0;
-      obtained += double.tryParse(each.subjectGPA) ?? 0;
+      if (kGradeGPAMap[each.grade] != null) {
+        totalCreds += each.totalCredHrs ?? 0;
+        obtained += double.tryParse(each.subjectGPA) ?? 0;
+      }
     }
 
     double totalCredsCurrent = 0, obtainedCurrent = 0;
     for (final entry in subjectGradeMap.entries) {
       double cred = double.tryParse(entry.key.subjectCreditHour);
-      totalCredsCurrent += cred;
-      obtainedCurrent += kGradeGPAMap[entry.value] * cred;
+      double credValue = kGradeGPAMap[entry.value];
+
+      if (credValue != null) {
+        totalCredsCurrent += cred;
+        obtainedCurrent += credValue * cred;
+      }
     }
     if (totalCredsCurrent != 0)
       gpa = (obtainedCurrent / (totalCredsCurrent * 4)) * 4;

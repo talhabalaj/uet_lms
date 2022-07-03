@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd $(dirname "$0")
-cd ..
+cd ../
 
 APPDIR="UET_LMS.AppDir"
 
@@ -17,10 +17,10 @@ flutter build linux
 wget https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage
 chmod +x appimagetool-x86_64.AppImage
 mkdir -p $APPDIR/usr/bin $APPDIR/usr/bin/lib
-cp build/linux/release/bundle/uet_lms_app "$APPDIR/usr/bin/uet-lms"
+cp build/linux/x64/release/bundle/uet_lms_app "$APPDIR/usr/bin/uet-lms"
 chmod +x "$APPDIR/usr/bin/uet-lms"
-cp build/linux/release/bundle/lib/* $APPDIR/usr/bin/lib
-cp -r build/linux/release/bundle/data $APPDIR/usr/bin/
+cp build/linux/x64/release/bundle/lib/* $APPDIR/usr/bin/lib
+cp -r build/linux/x64/release/bundle/data $APPDIR/usr/bin/
 strip $APPDIR/usr/bin/lib/*.so
 mkdir -p $APPDIR/usr/share/icons/hicolor/
 cp $APPDIR/uet-lms.png $APPDIR/usr/share/icons/hicolor/
